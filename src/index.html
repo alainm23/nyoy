@@ -17,10 +17,30 @@
   <!-- add to homescreen for ios -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+  <!-- Libreria de Google Maps -->
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDGdZglXMr6p-jLDd-Czlmdjm4g8Ul6e8&libraries=places"></script>
+
+  <!-- Incluye el Checkout de Culqi en tu sitio web-->
+  <script src="https://checkout.culqi.com/js/v3"></script>
 </head>
 
 <body>
   <app-root></app-root>
-</body>
 
+  <script>
+    function culqi () {
+      if (Culqi.token) { 
+        // Get the token ID:
+
+        var token = Culqi.token.id;
+        var payment_event = new CustomEvent ('payment_event', { detail: token });
+        document.dispatchEvent (payment_event);
+      } else {
+        console.log (Culqi.error);
+        alert(Culqi.error.user_message);
+      }
+    };
+  </script>
+</body>
 </html>

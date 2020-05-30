@@ -1,0 +1,245 @@
+@font-face{
+    font-family: HelveticaNeueRegular;
+    src : url('/assets/font/HelveticaNeue-Regular.ttf')
+}
+@font-face{
+    font-family: AvenirBook;
+    src : url('/assets/font/Avenir Book.ttf')
+}
+@font-face{
+    font-family: AvenirBlack;
+    src : url('/assets/font/Avenir-Black.otf')
+}
+ion-content
+{
+    --background: url('/assets/img/fondo.png') 0 0/100% 100% no-repeat;
+    position: relative;
+}
+.btn_menu_izquierdo
+{
+    --background: transparent;
+    --background-activated: transparent;
+    --box-shadow: none;
+    position: absolute;
+    top: 0.9375rem;
+    left: 0.625rem;
+    z-index: 999999;
+    ion-icon
+    {
+        color: #ffffff;
+        font-size: 2.1875rem;
+        text-shadow: -3px 3px 6px #0000006E;
+    }
+}
+ion-card
+{
+    border-radius: 10px;
+    margin: 0px;
+    box-shadow: -3px 3px 6px #0000006E;
+    height: 220px;
+    margin-bottom: 0px;
+    ion-thumbnail
+    {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+ion-item
+{
+    ion-radio
+    {
+        --color-checked: #707070;
+        margin-right: 5px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+    ion-label
+    {
+        --color: #575757;
+        font-family: AvenirBook;
+        font-size: 13px;
+        margin: 0px;
+    }
+}
+ion-textarea
+{
+    --border-radius: 4px;
+    --color: #585858;
+    border: 1px solid #D6D6D6;
+    height: 150px;
+    box-shadow: 0px 3px 6px #00000029;
+    background-color: #ffffff;
+    margin-top: 20px;
+}
+h1
+{
+    color: #050504;
+    font-family: AvenirBlack;
+    margin-bottom: 0px;
+    font-size: 16px;
+}
+h5
+{
+    color: #585858;
+    font-family: AvenirBlack;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    font-size: 14px;
+}
+.p_precio
+{
+    color: #90B231;
+    font-family: HelveticaNeueRegular;
+    font-weight: bold;
+    margin-top: 0px;
+}
+.p_descripcion
+{
+    color: #575757;
+    font-family: AvenirBook;
+    line-height: 1.3;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    font-size: 13px;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+div
+{
+    width: 100%;
+    display: flex;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    ion-button
+    {
+        width: 50%;
+        --border-radius: 26px;
+        --color:#FFFFFF;
+        text-shadow: 0px 2px 2px #00000029;
+        --background: #7BED8D;
+        --background-activated: #7BED8D;
+        font-family: AvenirBlack;
+        height: 45px;
+        font-size: 13px;
+    }
+}
+.p_precio
+{
+    color: #90B231;
+    font-family: HelveticaNeueRegular;
+    font-size: 13px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.div_sumar_resto
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    .btn_restar
+    {
+        width: 20px;
+        height: 20px;
+        --background: #D0D0CE;
+        --border-radius: 50%;
+        --padding-start: 0px;
+        --padding-end: 0px;
+        margin-right: 12px !important;
+        margin: 0px;
+    }
+    .btn_sumar
+    {
+        width: 20px;
+        height: 20px;
+        --background: #A8D62B;
+        --border-radius: 50%;
+        --padding-start: 0px;
+        --padding-end: 0px;
+        margin-left: 12px !important;
+        margin: 0px;
+    }
+    .p_cantidad
+    {
+        color: #2C2C2C;
+        font-family: HelveticaNeueRegular;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+}
+.div_blanco
+{
+    background-color: #ffffff;
+    width: 100%;
+    bottom: 0;
+    height: 50px;
+    margin: 0px;
+    position: absolute;
+}
+.btn_corazon
+{
+    position: absolute;
+    z-index: 99999;
+    bottom: 10px;
+    right: 10px;
+    --background: tranparent;
+    --box-shadow: none;
+}
+@media(min-width: 768px)
+{
+    .btn_menu_izquierdo
+    {
+        ion-icon
+        {
+            font-size: 3.125rem;
+        }
+    }
+    ion-card
+    {
+        height: 500px;
+    }
+}
+
+div.div_botonos
+            {
+                width: 25%;
+                display: flex;
+                align-items: center;
+                margin-left: 25%;
+                .btn_menos
+                {
+                    --background:#D0D0CE;
+                    --background-activated: #D0D0CE;
+                    width: 15px;
+                    height: 15px;
+                    --border-radius: 50%;
+                    margin-right: 8px;
+                    --padding-start: 0px;
+                    --padding-end: 0px;
+                    margin-left: 0px;
+                }
+                .p_catidad
+                {
+                    margin-top: 0px;
+                    color: #2C2C2C;
+                    margin-bottom: 0px;
+                    font-family: HelveticaNeueRegular;
+                    font-weight: bold;
+                }
+                .btn_mas
+                {
+                    --background:#A8D62B;
+                    --background-activated:#A8D62B;
+                    width: 15px;
+                    height: 15px;
+                    --border-radius: 50%;
+                    margin-left: 8px;
+                    --padding-start: 0px;
+                    --padding-end: 0px;
+                    margin-right: 0px;
+                }
+            }

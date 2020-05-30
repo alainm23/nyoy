@@ -1,0 +1,114 @@
+@font-face{
+    font-family: HelveticaNeueRegular;
+    src : url('/assets/font/HelveticaNeue-Regular.ttf')
+}
+@font-face{
+    font-family: AvenirBook;
+    src : url('/assets/font/Avenir Book.ttf')
+}
+@font-face{
+    font-family: AvenirHeavy;
+    src : url('/assets/font/Avenir Heavy.ttf')
+}
+ion-content
+{
+    --background: url('/assets/img/fondo.png') 0 0/100% 100% no-repeat;
+}
+ion-img
+{
+    margin-top: 2.8125rem;
+    margin-bottom: 2.8125rem;
+}
+ion-input
+{
+    --background: #ffffff;
+    --color: #333333;
+    border: 1px solid #E3E0E0;
+    border-radius: 26px;
+    --placeholder-color: #333333;
+    --padding-start: 1.5625rem;
+    --padding-end: 1.5625rem;
+    --padding-top: 0.9375rem;
+    --padding-bottom: 0.9375rem;
+    box-shadow: 0px 2px 3px #00000029;
+    font-family: HelveticaNeueRegular;;
+}
+.btn_entrar
+{
+    --background: #7BED8D;
+    --border-radius: 26px;
+    --box-shadow: 0px 3px 6px #00000029;
+    --color: #ffffff;
+    height: 3.375rem;
+    font-family: AvenirHeavy;
+    width: 100%;
+    text-shadow: 0px 2px 2px #00000029;
+    margin-top: 25px;
+}
+ion-col.bajar_col
+{
+    margin-bottom: 7px;
+}
+ion-checkbox
+{
+    --border-color: #707070;
+    --background-checked: #FFFFFF;
+    --border-color-checked: #707070;
+    --border-radius: 2px;
+    --border-style: solid;
+    --border-width: 1px;
+    --checkmark-color: #E61D01;
+    --size: 20px;
+    --checkmark-width: 3px;
+}
+ion-label
+{
+    --color: #575757;
+    font-family: AvenirBook;
+    font-size: 14px;
+}
+ion-col.col_flex
+{
+    display: flex;
+    align-items: center;
+}
+@media (min-width: 480px) {
+    ion-input
+    {
+        --padding-top: 1.125rem;
+        --padding-bottom: 1.125rem;
+    }
+    .btn_entrar
+    {
+        height: 3.625rem;
+    }
+}
+@media (min-width: 768px) {
+    ion-col.bajar_col
+    {
+        margin-bottom: 10px;
+    }
+    ion-img
+    {
+        margin-top: 4.0625rem;
+        margin-bottom: 4.0625rem;
+    }
+}
+@media (min-width: 1024px) {
+    ion-input
+    {
+        --padding-top: 1.375rem;
+        --padding-bottom: 1.375rem;
+    }
+    .btn_entrar
+    {
+        height: 4.0625rem;
+        margin-top: 50px;
+    }
+    ion-img
+    {
+        margin-top: 5rem;
+        margin-bottom: 5rem;
+    }
+
+}

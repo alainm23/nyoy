@@ -1,20 +1,59 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content>
+  <ion-button class="btn_menu">
+    <ion-menu-button autoHide="false"></ion-menu-button>
+  </ion-button>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <ion-grid class="ion-padding-start ion-padding-end" style="background-color: rgba(255, 255, 255, 0.3);">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="12" class="ion-no-padding">
+        <ion-row class="ion-justify-content-center" >
+          <ion-col size="3" size-sm="2" size-md="3" size-xl="2" class="ion-no-padding">
+            <ion-img src="assets/img/Componente5–1.png"></ion-img>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+      <ion-col size="12" class="ion-text-center col_bajar ion-margin-bottom">
+        <p class="p1 ion-no-margin">
+          Hoy quiero Nyoy de…
+        </p>
+        <p class="p2 ion-no-margin">
+          (Puedes pedir de varios a la vez)
+        </p>
+      </ion-col>
+      <ion-col size="12" size-sm="8" size-md="9" size-lg="8" class="ion-margin-top ion-margin-bottom">
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="6" *ngFor="let item of empresas">
+            <ion-card class="ion-no-margin" (click)="view_empresa (item)">
+                <img [src]="item.logotipo">
+              <p>({{ item.nombre }})</p>
+            </ion-card>
+          </ion-col>
+          <!-- <ion-col size="6">
+            <ion-card class="ion-no-margin">
+                <img src="assets/img/Logocandelaria.png">
+              <p>(Pizzeria y comida urbana)</p>
+            </ion-card>
+          </ion-col>
+          <ion-col size="6">
+            <ion-card class="ion-no-margin">
+                <img src="assets/img/Logodonas.png">
+              <p>LAS DOÑAS<br> (Polleria Peruana)</p>
+            </ion-card>
+          </ion-col> -->
+          <ion-col size="6">
+            <ion-card class="ion-no-margin">
+                <img src="assets/img/Grupo1558.png" class="img_bajar">
+              <p class="p4_card">(Bodega familiar)</p>
+            </ion-card>
+          </ion-col>
+          <ion-col size="12" style="position: relative;" class="col_bajar_noto">
+              <ion-card class="card_p_envio">
+                <p class="p_envio">Envio gratis en compras mayores a S/. 100</p>
+              </ion-card>
+              <img src="assets/img/Grupo 1581.svg" class="img_moto">
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

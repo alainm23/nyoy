@@ -1,0 +1,266 @@
+@font-face{
+    font-family: AcuminRegular;
+    src : url('/assets/font/Acumin-RPro.otf')
+}
+@font-face{
+    font-family: AcuminBold;
+    src : url('/assets/font/Acumin-BdPro.otf')
+}
+ion-slides
+{
+    height: 88%;
+    background-color: #ffffff;
+    box-shadow: 0px 5px 30px #0000000D;
+    border-radius: 0px 0px 36px 36px;
+    --bullet-background-active: #A6BCD0;
+ion-slide
+{
+    height: 100%;
+    display: block;
+    ion-card
+    {
+    width: 100%;
+    box-shadow: none;
+    border-radius: 0px;
+    ion-thumbnail
+    {
+        --size: 100%;
+        #img1
+        {
+        margin-left: -170px;
+        margin-top: 140px;
+        }
+        #img2
+        {
+        margin-top: 60px;
+        }
+        #img3
+        {
+        margin-top: 25px;
+        }
+    }
+    h1
+    {
+        color: #748A9D;
+        font-family: AcuminRegular;
+        font-size: 19px;
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+    h1.h1_1
+    {
+        margin-top: 40px;
+    }
+    }
+}
+.slider-3
+{
+    position: relative;
+    ion-button.btn_close
+    {
+    --background: #ffffff;
+    --box-shadow: none;
+    position: absolute;
+    z-index: 99999;
+    top: 10px;
+    right: 0;
+    width: auto;
+    --background-activated: #ffffff;
+    margin-top: 0px;
+    ion-icon
+    {
+        color: #707070;
+        font-size: 30px;
+    }
+    }
+}
+}
+ion-button
+{
+    width: 100%;
+    --background: #ffffff;
+    --box-shadow: none;
+    --color: #A6BCD0;
+    --background-activated: #ffffff;
+    font-family: AcuminBold;
+    margin-top: 30px;
+}
+@media (min-width: 480px)
+{
+ion-slides
+{
+    ion-slide
+    {
+    ion-card
+    {
+        ion-thumbnail
+        {
+        #img1
+        {
+            margin-top: 200px;
+        }
+        #img2
+        {
+            margin-top: 150px;
+        }
+        #img3
+        {
+            margin-top: 50px;
+        }
+        }
+        h1.h1_1
+        {
+        margin-top: 70px;
+        }
+    }
+    }
+}
+}
+@media (min-width: 640px)
+{
+ion-slides
+{
+    height: 170%;
+    ion-slide
+    {
+    ion-card
+    {
+        ion-thumbnail
+        {
+        #img1
+        {
+            margin-top: 30px;
+        }
+        #img2
+        {
+            margin-top: 30px;
+        }
+        #img3
+        {
+            margin-top:0px;
+        }
+        }
+        h1.h1_1
+        {
+        margin-top: 70px;
+        }
+    }
+    }
+}
+}
+@media (min-width: 768px)
+{
+ion-slides
+{
+    height: 80%;
+    ion-slide
+    {
+    ion-card
+    {
+        ion-thumbnail
+        {
+        #img1
+        {
+            margin-top: 270px;
+        }
+        #img2
+        {
+            margin-top: 270px;
+        }
+        #img3
+        {
+            margin-top: 70px;
+        }
+        }
+        h1
+        {
+        font-size: 25px;
+        padding-left: 100px;
+        padding-right: 100px;
+        }
+        h1.h1_1
+        {
+        margin-top: 70px;
+        }
+    }
+    }
+}
+ion-button
+{
+    margin-top: 100px;
+}
+}
+@media (min-width: 1024px)
+{
+ion-slides
+{
+    ion-slide
+    {
+    ion-card
+    {
+        ion-thumbnail
+        {
+        #img1
+        {
+            margin-top: 350px;
+        }
+        #img2
+        {
+            margin-top: 350px;
+        }
+        #img3
+        {
+            margin-top: 150px;
+        }
+        }
+        h1
+        {
+        font-size: 35px;
+        padding-left: 200px;
+        padding-right: 200px;
+        }
+    }
+    }
+}
+ion-button
+{
+    margin-top: 150px;
+}
+}
+@media (min-width: 1360px)
+{
+ion-slides
+{
+    ion-slide
+    {
+    ion-card
+    {
+        ion-thumbnail
+        {
+        #img1
+        {
+            margin-top: 200px;
+        }
+        #img2
+        {
+            margin-top: 200px;
+        }
+        #img3
+        {
+            margin-top: 70px;
+        }
+        }
+        h1
+        {
+        font-size: 35px;
+        padding-left: 200px;
+        padding-right: 200px;
+        }
+    }
+    }
+}
+ion-button
+{
+    margin-top: 150px;
+}
+}

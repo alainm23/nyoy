@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>934733338514-5jf06o95lmphn8d057v0i73rol7lq1fk.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.934733338514-5jf06o95lmphn8d057v0i73rol7lq1fk</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDCBdseLmushPRmofa2L_Dx5zwxLocAbhI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>934733338514</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>nyoyapp.com.pe</string>
+	<key>PROJECT_ID</key>
+	<string>restaurantesapp-d9c89</string>
+	<key>STORAGE_BUCKET</key>
+	<string>restaurantesapp-d9c89.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:934733338514:ios:fee63153f5547036d8534b</string>
+	<key>DATABASE_URL</key>
+	<string>https://restaurantesapp-d9c89.firebaseio.com</string>
+</dict>
+</plist>

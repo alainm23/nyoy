@@ -1,0 +1,135 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card class="ion-no-margin card_menu">
+    <h1 class="ion-text-center">Resumen de pedido</h1>
+  </ion-card>
+  <p class="p_precio_total ion-text-center">Total a pagar: {{ get_precio_total (stock_validator.carrito_platos) | currency:'S/. ' }}</p>
+  <ion-radio-group [(ngModel)]="tipo_entrega">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="4" size-sm="3" size-lg="2">
+        <ion-item lines="none">
+          <ion-label>Delivery</ion-label>
+          <ion-radio slot="start" value=0></ion-radio>
+        </ion-item>
+      </ion-col>
+      <ion-col size="4" size-sm="3" size-lg="2">
+        <ion-item lines="none">
+          <ion-label>Recogo</ion-label>
+          <ion-radio slot="start" value=1></ion-radio>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-radio-group>
+  <ion-grid class="ion-no-padding">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="12" size-sm="11" size-md="9" size-lg="11" size-xl="9" class="ion-margin-top">
+        <ion-row class="ion-justify-content-center">
+          <ion-col *ngFor="let item of stock_validator.carrito_platos | keyvalue" size="12" size-sm="6" size-lg="4" class="padding_start_end">
+            <ion-card *ngIf="item.value.tipo === 'extra'">
+              <ion-thumbnail>
+                <img src="assets/img/plato.png">
+              </ion-thumbnail>
+              <div class="div_padding_top">
+                <h5>{{ item.value.nombre }}</h5>
+                <p class="descripcion_card">{{ item.value.resumen }}</p>
+                <ul style="padding-left: 1rem; margin-top: 0px; margin-bottom: 0px;">
+                  <li *ngFor="let extra of item.value.extras">
+                    ({{ extra.cantidad }}) {{ extra.nombre }} {{ extra.precio | currency:'S/. ' }}
+                  </li>
+                </ul>
+                <div>
+                  <div class="div_precio">
+                    <p class="p_precio">{{ (item.value.precio * item.value.cantidad) + get_extras_precio (item.value.extras) | currency:'S/. ' }}</p>
+                  </div>
+                  <!-- <div class="div_botonos">
+                    <ion-button class="btn_menos" (click)="remove_carrito (item)">-</ion-button>
+                    <p class="p_catidad">{{ item.value.cantidad  }}</p>
+                    <ion-button class="btn_mas" (click)="add_carrito (item)">+</ion-button>
+                  </div> -->
+                </div>
+              </div>
+              <ion-button class="btn_close_card ion-no-margin" (click)="eliminar_plato (item)"><ion-icon name="close-outline"></ion-icon></ion-button>
+            </ion-card>
+
+            <ion-card *ngIf="item.value.tipo === 'menu'">
+              <ion-thumbnail>
+                <img src="assets/img/8f003918e9ee1ed3485149c7b6daf73a.png">
+              </ion-thumbnail>
+              <div class="div_padding_top">
+                <h5>{{ item.value.nombre }}</h5>
+                <p class="descripcion_card">{{ item.value.comentario }}</p>
+                <ul style="padding-left: 1rem; margin-top: 0px; margin-bottom: 0px;">
+                  <li *ngFor="let extra of item.value.menus">
+                    ({{ extra.cantidad }}) {{ extra.nombre }} {{ extra.precio | currency:'S/. ' }}
+                  </li>
+                </ul>
+                <div>
+                  <div class="div_precio">
+                    <p class="p_precio">{{ item.value.precio | currency:'S/. ' }}</p>
+                  </div>
+                  <!-- <div class="div_botonos">
+                    <ion-button class="btn_menos" (click)="remove_carrito (item.value.plato, item.value.insumos)">-</ion-button>
+                    <p class="p_catidad">{{ item.value.cantidad  }}</p>
+                    <ion-button class="btn_mas" (click)="add_carrito (item.value.plato, item.value.insumos)">+</ion-button>
+                  </div> -->
+                </div>
+              </div>
+              <ion-button class="btn_close_card ion-no-margin" (click)="eliminar_plato (item)"><ion-icon name="close-outline"></ion-icon></ion-button>
+            </ion-card>
+
+            <ion-card *ngIf="item.value.tipo === 'promocion'">
+              <ion-thumbnail>
+                <img src="assets/img/8f003918e9ee1ed3485149c7b6daf73a.png">
+              </ion-thumbnail>
+              <div class="div_padding_top">
+                <h5>{{ item.value.nombre }}</h5>
+                <p class="descripcion_card">{{ item.value.descripcion }}</p>
+                <ul *ngIf="item.value.promocion_tipo === '1'" style="padding-left: 1rem; margin-top: 0px; margin-bottom: 0px;">
+                  <li *ngFor="let plato of item.value.platos">
+                    {{ plato.nombre }} {{ plato.precio | currency:'S/. ' }}
+                  </li>
+                </ul>
+                <div>
+                  <div class="div_precio">
+                    <p class="p_precio">{{ item.value.precio | currency:'S/. ' }}</p>
+                  </div>
+
+                  <div class="div_precio">
+                    <p class="p_precio">Descuento: {{ item.value.descuento }}%</p>
+                  </div>
+                  <!-- <div class="div_botonos">
+                    <ion-button class="btn_menos" (click)="remove_carrito (item)">-</ion-button>
+                    <p class="p_catidad">{{ item.value.cantidad  }}</p>
+                    <ion-button class="btn_mas" (click)="add_carrito (item)">+</ion-button>
+                  </div> -->
+                </div>
+              </div>
+              <ion-button class="btn_close_card ion-no-margin" (click)="eliminar_plato (item)"><ion-icon name="close-outline"></ion-icon></ion-button>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<ion-footer>
+  <ion-toolbar class="ion-text-center ion-toolbar-footer">
+    <ion-button  class="ion-no-margin btn_border" (click)="openCulqi (stock_validator.carrito_platos)">
+      Pagar
+    </ion-button>
+    <ion-button  class="ion-no-margin">
+      {{ get_precio_total (stock_validator.carrito_platos) | currency:'S/. ' }}
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

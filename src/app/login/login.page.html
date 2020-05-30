@@ -1,0 +1,40 @@
+<ion-content>
+  <form [formGroup]="form">
+    <ion-grid class="ion-padding-start ion-padding-end" style="background-color: rgba(255, 255, 255, 0.3);">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="12" class="ion-no-padding">
+          <ion-row class="ion-justify-content-center" >
+            <ion-col size="3" size-sm="2" size-md="2" class="ion-no-padding">
+              <ion-img src="assets/img/Componente5–1.png"></ion-img>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+        <ion-col size="10" size-sm="9" size-md="8" size-lg="7" class="bajar_col">
+          <ion-input type="text" formControlName="email" placeholder="Nombre de usuario"></ion-input>
+        </ion-col>
+        <ion-col size="10" size-sm="9" size-md="8" size-lg="7" class="bajar_col">
+          <ion-input type="password" formControlName="password" placeholder="Contraseña"></ion-input>
+        </ion-col>
+        <ion-col size="10" size-sm="9" size-md="8" size-lg="7" class="bajar_col" (click)="recuperar_cuenta ()">
+          Olvidaste contraseña
+        </ion-col>
+        <ion-col size="10" size-sm="9" size-md="8" size-lg="7" class="bajar_col">
+          <ion-button class="btn_entrar ion-no-margin" [disabled]="!form.valid" (click)="submit ()">Entrar</ion-button>
+        </ion-col>
+        <ion-col size="10" size-sm="9" size-md="8" size-lg="7" class="ion-text-center ion-no-padding">
+          <p style="margin-top: 0px;margin-bottom: 7px;">¿Eres nuevo? Por favor <span (click)="sing_up ()">regístrate</span> o</p>
+        </ion-col>
+        <ion-col size="10" size-sm="9" size-md="8" size-lg="7" class="bajar_col">
+          <ion-button class="btn_fb ion-no-margin" (click)="facebook ()">Sign In with Facebook</ion-button>
+        </ion-col>
+        <ion-col size="10" size-sm="9" size-md="8" size-lg="7" class="bajar_col">
+          <ion-button class="btn_goo ion-no-margin" (click)="google ()">Sign In with Google</ion-button>
+        </ion-col>
+        <ion-col *ngIf="platform.is ('ios') === true" size="10" size-sm="9" size-md="8" size-lg="7" class="bajar_col">
+          <ion-button class="btn_apple ion-no-margin">Sign In with Apple</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+  
+</ion-content>

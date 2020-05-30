@@ -1,0 +1,63 @@
+<ion-content>
+  <ion-button class="btn_menu_izquierdo">
+    <ion-icon name="chevron-back-outline"></ion-icon>
+  </ion-button>
+  <ion-card>
+    <ion-thumbnail>
+      <img *ngIf="promocion?.tipo === '0'" [src]="promocion.plato.imagen">
+      <img *ngIf="promocion?.tipo === '1'" [src]="get_imagen_principal (promocion)">
+    </ion-thumbnail>
+  </ion-card>
+  <ion-grid class="ion-no-padding">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="8" size-sm="7">
+        <h1>{{ promocion?.nombre }}</h1>
+        <p class="p_descripcion">
+          {{ promocion?.descripcion }}
+        </p>
+      </ion-col>
+      <ion-col size="12" class="padding_top_bottom" style="background: #ffffff;">
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="4" size-sm="2" style="border-right:1px solid #707070;display: flex;align-items: center;">
+            <p class="p_bol_negro ion-no-margin">{{ promocion?.descuento }}% de dcto.</p>
+          </ion-col>
+          <ion-col size="4" size-sm="2" class="ion-padding-start">
+            <div class="div_estrellas" style="display: flex;">
+              <p class="estrella ion-no-margin"></p>
+              <p class="estrella ion-no-margin"></p>
+              <p class="estrella ion-no-margin"></p>
+              <p class="estrella ion-no-margin"></p>
+              <p class="estrella ion-no-margin"></p>
+              <p class="estrella ion-no-margin"></p>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+      <ion-col size="12">
+        <div class="div_botonos">
+          <ion-button class="btn_menos" (click)="restar ()">-</ion-button>
+          <p class="p_catidad">{{ cantidad  }}</p>
+          <ion-button class="btn_mas" (click)="agregar ()">+</ion-button>
+        </div>
+      </ion-col>
+      <ion-col *ngIf="promocion?.tipo === '1'" size="8" size-sm="7">
+        <h5>Incluye</h5>
+        <ul >
+          <li *ngFor="let plato of promocion.platos">
+            {{ plato.nombre }}
+          </li>
+        </ul>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-center" style="background: #ffffff;">
+      <ion-col size="8" size-sm="7">
+        <h5>¿Algún comentario?</h5>
+        <ion-textarea [(ngModel)]="comentario"></ion-textarea>
+        <div>
+          <ion-button [disabled]="cantidad <= 0" (click)="agregar_carrito ()">Añadir mas</ion-button>
+          <ion-button>Pagar</ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
