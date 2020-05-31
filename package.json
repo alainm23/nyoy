@@ -36,6 +36,7 @@
     "cordova-plugin-googleplus": "^8.5.0",
     "cordova-sqlite-storage": "^5.0.0",
     "firebase": "^7.8.0",
+    "moment": "^2.26.0",
     "ng2-validation": "^4.2.0",
     "onesignal-cordova-plugin": "^2.9.1",
     "rxjs": "^6.5.1",

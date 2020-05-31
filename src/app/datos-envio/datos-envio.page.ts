@@ -3,11 +3,13 @@ declare var google: any;
 
 // Forms
 import { FormGroup , FormControl, Validators } from '@angular/forms';
+import { Storage } from '@ionic/storage';
+import { DatabaseService } from '../services/database.service';
 
 // Services
-import { Geolocation } from '@ionic-native/geolocation/ngx';7
+import { NavController, LoadingController } from '@ionic/angular'; 
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AuthService } from '../services/auth.service';
-
 @Component({
   selector: 'app-datos-envio',
   templateUrl: './datos-envio.page.html',
@@ -16,22 +18,38 @@ import { AuthService } from '../services/auth.service';
 export class DatosEnvioPage implements OnInit {
   @ViewChild ('map', { static: false }) mapRef: ElementRef;
   map: any;
+  directionsService: any = new google.maps.DirectionsService ();
   form: FormGroup;
 
   latitude: number = 0;
   longitude: number = 0;
+
+  preferencias: any;
   constructor (
-    private geolocation: Geolocation,
-    private auth: AuthService
+    public geolocation: Geolocation,
+    public auth: AuthService,
+    public storage: Storage,
+    public navController: NavController,
+    public loadingController: LoadingController,
+    public database: DatabaseService
   ) { }
 
-  ngOnInit() {
-    this.form = new FormGroup ({
+  async ngOnInit() {
+    this.form = new FormGroup({
       nombre_receptor: new FormControl (this.auth.usuario.nombre, [Validators.required]),
       direccion: new FormControl (this.auth.usuario.direccion, Validators.required),
       referencia: new FormControl ('', Validators.required),
       telefono: new FormControl ('', Validators.required),
     });
+    
+    const loading = await this.loadingController.create({
+      message: 'Espere un momento'
+    });
+
+    await loading.present ();
+
+    this.preferencias = await this.database.get_preferencias ();
+    await loading.dismiss ();
   }
 
   ionViewDidEnter () {
@@ -39,7 +57,7 @@ export class DatosEnvioPage implements OnInit {
   }
 
   async InitMap () {
-    this.geolocation.getCurrentPosition().then(async (resp) => {
+    this.geolocation.getCurrentPosition ().then (async (resp) => {
       let location = new google.maps.LatLng (resp.coords.latitude, resp.coords.longitude);
       this.latitude = resp.coords.latitude;
       this.longitude = resp.coords.longitude;
@@ -97,5 +115,45 @@ export class DatosEnvioPage implements OnInit {
   current_location () {
     this.map.setZoom (17);
     this.map.panTo (new google.maps.LatLng (this.latitude, this.longitude));
+  }
+
+  async go_resumen () {
+    const loading = await this.loadingController.create({
+      message: 'Espere un momento'
+    });
+
+    await loading.present ();
+
+    let point_origen = new google.maps.LatLng (this.preferencias.local_latitud, this.preferencias.local_longitud);
+    let point_destino = this.map.getCenter ();
+
+    let request = {
+      origin: point_origen,
+      destination: point_destino,
+      travelMode: google.maps.TravelMode ['DRIVING']
+    }
+
+    let data: any = this.form.value;
+    let location = this.map.getCenter ();
+      
+    data.latitude = location.lat ();
+    data.longitude = location.lng ();
+
+    this.directionsService.route (request, (response, status) => {
+      if (status == 'OK') {
+        loading.dismiss ();
+
+        data.kilometros = response.routes [0].legs [0].distance.value;
+        data.duracion = response.routes [0].legs [0].duration.value;
+
+        console.log (data);
+
+        this.storage.set ('datos-envio', JSON.stringify (data));
+        this.navController.navigateForward ('pago-resumen');
+      } else {
+        console.log ('No es posible encontrar una ruta');
+        loading.dismiss ();
+      }
+    });
   }
 }

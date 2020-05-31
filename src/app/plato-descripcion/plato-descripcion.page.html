@@ -6,8 +6,8 @@
     <ion-thumbnail>
       <img [src]="plato?.data.imagen">
     </ion-thumbnail>
-    <ion-button class="btn_corazon">
-      <img src="assets/img/Grupo1561.png">
+    <ion-button class="btn_corazon" (click)="favorito ()">
+      <ion-icon style="font-size: 24px;" [ngStyle]="{'color':es_favorito === true ? 'red' : 'white' }" name="heart"></ion-icon>
     </ion-button>
   </ion-card>
   <ion-grid class="ion-no-padding" style="background-color: rgba(255, 255, 255, 0.3);">

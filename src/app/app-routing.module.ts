@@ -45,6 +45,14 @@ const routes: Routes = [
     path: 'datos-envio',
     loadChildren: () => import('./datos-envio/datos-envio.module').then( m => m.DatosEnvioPageModule)
   },
+  {
+    path: 'pago-resumen',
+    loadChildren: () => import('./pago-resumen/pago-resumen.module').then( m => m.PagoResumenPageModule)
+  },
+  {
+    path: 'operecion-exitosa',
+    loadChildren: () => import('./operecion-exitosa/operecion-exitosa.module').then( m => m.OperecionExitosaPageModule)
+  },
 ];
 
 @NgModule({

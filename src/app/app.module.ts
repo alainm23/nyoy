@@ -17,6 +17,7 @@ import { environment } from '../environments/environment';
 
 // Forms
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 // Storage
 import { IonicStorageModule } from '@ionic/storage';
@@ -38,7 +39,8 @@ import { Facebook } from '@ionic-native/facebook/ngx';
     AngularFireAuthModule,
     FormsModule,
     ReactiveFormsModule,
-    IonicStorageModule.forRoot ()
+    IonicStorageModule.forRoot (),
+    HttpClientModule
   ],
   providers: [
     StatusBar,

@@ -54,7 +54,6 @@ export class StockValidatorService {
       res.forEach ((i: any) => {
         this.empresas_insumos.set (i.empresa_id + '-' + i.insumo_id, i.stock);
       });
-      console.log ('this.empresas_insumos', this.empresas_insumos);
     });
   }
 
@@ -89,15 +88,11 @@ export class StockValidatorService {
     if (this.carrito_menus_dia === null) {
       this.carrito_menus_dia = new Map <string, number> ();
     }
-
-    console.log ('insumos', this.carrito_insumos);
   }
 
   check_valid (plato: any, insumos: any [], cantidad: number) {
     let valid = true;
     insumos.forEach ((i: any) => {
-      console.log ('insumo', i);
-
       let pedidos = 0;
       let pedidos_acuales = cantidad * i.cantidad;
       let stock = this.check_elemento (plato.empresa_id + '-' + i.insumo_id);
@@ -335,8 +330,6 @@ export class StockValidatorService {
 
   remove_plato (plato: any, insumos: any []) {
     if (this.carrito_platos.get (plato.id) !== undefined) {
-      console.log (this.carrito_platos.get (plato.id));
-
       let c = this.carrito_platos.get (plato.id).cantidad;
       let extras = this.carrito_platos.get (plato.id).extras;
       if (c >= 1) {
@@ -415,8 +408,6 @@ export class StockValidatorService {
         this.carrito_platos.get (plato.id).extras = extras;
       }
     }
-    
-    console.log (this.carrito_platos);
   }
 
   check_extra (plato: any, insumo_id: string) {

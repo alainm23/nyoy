@@ -15,8 +15,11 @@ import * as firebase from 'firebase/app';
   providedIn: 'root'
 })
 export class AuthService {
-  usuario: any;
-  usuario_subscribe: any = null;
+  usuario: any = {
+    nombre: '',
+    direccion: '',
+    telefono: ''
+  };
   constructor (
     public afAuth: AngularFireAuth,
     public router: Router,
@@ -26,20 +29,18 @@ export class AuthService {
     private googlePlus: GooglePlus,
     private fb: Facebook,
     public platform: Platform) {
-      this.afAuth.authState.subscribe ((user: firebase.User) => {
+      this.afAuth.authState.subscribe (async (user: firebase.User) => {
         if (user) {
-          if (this.usuario_subscribe === null) {
-            this.usuario_subscribe = this.database.get_usuario (user.uid).subscribe ((res: any) => {
-              this.usuario = res;
-              console.log (res);
-            });
-          }
+          this.usuario = await this.database.get_usuario (user.uid);
+            console.log (this.usuario);
         } else {
-          this.usuario_subscribe.unsubscribe ();
-          this.usuario_subscribe = null;
-          this.usuario = null;
+          this.usuario = {
+            nombre: '',
+            direccion: '',
+            telefono: ''
+          }
         }
-      })
+      });
     }
 
   async isLogin () {
