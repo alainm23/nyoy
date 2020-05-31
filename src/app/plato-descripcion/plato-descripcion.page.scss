@@ -78,6 +78,10 @@ h1
     font-family: AvenirBlack;
     margin-bottom: 0px;
     font-size: 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 h5
 {
@@ -111,19 +115,22 @@ div
 {
     width: 100%;
     display: flex;
-    margin-top: 30px;
-    margin-bottom: 30px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 8px;
+    margin-bottom: 0px;
+    align-items: center;
     ion-button
     {
-        width: 50%;
+        width: 48%;
         --border-radius: 26px;
         --color:#FFFFFF;
         text-shadow: 0px 2px 2px #00000029;
         --background: #7BED8D;
         --background-activated: #7BED8D;
         font-family: AvenirBlack;
-        height: 45px;
-        font-size: 13px;
+        height: 35px;
+        font-size: 8px;
     }
 }
 .p_precio
@@ -189,6 +196,65 @@ div
     --background: tranparent;
     --box-shadow: none;
 }
+div.div_botonos
+{
+    width: 25%;
+    display: flex;
+    align-items: center;
+    margin-left: 0;
+    margin: 0px !important;
+    .btn_menos
+    {
+        --background:#D0D0CE;
+        --background-activated: #D0D0CE;
+        width: 15px;
+        height: 15px;
+        --border-radius: 50%;
+        margin-right: 8px;
+        --padding-start: 0px;
+        --padding-end: 0px;
+        margin-left: 0px;
+    }
+    .p_catidad
+    {
+        margin-top: 0px;
+        color: #2C2C2C;
+        margin-bottom: 0px;
+        font-family: HelveticaNeueRegular;
+        font-weight: bold;
+    }
+    .btn_mas
+    {
+        --background:#A8D62B;
+        --background-activated:#A8D62B;
+        width: 15px;
+        height: 15px;
+        --border-radius: 50%;
+        margin-left: 8px;
+        --padding-start: 0px;
+        --padding-end: 0px;
+        margin-right: 0px;
+    }
+}
+div.div_precio
+{
+    width: 61%;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    color: #575757;
+    font-family: AvenirBook;
+    line-height: 1.3;
+    margin-bottom: 0px;
+    font-size: 13px;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.bajar_opciones
+{
+    margin-bottom: 16px;
+}
 @media(min-width: 768px)
 {
     .btn_menu_izquierdo
@@ -204,42 +270,3 @@ div
     }
 }
 
-div.div_botonos
-            {
-                width: 25%;
-                display: flex;
-                align-items: center;
-                margin-left: 25%;
-                .btn_menos
-                {
-                    --background:#D0D0CE;
-                    --background-activated: #D0D0CE;
-                    width: 15px;
-                    height: 15px;
-                    --border-radius: 50%;
-                    margin-right: 8px;
-                    --padding-start: 0px;
-                    --padding-end: 0px;
-                    margin-left: 0px;
-                }
-                .p_catidad
-                {
-                    margin-top: 0px;
-                    color: #2C2C2C;
-                    margin-bottom: 0px;
-                    font-family: HelveticaNeueRegular;
-                    font-weight: bold;
-                }
-                .btn_mas
-                {
-                    --background:#A8D62B;
-                    --background-activated:#A8D62B;
-                    width: 15px;
-                    height: 15px;
-                    --border-radius: 50%;
-                    margin-left: 8px;
-                    --padding-start: 0px;
-                    --padding-end: 0px;
-                    margin-right: 0px;
-                }
-            }

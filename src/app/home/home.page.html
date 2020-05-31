@@ -1,6 +1,8 @@
 <ion-content>
   <ion-button class="btn_menu">
-    <ion-menu-button autoHide="false"></ion-menu-button>
+    <ion-menu-button autoHide="false">
+      <ion-icon name="menu-outline"></ion-icon>
+    </ion-menu-button>
   </ion-button>
 
   <ion-grid class="ion-padding-start ion-padding-end" style="background-color: rgba(255, 255, 255, 0.3);">
@@ -24,7 +26,9 @@
         <ion-row class="ion-justify-content-center">
           <ion-col size="6" *ngFor="let item of empresas">
             <ion-card class="ion-no-margin" (click)="view_empresa (item)">
-                <img [src]="item.logotipo">
+              <div class="dv_img_restaurant">
+                <img [src]="item.logotipo" class="img_ob_cover">
+              </div>
               <p>({{ item.nombre }})</p>
             </ion-card>
           </ion-col>
@@ -42,8 +46,10 @@
           </ion-col> -->
           <ion-col size="6">
             <ion-card class="ion-no-margin">
-                <img src="assets/img/Grupo1558.png" class="img_bajar">
-              <p class="p4_card">(Bodega familiar)</p>
+              <div class="dv_img_restaurant">
+                <img src="assets/img/Grupo1558.png" class="img_ob_cover baja_img">
+              </div>
+              <p class="">(Bodega familiar)</p>
             </ion-card>
           </ion-col>
           <ion-col size="12" style="position: relative;" class="col_bajar_noto">

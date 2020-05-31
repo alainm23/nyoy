@@ -14,7 +14,7 @@ ion-card.card_menu
 {
     display: block;
     width: 100%;
-    height: 95px;
+    height: 125px;
     border-radius: 0px 0px 36px 36px;
     box-shadow: 0px 5px 30px #0000000D;
     margin-bottom: 10px;
@@ -112,6 +112,101 @@ ion-grid.margin_top
 {
     margin-top: 10px;
 }
+.grid_card
+{
+    padding-left: 16px;
+    padding-right: 16px;
+}
+ion-button.btn_iconos
+{
+    width: 100%;
+    --background: #ffffff;
+    --box-shadow: none;
+    --background-activated: #7BED8D;
+    --color-activated:#ffffff;
+    --border-radius: 36px;
+    ion-icon
+    {
+        color: #7BED8D;
+    }
+}
+
+.card_list
+{
+    border: 1px solid #FDFDFD;
+    box-shadow: 0px 3px 6px #00000029;
+    padding: 15px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    .div_list.margin_top_sin_borde
+    {
+        border-bottom: 0px;
+        margin-top: 30px;
+        margin-bottom: 0px;
+    }
+    .div_list
+    {
+        display: flex;
+        border-bottom: 1px solid #E3DCDC;
+        margin-bottom: 5px;
+        .p_book
+        {
+            color: #575757;
+            font-family: AvenirBook;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            width: 55%;
+            font-size: 13px;
+        }
+        .p_black
+        {
+            color: #575757;
+            font-family: AvenirBlack;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            width: 23%;
+            margin-left: 22%;
+            text-align: right;
+            font-size: 13px;
+        }
+        .p_precio_total
+        {
+            font-size: 16px;
+            width: 30%;
+        }
+    }
+}
+ion-item
+{
+    --background: #F0F4F8;
+    --border-radius: 8px;
+    --padding-top: 15px;
+    --padding-bottom: 10px;
+    ion-radio
+    {
+        --border-radius: 4px;
+        border: 1px solid #707070;
+        --inner-border-radius: 4px;
+        --color-checked: #E61D01;
+        width: 23px;
+        height: 23px;
+        margin-right: 13px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        margin-left: 0px;
+    }
+    ion-label
+    {
+        color: #575757;
+        font-family: AvenirBook;
+    }
+}
+.p_subtitulos
+{
+    color: #A6BCD0;
+    font-family: Acumin;
+}
+
 @media(min-width: 640px)
 {
     ion-card.card_menu
