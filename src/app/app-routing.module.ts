@@ -44,7 +44,11 @@ const routes: Routes = [
   {
     path: 'datos-envio',
     loadChildren: () => import('./datos-envio/datos-envio.module').then( m => m.DatosEnvioPageModule)
+  },  {
+    path: 'datos-recojo',
+    loadChildren: () => import('./datos-recojo/datos-recojo.module').then( m => m.DatosRecojoPageModule)
   },
+
 ];
 
 @NgModule({

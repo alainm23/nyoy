@@ -107,7 +107,14 @@
                 <p class="titulo_black">Quiero solo…</p>
                 <ion-row>
                   <ion-col size="6" *ngFor="let menu of menus">
-                    <p class="titulo_black">{{ menu.nombre }} ({{ menu.precio | currency:'S/. ' }})</p> 
+                    <ion-row>
+                      <ion-col size="8">
+                        <p class="titulo_black">{{ menu.nombre }}</p>
+                      </ion-col>
+                      <ion-col size="4">
+                        <p class="titulo_book">({{ menu.precio | currency:'S/. ' }})</p>
+                      </ion-col>
+                    </ion-row>
                   </ion-col>
                 </ion-row>
               </ion-col>
@@ -116,15 +123,15 @@
         </ion-card>
       </ion-col>
 
-      <ion-col *ngFor="let menu_elemento of carta_seleccionada?.menus_dia" size="9" size-sm="7" class="ion-margin-bottom">
+      <ion-col *ngFor="let menu_elemento of carta_seleccionada?.menus_dia" size="10" size-sm="7" class="ion-margin-bottom">
         <h5>{{ menu_elemento.data.nombre }}</h5>
         <ion-row>
-          <ion-col size="9">
+          <ion-col size="12">
             <ion-row>
               <ion-col size="12" *ngFor="let menu_dia of menu_elemento.menus_dia">
                 <ion-item lines="none">
                   <img src="assets/img/e00af2ba8b68026290a14017f53576cd.png">
-                  <ion-label>{{ menu_dia.menu_nombre }}</ion-label>
+                  <ion-label class="ion-text-wrap">{{ menu_dia.menu_nombre }}</ion-label>
 
                   <ion-button class="btn_restar" (click)="remove_menu_dia_carrito (menu_dia)">-</ion-button>
                     <p class="p_cantidad">{{ menu_dia.cantidad_solicitado !== undefined ? menu_dia.cantidad_solicitado : 0 }}</p>
@@ -145,20 +152,29 @@
       </ion-col>
 
       <ion-col size="9" size-sm="7" class="ion-margin-bottom ion-margin-top">
-        <h5>Resumen de pedido</h5>
+        <h5 class="espacio_resumen">Resumen de pedido</h5>
         <ion-row class="ion-justify-content-center">
           <ion-col size="11">
-            <ion-row class="ion-justify-content-center">
-              <ion-col size="6">
-                <ion-label class="label_resumen">Menu completo: {{ carta_seleccionada.menus_completos !== undefined ? carta_seleccionada.menus_completos : 0 }}</ion-label>
+            <ion-row class="">
+              <ion-col size="6" class="separar_resumen_pedido">
+                <ion-row>
+                  <ion-col size="9">
+                    <ion-label  class="label_resumen menu_completo">Menu completo: </ion-label>
+                  </ion-col>
+                  <ion-col size="3">
+                    <ion-label class="label_resumen">{{ carta_seleccionada.menus_completos !== undefined ? carta_seleccionada.menus_completos : 0 }}</ion-label>
+                  </ion-col>
+                </ion-row>
               </ion-col>
-              <ion-col size="6"></ion-col>
-            </ion-row>
-          </ion-col>
-          <ion-col size="11">
-            <ion-row class="ion-justify-content-center">
-              <ion-col size="6" *ngFor="let menu_elemento of carta_seleccionada?.menus_dia">
-                <ion-label class="label_resumen">{{ menu_elemento.data.nombre }} extra: {{ check_elemento_extra (carta_seleccionada.menus_completos, menu_elemento.data.id) }}</ion-label>
+              <ion-col size="6" *ngFor="let menu_elemento of carta_seleccionada?.menus_dia" class="separar_resumen_pedido">
+                <ion-row>
+                  <ion-col size="9">
+                    <ion-label  class="label_resumen">{{ menu_elemento.data.nombre }} extra:</ion-label>
+                  </ion-col>
+                  <ion-col size="3">
+                    <ion-label class="label_resumen"> {{ check_elemento_extra (carta_seleccionada.menus_completos, menu_elemento.data.id) }}</ion-label>
+                  </ion-col>
+                </ion-row>
               </ion-col>
             </ion-row>
           </ion-col>
@@ -200,7 +216,7 @@
                   <div class="div_botonos">
                     <!-- <ion-button class="btn_menos" (click)="remove_carrito (plato)">-</ion-button>
                     <p class="p_catidad">{{ plato.cantidad !== undefined ? plato.cantidad : 0}}</p> -->
-                    <ion-button class="btn_mas">+</ion-button>
+                    <ion-button class="btn_mas"><ion-icon name="chevron-forward-outline"></ion-icon></ion-button>
                   </div>
                 </div>
                 <ion-button class="btn_close ion-no-padding ion-no-margin"><ion-icon name="heart-outline"></ion-icon></ion-button>
@@ -238,7 +254,7 @@
                   <div class="div_botonos">
                     <!-- <ion-button class="btn_menos" (click)="remove_carrito (plato)">-</ion-button>
                     <p class="p_catidad">{{ plato.cantidad !== undefined ? plato.cantidad : 0}}</p> -->
-                    <ion-button class="btn_mas">+</ion-button>
+                    <ion-button class="btn_mas"><ion-icon name="chevron-forward-outline"></ion-icon></ion-button>
                   </div>
                 </div>
                 <ion-button class="btn_close ion-no-padding ion-no-margin"><ion-icon name="heart-outline"></ion-icon></ion-button>

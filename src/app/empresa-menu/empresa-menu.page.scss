@@ -10,6 +10,10 @@
     font-family: AvenirBook;
     src : url('/assets/font/Avenir Book.ttf')
 }
+@font-face{
+    font-family: AvenirHeavy;
+    src : url('/assets/font/Avenir Heavy.ttf')
+}
 ion-content
 {
     --background: url('/assets/img/fondo.png') 0 0/100% 100% no-repeat;
@@ -72,6 +76,7 @@ ion-content
         position: relative;
         p
         {
+            color: #E5E5E5;
             font-family: HelveticaNeueRegular;
             font-size: 15px;
         }
@@ -172,6 +177,7 @@ ion-card
             display: -webkit-box;
             -webkit-line-clamp: 1;
             -webkit-box-orient: vertical;
+            overflow: hidden;
         }
         p.descripcion_card
         {
@@ -193,6 +199,7 @@ ion-card
             width: 100%;
             display: flex;
             align-items: center;
+            justify-content: space-between;
             div.div_precio
             {
                 width: 50%;
@@ -208,10 +215,9 @@ ion-card
             }
             div.div_botonos
             {
-                width: 25%;
+                width: auto;
                 display: flex;
                 align-items: center;
-                margin-left: 25%;
                 .btn_menos
                 {
                     --background:#D0D0CE;
@@ -234,15 +240,16 @@ ion-card
                 }
                 .btn_mas
                 {
-                    --background:#A8D62B;
-                    --background-activated:#A8D62B;
-                    width: 15px;
-                    height: 15px;
+                    --background:#656565;
+                    --background-activated:#656565;
+                    width: 18px;
+                    height: 18px;
                     --border-radius: 50%;
-                    margin-left: 8px;
                     --padding-start: 0px;
                     --padding-end: 0px;
                     margin-right: 0px;
+                    font-size: 13px;
+                    margin: 0px !important;
                 }
             }
         }
@@ -320,43 +327,34 @@ ion-item
     color: #575757;
     font-family: AvenirBook;
 }
-.div_sumar_resto
+.btn_restar
 {
-    height: 35px;
-    width: 100%;
-    display: flex;
-    align-items: center;
+    width: 17px;
+    height: 17px;
+    --background: #D0D0CE;
+    --border-radius: 50%;
+    --padding-start: 0px;
+    --padding-end: 0px;
+    margin-right: 8px !important;
+    margin: 0px;
+}
+.btn_sumar
+{
+    width: 17px;
+    height: 17px;
+    --background: #A8D62B;
+    --border-radius: 50%;
+    --padding-start: 0px;
+    --padding-end: 0px;
+    margin-left: 8px !important;
+    margin: 0px;
+}
+.p_cantidad
+{
+    color: #2C2C2C;
+    font-family: HelveticaNeueRegular;
     margin-top: 0px;
     margin-bottom: 0px;
-    .btn_restar
-    {
-        width: 17px;
-        height: 17px;
-        --background: #D0D0CE;
-        --border-radius: 50%;
-        --padding-start: 0px;
-        --padding-end: 0px;
-        margin-right: 8px !important;
-        margin: 0px;
-    }
-    .btn_sumar
-    {
-        width: 17px;
-        height: 17px;
-        --background: #A8D62B;
-        --border-radius: 50%;
-        --padding-start: 0px;
-        --padding-end: 0px;
-        margin-left: 8px !important;
-        margin: 0px;
-    }
-    .p_cantidad
-    {
-        color: #2C2C2C;
-        font-family: HelveticaNeueRegular;
-        margin-top: 0px;
-        margin-bottom: 0px;
-    }
 }
 ion-textarea
 {
@@ -434,6 +432,7 @@ ion-card.card_tarifario
     align-items: center;
     justify-content: center;
     height: 60px;
+    margin-top: 20px;
     .span_total
     {
         color: #575757;
@@ -451,6 +450,18 @@ ion-card.card_tarifario
     font-family: AvenirBook;
     font-size: 12px;
     margin: 0px;
+}
+.separar_resumen_pedido
+{
+    margin-top: 1px;
+}
+.menu_completo
+{
+    font-family: AvenirHeavy;
+}
+.espacio_resumen
+{
+    margin-bottom: 16px;
 }
 @media(min-width: 640px)
 {
