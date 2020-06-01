@@ -42,8 +42,8 @@
       </ion-col>
       <ion-col *ngIf="promocion?.tipo === '1'" size="8" size-sm="7">
         <h5>Incluye</h5>
-        <ul >
-          <li *ngFor="let plato of promocion.platos">
+        <ul style="list-style-type: none;">
+          <li *ngFor="let plato of promocion.platos" class="llist_incluye">
             {{ plato.nombre }}
           </li>
         </ul>

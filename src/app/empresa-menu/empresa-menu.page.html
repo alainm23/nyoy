@@ -161,7 +161,7 @@
                   <ion-col size="9">
                     <ion-label  class="label_resumen menu_completo">Menu completo: </ion-label>
                   </ion-col>
-                  <ion-col size="3">
+                  <ion-col size="3" class="padding_left_number">
                     <ion-label class="label_resumen">{{ carta_seleccionada.menus_completos !== undefined ? carta_seleccionada.menus_completos : 0 }}</ion-label>
                   </ion-col>
                 </ion-row>
@@ -171,7 +171,7 @@
                   <ion-col size="9">
                     <ion-label  class="label_resumen">{{ menu_elemento.data.nombre }} extra:</ion-label>
                   </ion-col>
-                  <ion-col size="3">
+                  <ion-col size="3" class="padding_left_number">
                     <ion-label class="label_resumen"> {{ check_elemento_extra (carta_seleccionada.menus_completos, menu_elemento.data.id) }}</ion-label>
                   </ion-col>
                 </ion-row>

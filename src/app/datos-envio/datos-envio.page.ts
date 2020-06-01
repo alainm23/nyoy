@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 declare var google: any;
+import { MenuController, NavController } from '@ionic/angular'; 
 
 // Forms
 import { FormGroup , FormControl, Validators } from '@angular/forms';
@@ -159,5 +160,10 @@ export class DatosEnvioPage implements OnInit {
     });
 
     return await modal.present();
+  }
+
+  open_menu () {
+    this.menu.enable (true, 'first');
+    this.menu.open ('first');
   }
 }
