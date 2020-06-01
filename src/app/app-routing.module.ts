@@ -46,6 +46,10 @@ const routes: Routes = [
     loadChildren: () => import('./datos-envio/datos-envio.module').then( m => m.DatosEnvioPageModule)
   },
   {
+    path: 'datos-recojo',
+    loadChildren: () => import('./datos-recojo/datos-recojo.module').then( m => m.DatosRecojoPageModule)
+  },
+  {
     path: 'pago-resumen',
     loadChildren: () => import('./pago-resumen/pago-resumen.module').then( m => m.PagoResumenPageModule)
   },

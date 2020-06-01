@@ -13,6 +13,19 @@
 <ion-content>
   <ion-card class="ion-no-margin card_menu">
     <h1 class="ion-text-center">¿A dónde lo llevamos?</h1>
+    <ion-grid class="grid_card">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="3" size-sm="2">
+          <ion-button class="btn_iconos ion-no-margin"><ion-icon name="location-outline"></ion-icon></ion-button>
+        </ion-col>
+        <ion-col size="3" size-sm="2">
+          <ion-button class="btn_iconos ion-no-margin"><ion-icon name="list-outline"></ion-icon></ion-button>
+        </ion-col>
+        <ion-col size="3" size-sm="2">
+          <ion-button class="btn_iconos ion-no-margin"><ion-icon name="card-outline"></ion-icon></ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-card>
 
   <form [formGroup]="form">
@@ -44,4 +57,52 @@
       </ion-row>
     </ion-grid>
   </form>
+
+  <ion-grid class="margin_top">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="11" size-sm="8" size-md="8" size-lg="7">
+        <p class="p_subtitulos ion-no-margin">Resumen</p>
+        <ion-card class="ion-no-margin card_list">
+          <div class="div_list">
+            <p class="p_book">SubTotal</p>
+            <p class="p_black">S/. 61.50</p>
+          </div>
+          <div class="div_list">
+            <p class="p_book">Costo de envio (+ 0.5 km)</p>
+            <p class="p_black">S/. 6.00</p>
+          </div>
+          <div class="div_list">
+            <p class="p_book">IGV</p>
+            <p class="p_black">S/. 3.00</p>
+          </div>
+          <div class="div_list margin_top_sin_borde">
+            <p class="p_book">Total</p>
+            <p class="p_black p_precio_total">S/. 64.50</p>
+          </div>
+        </ion-card>
+      </ion-col>
+      <ion-col size="11" size-sm="8" size-md="8" size-lg="7">
+        <p class="p_subtitulos">Escoge tu metodo de pago</p>
+        <ion-radio-group value="biff">
+          <ion-row>
+            <ion-col size="12">
+              <ion-item lines="none">
+                <ion-label class="ion-no-margin">Tarjeta de credito o debito.</ion-label>
+                <ion-radio slot="start" value="biff" mode="ios"></ion-radio>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12">
+              <ion-item lines="none">
+                <ion-label class="ion-no-margin">Contra entrega</ion-label>
+                <ion-radio slot="start" value="griff" mode="ios"></ion-radio>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-radio-group>
+      </ion-col>
+      <ion-col size="10" size-sm="7" size-md="7" size-lg="6" class="ion-margin-top">
+        <ion-button class="btn_listo">Adelante</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

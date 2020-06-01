@@ -24,11 +24,13 @@
           <ion-button class="btn_sumar" (click)="add_carrito ()">+</ion-button>
         </div>
         <ng-container>
-          <h5 *ngIf="extras.length > 0">Opciones menu</h5>
+          <h5 *ngIf="extras.length > 0" class="bajar_opciones">Opciones menu</h5>
           <ion-row>
             <ion-col size="12" *ngFor="let item of extras">
               <div *ngIf="stock_validator.check_insumo_extra_disponible (item.empresa_id + '-' + item.insumo_id)">
-                {{ item.menu_nombre }}  ({{ item.precio | currency:'S/. ' }})
+                <div class="p_descripcio div_precio">
+                  {{ item.menu_nombre }}  ({{ item.precio | currency:'S/. ' }})
+                </div>
                 <div class="div_botonos">
                   <ion-button class="btn_menos" (click)="update_extra_cantidad (item, -1)">-</ion-button>
                   <p class="p_catidad">{{ item.cantidad }}</p>
