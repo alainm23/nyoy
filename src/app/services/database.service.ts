@@ -26,8 +26,20 @@ export class DatabaseService {
     return this.afs.collection ('Usuarios').doc (id).valueChanges ().pipe (first ()).toPromise ();
   }
 
+  update_usuario (id: string, data: any) {
+    return this.afs.collection ('Usuarios').doc (id).update (data);
+  }
+
   is_plato_favorito (user_id: string, plato_id: string) {
     return this.afs.collection ('Usuarios').doc (user_id).collection ('Favoritos').doc (plato_id).valueChanges ();
+  }
+
+  get_usuario_direcciones (user_id: string) {
+    return this.afs.collection ('Usuarios').doc (user_id).collection ('Direcciones').valueChanges ();
+  }
+  
+  add_direccion (user_id: string, data: any) {
+    return this.afs.collection ('Usuarios').doc (user_id).collection ('Direcciones').doc (data.id).set (data);
   }
 
   set_plato_favorito (user_id: string, plato_id: string, value: boolean) {

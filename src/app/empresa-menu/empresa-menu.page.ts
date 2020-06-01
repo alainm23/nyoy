@@ -41,6 +41,7 @@ export class EmpresaMenuPage implements OnInit {
   loading_platos: boolean = true;
   menu_dia_comentario: string = '';
   get_menu_elementos_by_carta: any;
+  carta_current_index:  number = 0;
   constructor (
     public menu:MenuController,
     public navCtrl: NavController,
@@ -110,6 +111,10 @@ export class EmpresaMenuPage implements OnInit {
   }
 
   async slidesCartaChanged (event: any) {
+    this.slides_carta.getActiveIndex ().then ((index) => {
+      this.carta_current_index = index;
+    });
+    
     this.carta_seleccionada = this.empresa_seleccionada.cartas [await this.slides_carta.getActiveIndex ()];
     this.menus_dia_seleccionado = [];
 

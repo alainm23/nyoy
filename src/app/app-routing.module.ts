@@ -57,6 +57,10 @@ const routes: Routes = [
     path: 'operecion-exitosa',
     loadChildren: () => import('./operecion-exitosa/operecion-exitosa.module').then( m => m.OperecionExitosaPageModule)
   },
+  {
+    path: 'mi-cuenta',
+    loadChildren: () => import('./mi-cuenta/mi-cuenta.module').then( m => m.MiCuentaPageModule)
+  },
 ];
 
 @NgModule({

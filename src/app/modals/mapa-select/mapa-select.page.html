@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button block (click)="closeModal()">
+        <ion-icon class="icon-arrow" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons> 
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-searchbar #searchbar [(ngModel)]="search_text"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid class="ion-no-padding ion-no-margin">
+    <ion-row class="ion-no-padding ion-no-margin">
+      <ion-col class="ion-no-padding ion-no-margin">
+        <ion-card id="map-card" class="map-class2 ion-no-padding ion-no-margin">
+          <div #map id="map"></div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-row>
+    <ion-col size="10" offset="1" size-sm="8" offset-sm="2" size-md="7" size-lg="6" class="ion-margin-bottom">
+      <ion-button class="btn_listo" (click)="select ()">Seleccionar</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

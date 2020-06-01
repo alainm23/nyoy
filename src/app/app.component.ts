@@ -7,6 +7,7 @@ import { AuthService } from './services/auth.service';
 
 // Services
 import { StockValidatorService } from './services/stock-validator.service';
+import * as moment from 'moment';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -31,6 +32,7 @@ export class AppComponent {
       this.splashScreen.hide();
 
       this.stock_validator.init ();
+      moment.locale ('es');
     });
   }
 

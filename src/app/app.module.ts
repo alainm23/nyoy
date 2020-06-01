@@ -27,6 +27,8 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Facebook } from '@ionic-native/facebook/ngx';
 
+// Modals
+import { MapaSelectPageModule } from './modals/mapa-select/mapa-select.module';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -40,7 +42,8 @@ import { Facebook } from '@ionic-native/facebook/ngx';
     FormsModule,
     ReactiveFormsModule,
     IonicStorageModule.forRoot (),
-    HttpClientModule
+    HttpClientModule,
+    MapaSelectPageModule
   ],
   providers: [
     StatusBar,

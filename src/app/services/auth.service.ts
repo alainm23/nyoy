@@ -6,6 +6,7 @@ import { DatabaseService } from "../services/database.service";
 import { Router } from '@angular/router';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
+import { Storage } from '@ionic/storage';
 
 import { first } from 'rxjs/operators';
 import { Observable, Subject } from 'rxjs';
@@ -16,6 +17,7 @@ import * as firebase from 'firebase/app';
 })
 export class AuthService {
   usuario: any = {
+    id: '',
     nombre: '',
     direccion: '',
     telefono: ''
@@ -26,15 +28,19 @@ export class AuthService {
     public database: DatabaseService,
     public navController: NavController,
     public loadingController: LoadingController,
+    public storage: Storage,
     private googlePlus: GooglePlus,
     private fb: Facebook,
     public platform: Platform) {
       this.afAuth.authState.subscribe (async (user: firebase.User) => {
         if (user) {
+          this.storage.set ('usuario_id', user.uid);
           this.usuario = await this.database.get_usuario (user.uid);
             console.log (this.usuario);
         } else {
+          this.storage.set ('usuario_id', '');
           this.usuario = {
+            id: '',
             nombre: '',
             direccion: '',
             telefono: ''

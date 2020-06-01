@@ -8,6 +8,7 @@ import { Storage } from '@ionic/storage';
 import { PagoService } from '../services/pago.service';
 import { EventsService } from '../services/events.service';
 import { AuthService } from '../services/auth.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-pago-resumen',
@@ -118,6 +119,11 @@ export class PagoResumenPage implements OnInit {
   }
 
   formato () {
+    let data: any = {
+      id: this.database.createId (),
+      dia: moment ().format ('DD'),
+      mes: moment ().format ('DD')
+    };
     this.stock_vaidator.carrito_platos.forEach (element => {
       console.log ('element', element);
     });
