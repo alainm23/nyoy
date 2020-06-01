@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 
-import { Platform, NavController, LoadingController } from '@ionic/angular';
+import { Platform, NavController, LoadingController, MenuController } from '@ionic/angular';
 import { DatabaseService } from "../services/database.service";
 import { Router } from '@angular/router';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
@@ -22,6 +22,7 @@ export class AuthService {
     direccion: '',
     telefono: ''
   };
+  s: any = null;
   constructor (
     public afAuth: AngularFireAuth,
     public router: Router,
@@ -31,13 +32,22 @@ export class AuthService {
     public storage: Storage,
     private googlePlus: GooglePlus,
     private fb: Facebook,
+    private menu: MenuController,
     public platform: Platform) {
       this.afAuth.authState.subscribe (async (user: firebase.User) => {
         if (user) {
+          this.menu.enable (true, 'first');
           this.storage.set ('usuario_id', user.uid);
-          this.usuario = await this.database.get_usuario (user.uid);
-            console.log (this.usuario);
+          this.s = this.database.get_usuario (user.uid).subscribe ((res: any) => {
+            this.usuario
+          })
+          console.log ('usuario', this.usuario);
         } else {
+          this.menu.enable (false, 'first');
+          if (this.s !== null) {
+            this.s.unsubscribe ();
+            this.s = null;
+          }
           this.storage.set ('usuario_id', '');
           this.usuario = {
             id: '',
@@ -64,11 +74,13 @@ export class AuthService {
   async signOut () {
     return this.afAuth.auth.signOut ()
       .then (() => {
-        this.fb.getLoginStatus().then ((res) => {
-          if (res.status === 'connected') {
-            this.fb.logout ();
-          }
-        });
+        if (this.platform.is ('cordova')) {
+          this.fb.getLoginStatus().then ((res) => {
+            if (res.status === 'connected') {
+              this.fb.logout ();
+            }
+          });
+        }
       });
   }
 
@@ -100,9 +112,11 @@ export class AuthService {
       'webClientId': '934733338514-b9lpakl14j90r8fdnedbmm6c2jnm08n9.apps.googleusercontent.com',
       'offline': true
     }).then (async (res: any) => {
-      const credential = await this.afAuth.auth.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(res.idToken));
+      const credential = await this.afAuth.auth.signInWithCredential (firebase.auth.GoogleAuthProvider.credential(res.idToken));
+      console.log ('credential', credential);
 
       const user = await this.database.getUser (credential.user.uid);
+      console.log ('user', user);
       if (user === undefined) {
         let request: any = {
           id: credential.user.uid,

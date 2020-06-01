@@ -5,7 +5,7 @@ import { MenuController, NavController, PopoverController, IonSlides } from '@io
 import { DatabaseService } from '../services/database.service';
 import { ActivatedRoute } from '@angular/router';
 import { StockValidatorService } from '../services/stock-validator.service';
-
+import { Storage } from '@ionic/storage';
 @Component({
   selector: 'app-empresa-menu',
   templateUrl: './empresa-menu.page.html',
@@ -16,7 +16,7 @@ export class EmpresaMenuPage implements OnInit {
   @ViewChild ('slideWithNav3', { static: false }) slides_carta: IonSlides;
 
   sliderTwo: any;
-
+  usuario_id: string = '';
   //Configuration for each Slider
   slideOptsTwo = {
     slidesPerView: 1,
@@ -28,7 +28,7 @@ export class EmpresaMenuPage implements OnInit {
     initialSlide: 0,
     slidesPerView: 3
   };
-
+  size: number = 3;
   empresas: any [] = [];
   menu_elementos: any [] = [];
   menus: any [] = [];
@@ -48,7 +48,8 @@ export class EmpresaMenuPage implements OnInit {
     public popoverController: PopoverController,
     public database: DatabaseService,
     private route: ActivatedRoute,
-    private stock_validator: StockValidatorService
+    public stock_validator: StockValidatorService,
+    private storage: Storage
   ) {
     //Item object for Food
     this.sliderTwo =
@@ -59,6 +60,10 @@ export class EmpresaMenuPage implements OnInit {
   }
 
   ngOnInit () {
+    this.storage.get ('usuario_id').then ((usuario_id) => {
+      this.usuario_id = usuario_id;
+    });
+
     this.database.get_empresas ().subscribe ((res: any []) => {
       this.empresas = res;
       this.loading_empresas = false;
@@ -133,6 +138,7 @@ export class EmpresaMenuPage implements OnInit {
             this.carta_seleccionada.platos = res;
             this.loading_platos = false;
             this.check_cantidad_platos ();
+            console.log ('Platoooos', res);
           });
         } else {
           this.loading_platos = false;
@@ -353,6 +359,7 @@ export class EmpresaMenuPage implements OnInit {
   agregar_carrito_menu (menus_completos: number, cantidad_elementos_menu: any [], menus_dia: any []) {
     let request: any = {
       id: this.database.createId (),
+      empresa_id: this.empresa_seleccionada.id,
       carta_id: this.carta_seleccionada.id,
       nombre: this.carta_seleccionada.nombre,
       tipo: 'menu',

@@ -1,5 +1,5 @@
 <ion-content>
-  <ion-slides pager="true">
+  <ion-slides pager="true" (ionSlideDidChange)="slidesChanged ()" (ionSlideDrag)="event ($event)">
       <ion-slide class="slider-1">
           <ion-card class="ion-text-center ion-no-margin">
               <ion-thumbnail>
@@ -26,6 +26,7 @@
       </ion-slide>
   </ion-slides>
   <ion-button (click)="saltar ()">
-      Saltar
+    <ng-container *ngIf="index <= 1">Saltar</ng-container>
+    <ng-container *ngIf="index >= 2">Empezamos</ng-container>
   </ion-button>
 </ion-content>

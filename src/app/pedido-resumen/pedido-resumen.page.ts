@@ -56,7 +56,7 @@ export class PedidoResumenPage implements OnInit {
     console.log (item);
   }
 
-  get_precio_total (list: any []) {
+  get_precio_total (list: any) {
     let total: number = 0;
     list.forEach (element => {
       if (element.tipo === 'extra') {
@@ -106,13 +106,21 @@ export class PedidoResumenPage implements OnInit {
     await alert.present ();
   }
 
-  async openCulqi (list: any []) {
+  async openCulqi (list: any) {
     console.log (this.tipo_entrega);
 
     if (this.tipo_entrega == '0') {
       this.navCtrl.navigateForward ('datos-envio');
     } else {
 
+    }
+  }
+
+  ver_detalles (item: any) {
+    if (item.ver_detalles === undefined) {
+      item.ver_detalles = true;
+    } else {
+      item.ver_detalles = !item.ver_detalles;
     }
   }
 }

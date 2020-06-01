@@ -53,10 +53,10 @@
                       <ion-button class="btn_mas" (click)="add_carrito (item)">+</ion-button>
                     </div> -->
                   </div>
-                  <ion-button class="btn_close_card ion-no-margin" (click)="eliminar_plato (item)"><ion-icon name="chevron-forward-outline"></ion-icon></ion-button>
+                  <ion-button (click)="ver_detalles (item)" class="btn_close_card ion-no-margin"><ion-icon name="chevron-forward-outline"></ion-icon></ion-button>
                 </div>
               </ion-card-header>
-              <ion-card-content>
+              <ion-card-content *ngIf="item.ver_detalles">
                 <div class="div_descrip_plato">
                   <p class="p_list_descrip espacio_p">1 pollito entero con sis pepitas calientas. Hay que ricoooooo!</p>
                   <ul style="list-style-type: none;" class="ion-no-padding ion-no-margin">
@@ -65,7 +65,7 @@
                   </ul>
                   <div class="div_botones">
                     <ion-button class="btn_circulo ion-no-padding"><ion-icon name="pencil-outline" class="icono_plomo_circulo"></ion-icon></ion-button>
-                    <ion-button class="btn_circulo ion-no-padding"><ion-icon name="trash-outline" class="icono_plomo_circulo"></ion-icon></ion-button>
+                    <ion-button (click)="eliminar_plato (item)" class="btn_circulo ion-no-padding"><ion-icon name="trash-outline" class="icono_plomo_circulo"></ion-icon></ion-button>
                   </div>
                 </div>
               </ion-card-content>
@@ -86,11 +86,11 @@
                       <p class="p_catidad">{{ item.value.cantidad  }}</p>
                       <ion-button class="btn_mas" (click)="add_carrito (item.value.plato, item.value.insumos)">+</ion-button>
                     </div> -->
-                    <ion-button class="btn_close_card ion-no-margin" (click)="eliminar_plato (item)"><ion-icon name="chevron-forward-outline"></ion-icon></ion-button>
+                    <ion-button (click)="ver_detalles (item)" class="btn_close_card ion-no-margin"><ion-icon name="chevron-forward-outline"></ion-icon></ion-button>
                   </div>
                 </div>
               </ion-card-header>
-              <ion-card-content>
+              <ion-card-content *ngIf="item.ver_detalles">
                 <div class="div_descrip_plato">
                   <p class="p_list_descrip espacio_p">1 pollito entero con sis pepitas calientas. Hay que ricoooooo!</p>
                   <ul style="list-style-type: none;" class="ion-no-padding ion-no-margin">
@@ -99,7 +99,7 @@
                   </ul>
                   <div class="div_botones">
                     <ion-button class="btn_circulo ion-no-padding"><ion-icon name="pencil-outline" class="icono_plomo_circulo"></ion-icon></ion-button>
-                    <ion-button class="btn_circulo ion-no-padding"><ion-icon name="trash-outline" class="icono_plomo_circulo"></ion-icon></ion-button>
+                    <ion-button (click)="eliminar_plato (item)" class="btn_circulo ion-no-padding"><ion-icon name="trash-outline" class="icono_plomo_circulo"></ion-icon></ion-button>
                   </div>
                 </div>
               </ion-card-content>
@@ -125,11 +125,11 @@
                       <p class="p_catidad">{{ item.value.cantidad  }}</p>
                       <ion-button class="btn_mas" (click)="add_carrito (item)">+</ion-button>
                     </div> -->
-                    <ion-button class="btn_close_card ion-no-margin" (click)="eliminar_plato (item)"><ion-icon name="chevron-forward-outline"></ion-icon></ion-button>
+                    <ion-button (click)="ver_detalles (item)" class="btn_close_card ion-no-margin"><ion-icon name="chevron-forward-outline"></ion-icon></ion-button>
                   </div>
                 </div>
               </ion-card-header>
-              <ion-card-content>
+              <ion-card-content *ngIf="item.ver_detalles">
                 <div class="div_descrip_plato">
                   <p class="p_list_descrip espacio_p">1 pollito entero con sis pepitas calientas. Hay que ricoooooo!</p>
                   <ul style="list-style-type: none;" class="ion-no-padding ion-no-margin">
@@ -138,7 +138,7 @@
                   </ul>
                   <div class="div_botones">
                     <ion-button class="btn_circulo ion-no-padding"><ion-icon name="pencil-outline" class="icono_plomo_circulo"></ion-icon></ion-button>
-                    <ion-button class="btn_circulo ion-no-padding"><ion-icon name="trash-outline" class="icono_plomo_circulo"></ion-icon></ion-button>
+                    <ion-button (click)="eliminar_plato (item)" class="btn_circulo ion-no-padding"><ion-icon name="trash-outline" class="icono_plomo_circulo"></ion-icon></ion-button>
                   </div>
                 </div>
               </ion-card-content>

@@ -23,6 +23,7 @@ export class PagoResumenPage implements OnInit {
   total: number = 0;
   preferencias: any;
   subscribe: any = null;
+  datos_envio: any;
   constructor (
     public stock_vaidator: StockValidatorService,
     private storage: Storage,
@@ -46,11 +47,11 @@ export class PagoResumenPage implements OnInit {
       this.pago.initCulqi ();
     });
 
-    let datos_envio = JSON.parse ((await this.storage.get ('datos-envio')));
-    console.log ('datos_envio', datos_envio);
+    this.datos_envio = JSON.parse ((await this.storage.get ('datos-envio')));
+    console.log ('datos_envio', this.datos_envio);
     this.kilometros = this.preferencias.delivery_limite / 1000;
 
-    if (datos_envio.kilometros > this.preferencias.delivery_limite) {
+    if (this.datos_envio.kilometros > this.preferencias.delivery_limite) {
       this.costo_envio = this.preferencias.delivery_precio;
     }
 
@@ -59,8 +60,13 @@ export class PagoResumenPage implements OnInit {
     this.igv = this.subtotal * 0.18;
 
     if (this.subscribe == null) {
-      this.subscribe = this.events.get_token_id ().subscribe ((token_id: string) => {
+      this.subscribe = this.events.get_token_id ().subscribe (async (token_id: string) => {
         console.log (token_id);
+        const loading = await this.loadingController.create({
+          message: 'Espere un momento'
+        });
+    
+        await loading.present ();
 
         this.pago.procesarpagonyoy (
           token_id,
@@ -71,7 +77,7 @@ export class PagoResumenPage implements OnInit {
             console.log ('pago', res);
             if (res.estado == 1) {
               if (res.respuesta.outcome.type == 'venta_exitosa') {
-                this.navController.navigateRoot ('operecion-exitosa');
+                this.add_pedido (loading);
               }
             }
           });
@@ -118,14 +124,83 @@ export class PagoResumenPage implements OnInit {
     });
   }
 
-  formato () {
+  async add_pedido (loading: any) {
+    let platos: any [] = [];
     let data: any = {
       id: this.database.createId (),
       dia: moment ().format ('DD'),
-      mes: moment ().format ('DD')
+      mes: moment ().format ('MM'),
+      anio: moment ().format ('YYYY'),
+      hora: moment ().format ('HH'),
+      usuario_id: await this.storage.get ('usuario_id'),
+      direccion: this.datos_envio.direccion,
+      monto_total: this.total + this.costo_envio,
+      estado: 'pedido',
+      tipo_pago: 'culqi',
+      pagado: false,
+      observacion: '',
+      hora_finalizacion: ''
     };
-    this.stock_vaidator.carrito_platos.forEach (element => {
-      console.log ('element', element);
+
+    this.stock_vaidator.carrito_platos.forEach ((element: any) => {
+      if (element.tipo == 'menu') {
+        platos.push ({
+          empresa_id: element.empresa_id,
+          carta_id: element.carta_id,
+          menu_nombre: element.nombre,
+          menus: element.menus,
+          tipo: 'menu',
+          precio: element.precio,
+          comentario: element.comentario
+        }); 
+      } else if (element.tipo == 'extra') {
+        platos.push ({
+          empresa_id: element.empresa_id,
+          carta_id: element.carta_id,
+          plato_id: element.plato.id,
+          plato_nombre: element.plato.nombre,
+          cantidad: element.cantidad,
+          precio: element.precio,
+          tipo: 'extra',
+          comentarios: element.comentarios
+        });
+      } else if (element.tipo === 'promocion') {
+        if (element.promocion_tipo === '0') {
+          platos.push ({
+            // empresa_id: element.empresa_id, // Falta
+            carta_id: element.carta_id,
+            plato_id: element.plato.id,
+            plato_nombre: element.plato.nombre,
+            cantidad: element.cantidad,
+            precio: element.precio,
+            tipo: 'promocion',
+            promocion_tipo: '0',
+            comentarios: element.comentarios
+          });
+        } else {
+          platos.push ({
+            carta_id: element.carta_id,
+            cantidad: element.cantidad,
+            precio: element.precio,
+            tipo: 'promocion',
+            promocion_tipo: '1',
+            comentarios: element.comentarios,
+            platos: element.platos
+          });
+        }
+      }
     });
+    data.platos = platos;
+    console.log (data);
+
+    this.database.add_pedido (data)
+      .then (() => {
+        this.navController.navigateRoot ('operecion-exitosa');
+        loading.dismiss ();
+      })
+      .catch ((error: any) => {
+        console.log (error);
+        loading.dismiss ();
+      })
   }
 }

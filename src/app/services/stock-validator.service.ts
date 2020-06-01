@@ -10,8 +10,8 @@ import { Storage } from '@ionic/storage';
   providedIn: 'root'
 })
 export class StockValidatorService {
-  subscribe: any;
-  subscribe_menus_dia: any;
+  subscribe: any = null;
+  subscribe_menus_dia: any = null;
   
   subscribe_elementos_menu: any;
   elementos_menu: any [] = [];
@@ -43,8 +43,16 @@ export class StockValidatorService {
         this.get_menu_dia ();
         this.get_storage_values ();
       } else {
-        this.subscribe.unsubscribe ();
-        this.subscribe_menus_dia.unsubscribe ();
+        if (this.subscribe !== null) {
+          this.subscribe.unsubscribe ();
+          this.subscribe = null;
+          this.subscribe_menus_dia.unsubscribe ();
+        }
+
+        if (this.subscribe_menus_dia !== null) {
+          this.subscribe_menus_dia.unsubscribe ();
+          this.subscribe_menus_dia = null;
+        }
       }
     });
   }

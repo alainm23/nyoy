@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 declare var google: any;
-import { MenuController, NavController } from '@ionic/angular'; 
 
 // Forms
 import { FormGroup , FormControl, Validators } from '@angular/forms';
@@ -8,7 +7,7 @@ import { Storage } from '@ionic/storage';
 import { DatabaseService } from '../services/database.service';
 
 // Services
-import { NavController, LoadingController, AlertController, ModalController } from '@ionic/angular'; 
+import { NavController, MenuController, LoadingController, AlertController, ModalController } from '@ionic/angular'; 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AuthService } from '../services/auth.service';
 import { MapaSelectPage } from '../modals/mapa-select/mapa-select.page';
@@ -160,10 +159,5 @@ export class DatosEnvioPage implements OnInit {
     });
 
     return await modal.present();
-  }
-
-  open_menu () {
-    this.menu.enable (true, 'first');
-    this.menu.open ('first');
   }
 }

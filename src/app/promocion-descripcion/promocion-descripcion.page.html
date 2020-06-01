@@ -1,5 +1,5 @@
 <ion-content>
-  <ion-button class="btn_menu_izquierdo">
+  <ion-button class="btn_menu_izquierdo" (click)="back ()">
     <ion-icon name="chevron-back-outline"></ion-icon>
   </ion-button>
   <ion-card>
@@ -49,7 +49,7 @@
         </ul>
       </ion-col>
     </ion-row>
-    <ion-row class="ion-justify-content-center" style="background: #ffffff;">
+    <ion-row class="ion-justify-content-center ion-margin-bottom" style="background: #ffffff;">
       <ion-col size="8" size-sm="7">
         <h5>¿Algún comentario?</h5>
         <ion-textarea [(ngModel)]="comentario"></ion-textarea>

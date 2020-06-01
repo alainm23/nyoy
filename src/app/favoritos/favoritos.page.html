@@ -1,0 +1,45 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="position: relative;">
+  <ion-card class="ion-no-margin card_menu">
+    <h1 class="ion-text-center">Mis favoritos</h1>
+  </ion-card>
+  <ion-grid class="ion-no-padding" style="background-color: rgba(255, 255, 255, 0.3);">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="11" size-sm="11" size-md="9" size-lg="11" size-xl="9" class="ion-margin-top">
+        <ion-row class="ion-justify-content-center">
+          <ion-col *ngFor="let item of items" size="12" size-sm="6" size-lg="4" class="padding_start_end">
+            <ion-card class="card_favoritos">
+              <ion-thumbnail (click)="ver_plato (item.plato)">
+                <img [src]="item.plato.imagen">
+              </ion-thumbnail>
+              <div class="div_padding_top">
+                <h5 (click)="ver_plato (item.plato)" style="padding-right: 3px;">{{ item.plato.nombre }}</h5>
+                <p (click)="ver_plato (item.plato)" class="descripcion_card">{{ item.plato.resumen }}</p>
+                <div (click)="ver_plato (item.plato)">
+                  <div class="div_precio">
+                    <p class="p_precio">{{ item.plato.precio | currency:'S/. ' }}</p>
+                  </div>
+                  <div class="div_botonos">
+                    <ion-button class="btn_mas"><ion-icon name="chevron-forward-outline"></ion-icon></ion-button>
+                  </div>
+                </div>
+                <ion-button (click)="favorito (item)" class="btn_close ion-no-padding ion-no-margin"><ion-icon name="heart"></ion-icon></ion-button>
+              </div>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

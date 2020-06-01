@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 // Services
-import { NavController } from '@ionic/angular';
+import { NavController, IonSlides } from '@ionic/angular';
 
 @Component({
   selector: 'app-slides',
@@ -9,7 +9,8 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./slides.page.scss'],
 })
 export class SlidesPage implements OnInit {
-
+  @ViewChild(IonSlides) slides: IonSlides;
+  index: number = 0;
   constructor (
     public navController: NavController
   ) { }
@@ -19,5 +20,16 @@ export class SlidesPage implements OnInit {
 
   saltar () {
     this.navController.navigateRoot ('login');
+  }
+
+  slidesChanged () {
+    this.slides.getActiveIndex ().then (index => {
+      this.index = index;
+      console.log (index);
+    })
+  }
+
+  event (event) {
+    console.log (event);
   }
 }

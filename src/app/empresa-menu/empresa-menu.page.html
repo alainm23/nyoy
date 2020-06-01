@@ -5,7 +5,13 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-
+    
+    <ion-buttons slot="end">
+      <ion-button class="badge-button" routerLink="/pedido-resumen/" routerDirection="forward">
+        <ion-icon size="large" slot="icon-only" name="cart-outline"></ion-icon>
+        <ion-badge *ngIf="stock_validator.carrito_platos.size > 0" [class.badge-one]="stock_validator.carrito_platos.size < 10" [class.badge-two]="stock_validator.carrito_platos.size >= 10" color="danger">{{ stock_validator.carrito_platos.size }}</ion-badge>
+      </ion-button>
+    </ion-buttons>
     <ion-buttons slot="end">
       <ion-menu-button autoHide="false"></ion-menu-button>
     </ion-buttons>
@@ -49,7 +55,8 @@
           </ion-slide>
           <ion-slide *ngFor="let carta of empresa_seleccionada?.cartas; index as i">
             <div class="linea_blanco" *ngIf="i === carta_current_index"></div>
-            <p>{{ carta.nombre }}</p>
+            <p class="p_active_slider" *ngIf="i === carta_current_index">{{ carta.nombre }}</p>
+            <p *ngIf="i !== carta_current_index">{{ carta.nombre }}</p>
             <div class="div_triangulo" *ngIf="i === carta_current_index"></div>
           </ion-slide>
           <ion-slide>
@@ -106,10 +113,10 @@
               <ion-col size="12" class="col_bajar_entradas">
                 <p class="titulo_black">Quiero solo…</p>
                 <ion-row>
-                  <ion-col size="6" *ngFor="let menu of menus">
+                  <ion-col size="6" *ngFor="let menu of menus; index as i">
                     <ion-row>
                       <ion-col size="8">
-                        <p class="titulo_black">{{ menu.nombre }}</p>
+                        <p class="titulo_black"><span *ngIf="i%2 === 1">&nbsp;&nbsp;</span>{{ menu.nombre }}</p>
                       </ion-col>
                       <ion-col size="4">
                         <p class="titulo_book">({{ menu.precio | currency:'S/. ' }})</p>
@@ -219,7 +226,7 @@
                     <ion-button class="btn_mas"><ion-icon name="chevron-forward-outline"></ion-icon></ion-button>
                   </div>
                 </div>
-                <ion-button class="btn_close ion-no-padding ion-no-margin"><ion-icon name="heart-outline"></ion-icon></ion-button>
+                <!-- <ion-button class="btn_close ion-no-padding ion-no-margin"><ion-icon name="heart-outline"></ion-icon></ion-button> -->
               </div>
             </ion-card>
           </ion-col>
@@ -257,7 +264,6 @@
                     <ion-button class="btn_mas"><ion-icon name="chevron-forward-outline"></ion-icon></ion-button>
                   </div>
                 </div>
-                <ion-button class="btn_close ion-no-padding ion-no-margin"><ion-icon name="heart-outline"></ion-icon></ion-button>
               </div>
             </ion-card>
           </ion-col>

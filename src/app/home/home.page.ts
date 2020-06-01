@@ -24,7 +24,7 @@ export class HomePage implements OnInit {
         return i.habilitado;
       });
       
-      console.log (res);
+      console.log ('items', res);
     }); 
   }
 

@@ -23,7 +23,8 @@ export class DatabaseService {
   }
 
   get_usuario (id: string) {
-    return this.afs.collection ('Usuarios').doc (id).valueChanges ().pipe (first ()).toPromise ();
+    // return this.afs.collection ('Usuarios').doc (id).valueChanges ().pipe (first ()).toPromise ();
+    return this.afs.collection ('Usuarios').doc (id).valueChanges ();
   }
 
   update_usuario (id: string, data: any) {
@@ -32,6 +33,26 @@ export class DatabaseService {
 
   is_plato_favorito (user_id: string, plato_id: string) {
     return this.afs.collection ('Usuarios').doc (user_id).collection ('Favoritos').doc (plato_id).valueChanges ();
+  }
+
+  get_favoritos_by_user (user_id: string) {
+    const collection = this.afs.collection ('Usuarios').doc (user_id).collection ('Favoritos');
+
+    return collection.snapshotChanges ().pipe (map (refReferencias => {
+      if (refReferencias.length > 0) {
+        return refReferencias.map (refReferencia => {
+          const data: any = refReferencia.payload.doc.data();
+          data.es_favorito = true;
+          return this._get_plato_by_id (data.id).pipe (map (plato => Object.assign ({}, { data, plato })));
+        });
+      }
+    })).mergeMap (observables => {
+      if (observables) {
+        return combineLatest(observables);
+      } else {
+        return of([]);
+      }
+    });
   }
 
   get_usuario_direcciones (user_id: string) {
@@ -96,6 +117,10 @@ export class DatabaseService {
 
   get_empresas_stock () {
     return this.afs.collection ('Empresa_Insumos').valueChanges ();
+  }
+
+  _get_plato_by_id (id: string) {
+    return this.afs.collection ('Platos').doc (id).valueChanges ();
   }
 
   get_plato_by_id (id: string) {
@@ -199,5 +224,25 @@ export class DatabaseService {
         return of([]);
       }
     });
+  }
+
+  async add_pedido (data: any) {
+    var batch = this.afs.firestore.batch ();
+
+    batch.set (
+      this.afs.collection ('Pedidos_Platos_Dia').doc (data.id).ref,
+      data
+    );
+
+    batch.set (
+      this.afs.collection ('Usuarios').doc (data.usuario_id).collection ('Pedidos').doc (data.id).ref,
+      {
+        fecha: new Date ().toISOString (),
+        estado: 'pedido',
+        monto_total: data.monto_total
+      }
+    );
+
+    await batch.commit ();
   }
 }

@@ -149,6 +149,7 @@ export class PromocionDescripcionPage implements OnInit {
       request = {
         id: this.promocion_id,
         tipo: 'promocion',
+        empresa_id: this.promocion.empresa_id,
         promocion_tipo: this.promocion.tipo,
         descripcion: this.promocion.descripcion,
         cantidad: this.cantidad,
@@ -161,10 +162,16 @@ export class PromocionDescripcionPage implements OnInit {
         insumos: insumos
       }
     }
-    
+
+    console.log (request);
+
     this.stock_validator.agregar_carrito_promocion (request, this.comentario);
 
     this.comentario = '';
     this.cantidad = 0;
+  }
+
+  back () {
+    this.navCtrl.back ();
   }
 }

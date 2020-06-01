@@ -16,7 +16,7 @@
           </ion-row>
         </ion-col>
         <ion-col size="10" size-sm="9" size-md="8" size-lg="7" class="bajar_col">
-          <ion-input type="text" placeholder="Nombre de usuario" formControlName="nombre"></ion-input>
+          <ion-input type="text" placeholder="Nombres y Apellidos" formControlName="nombre"></ion-input>
         </ion-col>
         <ion-col size="10" size-sm="9" size-md="8" size-lg="7" class="bajar_col">
           <ion-input type="email" placeholder="Correo electrónico" formControlName="email"></ion-input>
@@ -29,10 +29,10 @@
         </ion-col>
         <ion-col size="10" size-sm="9" size-md="8" size-lg="7" class="ion-padding-start ion-padding-end col_flex bajar_col">
           <ion-checkbox formControlName="terms_conditions"></ion-checkbox>
-          <ion-label class="ion-margin-start">Acepto los términos delservicio</ion-label>
+          <ion-label class="ion-margin-start">Acepto los términos del servicio</ion-label>
         </ion-col>
         <ion-col size="10" size-sm="9" size-md="8" size-lg="7">
-          <ion-button [disabled]="!form.valid" (click)="onSubmit ()" class="btn_entrar ion-no-margin">Entrar</ion-button>
+          <ion-button [disabled]="!form.valid" (click)="onSubmit ()" class="btn_entrar ion-no-margin">Registrarme</ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>
