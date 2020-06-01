@@ -6,21 +6,32 @@
           <ion-col size="11" class="ion-no-padding">
             <ion-icon name="close-outline" auto-hide="false" (click)="open_menu ()" class="close_menu"></ion-icon>
           </ion-col>
-          <ion-col size="10" size-sm="7" size-md="10" size-lg="11">
-            <ion-card class="card_menu">
-              <ion-thumbnail>
-                <img src="assets/img/156c78340fd4ecb1fd893dbd55e1b466.png">
-              </ion-thumbnail>
-              <p class="p_nombre">Victor Smeersburg</p>
-            </ion-card>
+          <ion-col size="10" size-sm="7" size-md="10" size-lg="11" class="ion-text-center">
+            <img src="assets/img/Componente5–1.png" class="img_menu">
           </ion-col>
           <ion-col size="10" size-sm="7" size-md="10" size-lg="11">
+            <ion-card class="card_menu ion-text-center">
+              <!--<ion-thumbnail>
+                <img src="assets/img/156c78340fd4ecb1fd893dbd55e1b466.png">
+              </ion-thumbnail>-->
+              <p class="p_nombre">Victor Smeersburg Gonzalez Ramirez</p>
+            </ion-card>
+          </ion-col>
+          <!--<ion-col size="10" size-sm="7" size-md="10" size-lg="11">
             <ion-card class="card_buscar">
               <ion-searchbar placeholder="Buscar" mode="ios"></ion-searchbar>
             </ion-card>
-          </ion-col>
+          </ion-col>-->
           <ion-col size="12" size-sm="7" size-md="10" size-lg="11" style="padding-left: 0px;">
             <ion-list lines="none" class="border_bottom">
+              <ion-menu-toggle auto-hide="false" >
+                <ion-item (click)="go_page ('historial-de-pedido')">
+                  <ion-icon name="home-outline" class="ion-margin-end"></ion-icon>
+                  <ion-label class="color_menu">Inicio</ion-label>
+                </ion-item>
+              </ion-menu-toggle>
+
+              <div></div>
               <ion-menu-toggle auto-hide="false" >
                 <ion-item (click)="go_page ('historial-de-pedido')">
                   <div class="div_verde"></div>
@@ -41,7 +52,7 @@
               <ion-menu-toggle auto-hide="false" >
                 <ion-item (click)="go_page ('carrito-mercado')">
                   <img src="assets/img/Grupo49.png" class="ion-margin-end img_start">
-                  <ion-label class="color_menu">Mi Lista de compras</ion-label>
+                  <ion-label class="color_menu">Mi Lista de compras (Via Mart)</ion-label>
                 </ion-item>
               </ion-menu-toggle>
       
@@ -54,21 +65,13 @@
               </ion-menu-toggle>
       
               <div></div>
-              <ion-menu-toggle auto-hide="false" >
-                <ion-item (click)="go_page ('home')">
-                  <img src="assets/img/Grupo52.png" class="ion-margin-end img_start">
-                  <ion-label class="color_menu">Preferencias</ion-label>
-                </ion-item>
-              </ion-menu-toggle>
-
-              <ion-menu-toggle auto-hide="false" >
+              <!--<ion-menu-toggle auto-hide="false" >
                 <ion-item (click)="limpiar_cache ()">
                   <img src="assets/img/Grupo52.png" class="ion-margin-end img_start">
                   <ion-label class="color_menu">Limpiar cache</ion-label>
                 </ion-item>
-              </ion-menu-toggle>
-      
-              <div></div>
+              </ion-menu-toggle>-->
+
               <ion-menu-toggle auto-hide="false" >
                 <ion-item (click)="go_page ('historial-de-pedido')">
                   <!--<img src="assets/img/Grupo52.png" class="ion-margin-end">-->

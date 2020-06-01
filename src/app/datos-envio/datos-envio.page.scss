@@ -120,17 +120,28 @@ ion-grid.margin_top
 ion-button.btn_iconos
 {
     width: 100%;
-    --background: #ffffff;
     --box-shadow: none;
     --background-activated: #7BED8D;
     --color-activated:#ffffff;
     --border-radius: 36px;
-    ion-icon
+    
+}
+ion-button.desactive
+{
+    --background: #ffffff;
+    ion-icon.desactive
     {
-        color: #7BED8D;
+        color: #758b9f;
     }
 }
-
+ion-button.active
+{
+    --background: #7BED8D;
+    ion-icon.active
+    {
+        color: #ffffff;
+    }
+}
 .card_list
 {
     border: 1px solid #FDFDFD;

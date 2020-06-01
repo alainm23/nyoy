@@ -107,15 +107,15 @@ ion-card
         background-color: #ffffff;
         ion-thumbnail
         {
-            width: 25%;
-            height: 55px;
+            width: 65px;
+            height: 65px;
             --border-radius: 9px;
             box-shadow: -3px 3px 6px #0000006E;
             img
             {
                 width: 100%;
                 height: 100%;
-                object-fit: fill;
+                object-fit: cover;
             }
         }
         div.div_padding_top
@@ -134,6 +134,7 @@ ion-card
                 display: -webkit-box;
                 -webkit-line-clamp: 1;
                 -webkit-box-orient: vertical;
+                margin-top: -2px;
                 .span_number
                 {
                     color: #90B231;
@@ -349,9 +350,12 @@ ion-footer
 }
 .bajar_precio
 {
-    margin-top: 5px;
+    margin-top: 10px;
 }
-
+.paddin_leftrught
+{
+    padding: 0px 10px;
+}
 @media(min-width: 640px)
 {
     ion-card.card_menu

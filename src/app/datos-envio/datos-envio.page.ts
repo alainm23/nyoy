@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 declare var google: any;
+import { MenuController, NavController } from '@ionic/angular'; 
 
 // Forms
 import { FormGroup , FormControl, Validators } from '@angular/forms';
@@ -22,7 +23,9 @@ export class DatosEnvioPage implements OnInit {
   longitude: number = 0;
   constructor (
     private geolocation: Geolocation,
-    private auth: AuthService
+    private auth: AuthService,
+    private navCtrl: NavController,
+    private menu:MenuController
   ) { }
 
   ngOnInit() {
@@ -97,5 +100,10 @@ export class DatosEnvioPage implements OnInit {
   current_location () {
     this.map.setZoom (17);
     this.map.panTo (new google.maps.LatLng (this.latitude, this.longitude));
+  }
+
+  open_menu () {
+    this.menu.enable (true, 'first');
+    this.menu.open ('first');
   }
 }
