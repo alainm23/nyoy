@@ -11,10 +11,10 @@
           </ion-col>
           <ion-col size="10" size-sm="7" size-md="10" size-lg="11">
             <ion-card class="card_menu ion-text-center">
-              <!--<ion-thumbnail>
-                <img src="assets/img/156c78340fd4ecb1fd893dbd55e1b466.png">
-              </ion-thumbnail>-->
-              <p class="p_nombre">Victor Smeersburg Gonzalez Ramirez</p>
+             <ion-thumbnail>
+              <img src="assets/img/156c78340fd4ecb1fd893dbd55e1b466.png">
+             </ion-thumbnail>
+              <p class="p_nombre">{{ auth?.usuario.nombre }}</p>
             </ion-card>
           </ion-col>
           <!--<ion-col size="10" size-sm="7" size-md="10" size-lg="11">
@@ -33,7 +33,7 @@
 
               <div></div>
               <ion-menu-toggle auto-hide="false" >
-                <ion-item (click)="go_page ('historial-de-pedido')">
+                <ion-item (click)="go_page ('mi-cuenta')">
                   <div class="div_verde"></div>
                   <img src="assets/img/Ycb9IP.tif.png" class="ion-margin-end img_start">
                   <ion-label class="color_menu">Mi cuenta</ion-label>

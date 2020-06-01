@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { EventsService } from '../services/events.service';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 declare var Culqi: any;
 
 @Injectable({
@@ -8,7 +9,7 @@ declare var Culqi: any;
 })
 export class PagoService {
 
-  constructor (private events: EventsService) {
+  constructor (private events: EventsService, public http: HttpClient) {
     document.addEventListener ('payment_event', (token: any) => {
       let token_id = token.detail;
       this.events.publish_token_id (token_id);
@@ -33,5 +34,15 @@ export class PagoService {
 
   open () {
     return Culqi.open ();
+  }
+
+  procesarpagonyoy (token: string, monto: number, correo: string, moneda: string) {
+    let url = 'http://api.ceradentperu.com/api/procesarpagonyoy/';
+    url += token + "/";
+    url += monto + "/";
+    url += correo + "/";
+    url += moneda;
+
+    return this.http.get (url);
   }
 }

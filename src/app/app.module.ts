@@ -17,6 +17,7 @@ import { environment } from '../environments/environment';
 
 // Forms
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 // Storage
 import { IonicStorageModule } from '@ionic/storage';
@@ -26,6 +27,8 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Facebook } from '@ionic-native/facebook/ngx';
 
+// Modals
+import { MapaSelectPageModule } from './modals/mapa-select/mapa-select.module';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -38,7 +41,9 @@ import { Facebook } from '@ionic-native/facebook/ngx';
     AngularFireAuthModule,
     FormsModule,
     ReactiveFormsModule,
-    IonicStorageModule.forRoot ()
+    IonicStorageModule.forRoot (),
+    HttpClientModule,
+    MapaSelectPageModule
   ],
   providers: [
     StatusBar,

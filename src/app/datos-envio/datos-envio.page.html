@@ -1,15 +1,19 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content>
   <ion-card class="ion-no-margin card_menu">
-    <div style="width: 100%;">
-      <ion-button class="btn_menu">
-        <ion-icon name="arrow-back-outline"></ion-icon>
-      </ion-button>
-      <ion-button class="btn_menu_izquierdo" (click)="open_menu ()">
-        <ion-icon name="menu-outline"></ion-icon>
-      </ion-button>
-    </div>
     <h1 class="ion-text-center">¿A dónde lo llevamos?</h1>
-    <ion-grid class="grid_card">
+    <!-- <ion-grid class="grid_card">
       <ion-row class="ion-justify-content-center">
         <ion-col size="3" size-sm="2">
           <ion-button class="btn_iconos active ion-no-margin"><ion-icon name="location-outline" class="active"></ion-icon></ion-button>
@@ -21,40 +25,70 @@
           <ion-button class="btn_iconos desactive ion-no-margin"><ion-icon name="card-outline" class="active desactive"></ion-icon></ion-button>
         </ion-col>
       </ion-row>
-    </ion-grid>
+    </ion-grid> -->
   </ion-card>
 
   <form [formGroup]="form">
     <ion-grid class="margin_top">
       <ion-row class="ion-justify-content-center">
         <ion-col size="11" size-sm="9" size-md="8" size-lg="7">
+          <ion-label>Nombre del receptor</ion-label>
           <ion-input  formControlName="nombre_receptor" placeholder="Nombre del receptor"></ion-input>
         </ion-col>
+
         <ion-col size="11" size-sm="9" size-md="8" size-lg="7">
-          <ion-input formControlName="direccion" placeholder="Ingresa la dirección"></ion-input>
-        </ion-col>
-        <ion-col size="11" size-sm="9" size-md="8" size-lg="7">
-          <ion-input formControlName="referencia" placeholder="Referencia"></ion-input>
-        </ion-col>
-        <ion-col size="11" size-sm="9" size-md="8" size-lg="7">
+          <ion-label>Telefono</ion-label>
           <ion-input formControlName="telefono" placeholder="Telefono"></ion-input>
         </ion-col>
-        <ion-col size="11" size-sm="9" size-md="8" size-lg="7">
+
+        <ion-col *ngIf="direcciones.length <= 0" class="ion-text-center">
+          <ion-button (click)="marcar_ubicacion ()">
+            <ng-container *ngIf="mapa_seleccionado">
+              Editar mi ubicacion
+            </ng-container>
+            <ng-container *ngIf="!mapa_seleccionado">
+              Marcar mi ubicacion
+            </ng-container>
+          </ion-button>
+        </ion-col>
+        <ion-col *ngIf="direcciones.length > 0" size="11" size-sm="9" size-md="8" size-lg="7">
+          <ion-select  formControlName="_direccion" placeholder="Mis ubicaciones" interface="popover" (ionChange)="select_changed ($event.detail.value)">
+            <ion-select-option *ngFor="let item of direcciones" [value]="item">
+              {{ item.nombre }}
+            </ion-select-option>
+
+            <ion-select-option value='nuevo'>
+              Agregar nueva direccion
+            </ion-select-option>
+          </ion-select>
+        </ion-col>
+        <ng-container *ngIf="direcciones.length > 0 || mapa_seleccionado">
+          <ion-col size="11" size-sm="9" size-md="8" size-lg="7">
+            <ion-label>Dirección</ion-label>
+            <ion-input formControlName="direccion" placeholder="Ingresa la dirección"></ion-input>
+          </ion-col>
+          <ion-col size="11" size-sm="9" size-md="8" size-lg="7">
+            <ion-label>Referencia</ion-label>
+            <ion-input formControlName="referencia" placeholder="Referencia"></ion-input>
+          </ion-col>
+        </ng-container>
+
+        <!-- <ion-col size="11" size-sm="9" size-md="8" size-lg="7">
           <ion-card class="ion-no-margin card_mapa">
             <ion-card id="map-card" class="map-class2 ion-no-padding ion-no-margin">
               <div #map id="map"></div>
             </ion-card>
             <ion-button class="btn_ubicacion" (click)="current_location ()">Usar ubicación actual</ion-button>
           </ion-card>
-        </ion-col>
-        <ion-col size="10" size-sm="8" size-md="7" size-lg="6" class="ion-margin-top">
-          <ion-button class="btn_listo" [disabled]="!form.valid">¡Listo!</ion-button>
-        </ion-col>
+        </ion-col> -->
+        <!-- <ion-col size="10" size-sm="8" size-md="7" size-lg="6" class="ion-margin-top">
+          <ion-button class="btn_listo" [disabled]="!form.valid" (click)="go_resumen ()">¡Listo!</ion-button>
+        </ion-col> -->
       </ion-row>
     </ion-grid>
   </form>
 
-  <ion-grid class="margin_top">
+  <!-- <ion-grid class="margin_top">
     <ion-row class="ion-justify-content-center">
       <ion-col size="11" size-sm="8" size-md="8" size-lg="7">
         <p class="p_subtitulos ion-no-margin">Resumen</p>
@@ -100,5 +134,13 @@
         <ion-button class="btn_listo">Adelante</ion-button>
       </ion-col>
     </ion-row>
-  </ion-grid>
+  </ion-grid> -->
 </ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-row>
+    <ion-col size="10" offset="1" size-sm="8" offset-sm="2" size-md="7" size-lg="6" class="ion-margin-bottom">
+      <ion-button class="btn_listo" [disabled]="!form.valid" (click)="go_resumen ()">¡Listo!</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

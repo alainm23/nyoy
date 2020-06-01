@@ -47,10 +47,10 @@
         <ion-slides #slideWithNav3 [ngStyle]="{'background': empresa_seleccionada?.color}" pager="false" [options]="slideOptsOne" class="slider_mamachela" (ionSlideDidChange)="slidesCartaChanged ($event)">
           <ion-slide>
           </ion-slide>
-          <ion-slide *ngFor="let carta of empresa_seleccionada?.cartas">
-            <div class="linea_blanco" *ngIf="false"></div>
+          <ion-slide *ngFor="let carta of empresa_seleccionada?.cartas; index as i">
+            <div class="linea_blanco" *ngIf="i === carta_current_index"></div>
             <p>{{ carta.nombre }}</p>
-            <div class="div_triangulo" *ngIf="false"></div>
+            <div class="div_triangulo" *ngIf="i === carta_current_index"></div>
           </ion-slide>
           <ion-slide>
           </ion-slide>

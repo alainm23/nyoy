@@ -6,6 +6,7 @@ import { MenuController, NavController, PopoverController, LoadingController } f
 import { DatabaseService } from '../services/database.service';
 import { ActivatedRoute } from '@angular/router';
 import { StockValidatorService } from '../services/stock-validator.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-plato-descripcion',
@@ -21,6 +22,7 @@ export class PlatoDescripcionPage implements OnInit {
   extras: any [] = [];
   form: FormGroup;
   cantidad: number = 0;
+  es_favorito: boolean = false;
   constructor (
     public menu:MenuController,
     public navCtrl: NavController,
@@ -28,7 +30,8 @@ export class PlatoDescripcionPage implements OnInit {
     public database: DatabaseService,
     private route: ActivatedRoute,
     public stock_validator: StockValidatorService,
-    public loadingController: LoadingController
+    public loadingController: LoadingController,
+    public auth: AuthService
   ) { }
 
   async ngOnInit () {
@@ -54,6 +57,16 @@ export class PlatoDescripcionPage implements OnInit {
 
         await loading.dismiss ();
       });
+
+      this.database.is_plato_favorito (this.auth.usuario.id, this.route.snapshot.paramMap.get ('id')).subscribe ((favorito) => {
+        if (favorito === undefined) {
+          this.es_favorito = false;
+        } else {
+          this.es_favorito = true;
+        }
+  
+        console.log (this.es_favorito);
+      });
     });
   }
 
@@ -75,6 +88,12 @@ export class PlatoDescripcionPage implements OnInit {
   }
 
   go_resumen () {
+    this.stock_validator.agregar_carrito (this.plato.data, this.plato.insumos, this.cantidad, this.extras, this.form.value.comentario);
+    this.form.reset ();
+    this.cantidad = 0;
+    this.extras.forEach ((e: any) => {
+      e.cantidad = 0;
+    });
     this.navCtrl.navigateForward ('pedido-resumen');
   }
 
@@ -85,6 +104,7 @@ export class PlatoDescripcionPage implements OnInit {
     this.extras.forEach ((e: any) => {
       e.cantidad = 0;
     });
+    this.navCtrl.back ();
   }
 
   update_extra_cantidad (item: any, tipo: number) {
@@ -98,5 +118,9 @@ export class PlatoDescripcionPage implements OnInit {
         item.cantidad = 0;
       }
     }
+  }
+
+  favorito () {
+    this.database.set_plato_favorito (this.auth.usuario.id, this.route.snapshot.paramMap.get ('id'), !this.es_favorito);
   }
 }

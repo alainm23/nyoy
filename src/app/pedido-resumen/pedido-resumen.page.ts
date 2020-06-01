@@ -16,7 +16,7 @@ import { EventsService } from '../services/events.service';
 })
 export class PedidoResumenPage implements OnInit {
   subscribe: any = null;
-  tipo_entrega: number = 0;
+  tipo_entrega: string = '0';
   constructor (
     public menu:MenuController,
     public navCtrl: NavController,
@@ -41,21 +41,8 @@ export class PedidoResumenPage implements OnInit {
     loading.dismiss ().then (() => {
       this.pago.initCulqi ();
     });
-
-    if (this.subscribe == null) {
-      this.subscribe = this.events.get_token_id ().subscribe ((token_id: string) => {
-        console.log (token_id);
-      });
-    }
   }
-
-  ionViewDidLeave () {
-    if (this.subscribe !== null) {
-      this.subscribe.unsubscribe ();
-      this.subscribe = null;
-    }
-  }
-
+  
   getKeys (map: any){
     return Array.from (map.keys ());
   }
@@ -120,22 +107,12 @@ export class PedidoResumenPage implements OnInit {
   }
 
   async openCulqi (list: any []) {
-    if (this.tipo_entrega === 0) {
+    console.log (this.tipo_entrega);
+
+    if (this.tipo_entrega == '0') {
       this.navCtrl.navigateForward ('datos-envio');
     } else {
 
     }
-    // let mount: number = this.get_precio_total (list);
-    // this.pago.cfgFormulario ("Pago por servicio", mount * 100);
-
-    // const loading = await this.loadingController.create({
-    //   message: 'Espere un momento'
-    // });
-
-    // loading.present ();
-
-    // loading.dismiss ().then (async () => {
-    //   await this.pago.open ();
-    // });
   }
 }

@@ -3,9 +3,11 @@ import { Component } from '@angular/core';
 import { Platform, MenuController, NavController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { AuthService } from './services/auth.service';
 
 // Services
 import { StockValidatorService } from './services/stock-validator.service';
+import * as moment from 'moment';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -19,6 +21,7 @@ export class AppComponent {
     private stock_validator: StockValidatorService,
     private menu: MenuController,
     public navController: NavController,
+    public auth: AuthService
   ) {
     this.initializeApp();
   }
@@ -29,6 +32,7 @@ export class AppComponent {
       this.splashScreen.hide();
 
       this.stock_validator.init ();
+      moment.locale ('es');
     });
   }
 

@@ -6,6 +6,7 @@ import { DatabaseService } from "../services/database.service";
 import { Router } from '@angular/router';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
+import { Storage } from '@ionic/storage';
 
 import { first } from 'rxjs/operators';
 import { Observable, Subject } from 'rxjs';
@@ -15,31 +16,37 @@ import * as firebase from 'firebase/app';
   providedIn: 'root'
 })
 export class AuthService {
-  usuario: any;
-  usuario_subscribe: any = null;
+  usuario: any = {
+    id: '',
+    nombre: '',
+    direccion: '',
+    telefono: ''
+  };
   constructor (
     public afAuth: AngularFireAuth,
     public router: Router,
     public database: DatabaseService,
     public navController: NavController,
     public loadingController: LoadingController,
+    public storage: Storage,
     private googlePlus: GooglePlus,
     private fb: Facebook,
     public platform: Platform) {
-      this.afAuth.authState.subscribe ((user: firebase.User) => {
+      this.afAuth.authState.subscribe (async (user: firebase.User) => {
         if (user) {
-          if (this.usuario_subscribe === null) {
-            this.usuario_subscribe = this.database.get_usuario (user.uid).subscribe ((res: any) => {
-              this.usuario = res;
-              console.log (res);
-            });
-          }
+          this.storage.set ('usuario_id', user.uid);
+          this.usuario = await this.database.get_usuario (user.uid);
+            console.log (this.usuario);
         } else {
-          this.usuario_subscribe.unsubscribe ();
-          this.usuario_subscribe = null;
-          this.usuario = null;
+          this.storage.set ('usuario_id', '');
+          this.usuario = {
+            id: '',
+            nombre: '',
+            direccion: '',
+            telefono: ''
+          }
         }
-      })
+      });
     }
 
   async isLogin () {

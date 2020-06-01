@@ -7,6 +7,10 @@
     src : url('/assets/font/Avenir-Black.otf')
 }
 @font-face{
+    font-family: AvenirBook;
+    src : url('/assets/font/Avenir Book.ttf')
+}
+@font-face{
     font-family: Acumin;
     src : url('/assets/font/Acumin-RPro.otf')
 }
@@ -25,11 +29,6 @@ ion-card.card_menu
         font-size: 16px;
         color: #748A9D;
         font-family: Acumin;
-    }
-    img
-    {
-        width: 35%;
-        margin-left: 32.5%;
     }
 }
 .btn_menu
@@ -61,42 +60,6 @@ ion-card.card_menu
         font-size: 1.5625rem;
     }
 }
-ion-input
-{
-    --color: #748A9D;
-    --background:#F0F4F8;
-    --placeholder-color:#A6BCD0;
-    font-family: Acumin;
-    --padding-top: 15px;
-    --padding-bottom: 15px;
-    border-radius: 8px;
-    --padding-start: 20px;
-    --padding-end: 20px;
-}
-.card_mapa
-{
-    position: relative;
-    height: 250px;
-    ion-thumbnail
-    {
-        width: 100%;
-        height: 100%;
-    }
-    .btn_ubicacion
-    {
-        position: absolute;
-        z-index: 99999;
-        bottom: 4px;
-        right: 4px;
-        font-size: 10px;
-        height: 27px;
-        --background:#3863A4;
-        --background-activated:#3863A4;
-        --border-radius: 26px;
-        font-family: HelveticaNeueRegular;
-        font-size: 12px;
-    }
-}
 .btn_listo
 {
     --background:#7BED8D;
@@ -111,36 +74,6 @@ ion-input
 ion-grid.margin_top
 {
     margin-top: 10px;
-}
-.grid_card
-{
-    padding-left: 16px;
-    padding-right: 16px;
-}
-ion-button.btn_iconos
-{
-    width: 100%;
-    --box-shadow: none;
-    --background-activated: #7BED8D;
-    --color-activated:#ffffff;
-    --border-radius: 36px;
-    
-}
-ion-button.desactive
-{
-    --background: #ffffff;
-    ion-icon.desactive
-    {
-        color: #758b9f;
-    }
-}
-ion-button.active
-{
-    --background: #7BED8D;
-    ion-icon.active
-    {
-        color: #ffffff;
-    }
 }
 .card_list
 {
@@ -195,7 +128,8 @@ ion-item
     --padding-bottom: 10px;
     ion-radio
     {
-        --border-radius: 4px;
+        --border-radius: 50%;
+        border-radius: 50%;
         border: 1px solid #707070;
         --inner-border-radius: 4px;
         --color-checked: #E61D01;
@@ -217,7 +151,6 @@ ion-item
     color: #A6BCD0;
     font-family: Acumin;
 }
-
 @media(min-width: 640px)
 {
     ion-card.card_menu
@@ -278,31 +211,4 @@ ion-item
             margin-left: 40%;
         }
     }
-}
-
-.map-select {
-    height: 100%;
-    width: 100%;
-}
-
-.map-class2 {
-    height: 100%;
-    width: 100%;
-}
-
-#map {
-    height: 100%;
-    width: 100%;
-}
-#map:after {
-    width: 22px;
-    height: 40px;
-    display: block;
-    content: ' ';
-    position: absolute;
-    top: 50%; left: 50%;
-    margin: -40px 0 0 -11px;
-    background: url('https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi_hdpi.png');
-    background-size: 22px 40px;
-    pointer-events: none;
 }

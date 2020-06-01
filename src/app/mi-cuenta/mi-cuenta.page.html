@@ -1,0 +1,114 @@
+<ion-content>
+  <ion-card class="ion-no-margin card_menu">
+    <div style="width: 100%;">
+      <ion-button class="btn_menu" (click)="back ()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </div>
+    <h1 class="ion-text-center">Mi cuenta</h1>
+  </ion-card>
+  <ion-grid>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="11" size-sm="9" size-md="7" size-lg="7" size-xl="9" >
+        <p class="color_74 ion-no-margin">Tu información</p>
+        <ion-card class="card_informacion">
+          <ion-row>
+            <ion-col size="12" class="margin_bottom">
+              <ion-row>
+                <ion-col size="10">
+                  <p class="color_74 ion-no-margin">Nombre Completo</p>
+                  <p class="color_a6 ion-no-margin">{{ auth.usuario.nombre }}</p>
+                </ion-col>
+                <ion-col size="2" class="ion-text-end">
+                  <ion-icon name="create-outline" class="color_icono_editar" (click)="editar ('nombre')"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+
+            <ion-col size="12" class="margin_bottom">
+              <ion-row>
+                <ion-col size="10">
+                  <p class="color_74 ion-no-margin">Telefono</p>
+                  <p class="color_a6 ion-no-margin">{{ auth.usuario.telefono }}</p>
+                </ion-col>
+                <ion-col size="2" class="ion-text-end">
+                  <ion-icon name="create-outline" class="color_icono_editar" (click)="editar ('telefono')"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+
+            <ion-col size="12" class="margin_bottom">
+              <ion-row>
+                <ion-col size="10">
+                  <p class="color_74 ion-no-margin">Mis direcciones</p>
+                  <p class="color_a6 ion-no-margin">
+                    <span style="font-weight: bold;">Casa:</span>
+                    <span>Av. de la Cultura 1902, Cus…</span>
+                  </p>
+                  <p class="color_a6 ion-no-margin">
+                    <span style="font-weight: bold;">Oficina:</span>
+                    <span>Av. de la Cultura 1902, Cus…</span>
+                  </p>
+                  <p class="color_a6 ion-no-margin">
+                    <span style="font-weight: bold;">Mamá:</span>
+                    <span>Av. de la Cultura 1902, Cus…</span>
+                  </p>
+                  <p class="color_a6 ion-no-margin">
+                    <span style="font-weight: bold;">Otro dir:</span>
+                    <span>Av. de la Cultura 1902, Cus…</span>
+                  </p>
+                </ion-col>
+                <ion-col size="2" class="ion-text-end">
+                  <ion-icon name="create-outline" class="color_icono_editar"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+            
+            <!-- <ion-col size="12" class="margin_bottom">
+              <ion-row>
+                <ion-col size="10">
+                  <p class="color_74 ion-no-margin">Contraseña</p>
+                  <p class="color_a6 ion-no-margin">**********</p>
+                </ion-col>
+                <ion-col size="2" class="ion-text-end">
+                  <ion-icon name="create-outline" class="color_icono_editar"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </ion-col> -->
+          </ion-row>
+        </ion-card>
+      </ion-col>
+      <!-- <ion-col size="11" size-sm="9" size-md="7" size-lg="7" size-xl="9" >
+        <p class="color_74 ion-no-margin">Tus preferencias</p>
+        <ion-card class="card_informacion">
+          <ion-row>
+            <ion-col size="12" class="margin_bottom">
+              <ion-row>
+                <ion-col size="8" size-sm="10" size-lg="10">
+                  <p class="color_a6 ion-no-margin">Notificaciones</p>
+                </ion-col>
+                <ion-col size="4" class="ion-text-center" size-sm="2" size-lg="2">
+                  <ion-toggle mode="ios">
+                    <ion-icon name="close-outline" style="color: #ffffff;"></ion-icon>
+                  </ion-toggle>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+            <ion-col size="12" class="margin_bottom">
+              <ion-row>
+                <ion-col size="8" size-sm="10" size-lg="10">
+                  <p class="color_a6 ion-no-margin">Newsletter</p>
+                </ion-col>
+                <ion-col size="4" class="ion-text-center" size-sm="2" size-lg="2">
+                  <ion-toggle mode="ios">
+                    <ion-icon name="close-outline" style="color: #ffffff;"></ion-icon>
+                  </ion-toggle>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </ion-col> -->
+    </ion-row>
+  </ion-grid>
+</ion-content>
