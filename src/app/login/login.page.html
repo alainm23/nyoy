@@ -15,8 +15,8 @@
         <ion-col size="10" size-sm="9" size-md="8" size-lg="7" class="bajar_col">
           <ion-input type="password" formControlName="password" placeholder="Contraseña"></ion-input>
         </ion-col>
-        <ion-col size="10" size-sm="9" size-md="8" size-lg="7" class="bajar_col" (click)="recuperar_cuenta ()">
-          Olvidaste contraseña
+        <ion-col size="10" size-sm="9" size-md="8" size-lg="7" class="bajar_col ion-text-center" (click)="recuperar_cuenta ()">
+          <p>Olvidaste contraseña</p> 
         </ion-col>
         <ion-col size="10" size-sm="9" size-md="8" size-lg="7" class="bajar_col">
           <ion-button class="btn_entrar ion-no-margin" [disabled]="!form.valid" (click)="submit ()">Entrar</ion-button>
