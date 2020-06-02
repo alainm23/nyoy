@@ -96,6 +96,8 @@ export class StockValidatorService {
     if (this.carrito_menus_dia === null) {
       this.carrito_menus_dia = new Map <string, number> ();
     }
+
+    console.log (this.carrito_platos);
   }
 
   check_valid (plato: any, insumos: any [], cantidad: number) {

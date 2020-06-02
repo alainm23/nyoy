@@ -169,6 +169,7 @@ export class PromocionDescripcionPage implements OnInit {
 
     this.comentario = '';
     this.cantidad = 0;
+    this.navCtrl.back ();
   }
 
   back () {

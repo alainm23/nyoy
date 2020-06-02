@@ -138,7 +138,6 @@ export class EmpresaMenuPage implements OnInit {
             this.carta_seleccionada.platos = res;
             this.loading_platos = false;
             this.check_cantidad_platos ();
-            console.log ('Platoooos', res);
           });
         } else {
           this.loading_platos = false;
@@ -149,7 +148,7 @@ export class EmpresaMenuPage implements OnInit {
           this.loading_platos = true;
           this.database.get_promociones_by_carta (this.carta_seleccionada.id).subscribe ((res: any) => {
             this.carta_seleccionada.promociones = res;
-            console.log (res);
+            console.log ('proocomio', res);
             this.loading_platos = false;
           });
         }
@@ -382,5 +381,25 @@ export class EmpresaMenuPage implements OnInit {
 
   ver_promocion (promocion: any) {
     this.navCtrl.navigateForward (['promocion-descripcion', promocion.id]);
+  }
+
+  get_imagen (promocion: any) {
+    let imagen: string = '';
+    for (let i = 0; i < promocion.platos.length; i++) {
+      if (promocion.platos [i].image !== '') {
+        imagen = promocion.platos [i].imagen;
+        break;
+      }
+    }
+
+    if (imagen !== '') {
+      imagen = 'assets/img/919ffdf51c75e5a3222fd86b8afeb63e.png';
+    }
+
+    return imagen;
+  }
+
+  slideTo (i: number) {
+    this.slides_carta.slideTo (i);
   }
 }

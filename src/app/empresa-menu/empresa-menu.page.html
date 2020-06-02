@@ -53,12 +53,14 @@
         <ion-slides #slideWithNav3 [ngStyle]="{'background': empresa_seleccionada?.color}" pager="false" [options]="slideOptsOne" class="slider_mamachela" (ionSlideDidChange)="slidesCartaChanged ($event)">
           <ion-slide>
           </ion-slide>
-          <ion-slide *ngFor="let carta of empresa_seleccionada?.cartas; index as i">
-            <div class="linea_blanco" *ngIf="i === carta_current_index"></div>
-            <p class="p_active_slider" *ngIf="i === carta_current_index">{{ carta.nombre }}</p>
-            <p *ngIf="i !== carta_current_index">{{ carta.nombre }}</p>
-            <div class="div_triangulo" *ngIf="i === carta_current_index"></div>
-          </ion-slide>
+          <ng-container *ngFor="let carta of empresa_seleccionada?.cartas; index as i">
+            <ion-slide (click)="slideTo (i)">
+              <div class="linea_blanco" *ngIf="i === carta_current_index"></div>
+              <p class="p_active_slider" *ngIf="i === carta_current_index">{{ carta.nombre }}</p>
+              <p *ngIf="i !== carta_current_index">{{ carta.nombre }}</p>
+              <div class="div_triangulo" *ngIf="i === carta_current_index"></div>
+            </ion-slide>
+          </ng-container>
           <ion-slide>
           </ion-slide>
         </ion-slides>
@@ -249,7 +251,7 @@
             <ion-card (click)="ver_promocion (promocion)">
               <ion-thumbnail >
                 <img *ngIf="promocion.tipo === '0'" [src]="promocion.plato.imagen">
-                <img *ngIf="promocion.tipo === '1'" src="">
+                <img *ngIf="promocion.tipo === '1'" [src]="get_imagen (promocion)">
               </ion-thumbnail>
               <div class="div_padding_top">
                 <h5 >{{ promocion.nombre }}</h5>
