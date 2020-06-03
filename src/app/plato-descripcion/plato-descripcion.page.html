@@ -12,16 +12,16 @@
   </ion-card>
   <ion-grid class="ion-no-padding" style="background-color: rgba(255, 255, 255, 0.3);">
     <ion-row class="ion-justify-content-center">
-      <ion-col size="8" size-sm="7">
+      <ion-col size="9" size-sm="7">
         <h1>{{ plato?.data.nombre }}</h1>
         <p class="p_precio">{{ plato?.data.precio | currency:'S/. ' }}</p>
         <p class="p_descripcion">
           {{ plato?.data.descripcion }}
         </p>
         <div class="div_sumar_resto">
-          <ion-button class="btn_restar" (click)="remove_carrito ()">-</ion-button>
+          <ion-button class="btn_restar" (click)="remove_carrito ()"><ion-icon name="remove"></ion-icon></ion-button>
           <p class="p_cantidad">{{ cantidad }}</p>
-          <ion-button class="btn_sumar" (click)="add_carrito ()">+</ion-button>
+          <ion-button class="btn_sumar" (click)="add_carrito ()"><ion-icon name="add-outline"></ion-icon></ion-button>
         </div>
         <ng-container>
           <h5 *ngIf="extras.length > 0" class="bajar_opciones">Opciones menu</h5>
@@ -32,21 +32,21 @@
                   {{ item.menu_nombre }}  ({{ item.precio | currency:'S/. ' }})
                 </div>
                 <div class="div_botonos">
-                  <ion-button class="btn_menos" (click)="update_extra_cantidad (item, -1)">-</ion-button>
+                  <ion-button class="btn_menos" (click)="update_extra_cantidad (item, -1)"><ion-icon name="remove"></ion-icon></ion-button>
                   <p class="p_catidad">{{ item.cantidad }}</p>
-                  <ion-button class="btn_mas" (click)="update_extra_cantidad (item, +1)">+</ion-button>
+                  <ion-button class="btn_mas" (click)="update_extra_cantidad (item, +1)"><ion-icon name="add-outline"></ion-icon></ion-button>
                 </div>
               </div>
             </ion-col>
           </ion-row>
         </ng-container>
       </ion-col>
-      <ion-col size="8" size-sm="7" class="ion-margin-top">
+      <ion-col size="9" size-sm="7" class="ion-margin-top">
         <form [formGroup]="form">
           <h5>¿Algún comentario?</h5>
             <ion-textarea formControlName="comentario"></ion-textarea>
             <div>
-              <ion-button [disabled]="cantidad <= 0" (click)="agregar_carrito ()">Agregar al carrito</ion-button>
+              <ion-button [disabled]="cantidad <= 0" (click)="agregar_carrito ()">Añadir mas</ion-button>
               <ion-button (click)="go_resumen ()">Pagar</ion-button>
             </div>
         </form>

@@ -14,6 +14,10 @@
     font-family: Acumin;
     src : url('/assets/font/Acumin-RPro.otf')
 }
+ion-back-button,ion-menu-button
+{
+    color: #748A9E;
+}
 ion-content
 {
     --background: url('/assets/img/fondo.png') 0 0/100% 100% no-repeat;
@@ -129,12 +133,19 @@ ion-card
             {
                 margin: 0px;
                 font-family: AvenirBlack;
-                font-size: 14px;
+                font-size: 16px;
                 color: #585858;
                 display: -webkit-box;
                 -webkit-line-clamp: 1;
                 -webkit-box-orient: vertical;
                 overflow: hidden;
+                .span_number
+                {
+                    color: #90B231;
+                    margin-left: 5px;
+                    font-family: HelveticaNeueRegular;
+                    font-weight: bold;
+                }
             }
             p.descripcion_card
             {
@@ -219,7 +230,7 @@ ion-card
             width: 100%;
             position: relative;
             padding-top: 10px;
-            padding-left: 80px;
+            padding-left: 55px;
             padding-right: 50px;
             padding-bottom: 50px;
             display: flex;
@@ -229,7 +240,7 @@ ion-card
             {
                 color: #575757;
                 font-family: AvenirBook;
-                font-size: 12px;
+                font-size: 14px;
                 width: 100%;
                 line-height: 1.4;
             }
@@ -251,12 +262,12 @@ ion-card
                     --border-radius: 50%;
                     --border-style: solid;
                     --border-width: 1px;
-                    width: 20px;
-                    height: 20px;
+                    width: 28px;
+                    height: 28px;
                     .icono_plomo_circulo
                     {
                         color: #5b5b5b;
-                        font-size: 12px;
+                        font-size: 20px;
                     }
                 }
             }
@@ -292,7 +303,7 @@ ion-item
     {
         font-family: AvenirBook;
         color: #575757;
-        font-size: 12px;
+        font-size: 16px;
     }
 }
 .btn_close_card
@@ -308,13 +319,9 @@ ion-item
     --padding-end: 0px;
     ion-icon
     {
-        color: #9B9B9B;
+        color: #748A9D;
         font-family: AvenirBook;
     }
-}
-ion-footer
-{
-    background-color: transparent;
 }
 .ion-toolbar-footer
 {
@@ -327,15 +334,26 @@ ion-footer
     --padding-top: 5px;
     width: 90%;
     margin-left: 5%;
-    ion-button
+    
+}
+div.div_footer
+{
+    display: flex;
+    align-items: center;
+    background-color: #7BED8D;
+    border-radius: 26px;
+    height: 43px;
+    margin-bottom: 50px;
+    ion-button.btn_footer
     {
-        --background: transparent;
+        --background: tranparent;
         --color: #ffffff;
         font-family: AvenirBlack; 
         font-size: 15px;
         width: 50%;
         height: 40px;
         --box-shadow: none;
+        height: 20px;
     } 
     ion-button.btn_border
     {
