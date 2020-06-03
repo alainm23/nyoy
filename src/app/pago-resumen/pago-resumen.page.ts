@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 // Services
 import { StockValidatorService } from '../services/stock-validator.service';
 import { DatabaseService } from '../services/database.service';
-import { NavController, LoadingController } from '@ionic/angular'; 
+import { NavController, LoadingController, AlertController } from '@ionic/angular'; 
 import { Storage } from '@ionic/storage';
 import { PagoService } from '../services/pago.service';
 import { EventsService } from '../services/events.service';
@@ -16,6 +16,7 @@ import * as moment from 'moment';
   styleUrls: ['./pago-resumen.page.scss'],
 })
 export class PagoResumenPage implements OnInit {
+  metodo_pago: string = 'culqi';
   costo_envio: number = 0;
   kilometros: number = 0;
   subtotal: number = 0;
@@ -32,7 +33,8 @@ export class PagoResumenPage implements OnInit {
     private database: DatabaseService,
     private pago: PagoService,
     private events: EventsService,
-    private auth: AuthService
+    private auth: AuthService,
+    public alertController: AlertController
   ) { }
 
   async ngOnInit () {
@@ -76,7 +78,7 @@ export class PagoResumenPage implements OnInit {
             console.log ('pago', res);
             if (res.estado == 1) {
               if (res.respuesta.outcome.type == 'venta_exitosa') {
-                this.add_pedido (loading);
+                this.add_pedido ('culqi', loading);
               }
             }
           });
@@ -110,20 +112,50 @@ export class PagoResumenPage implements OnInit {
   }
   
   async open_culqi () {
-    this.pago.cfgFormulario ("Pago por el pedido", (this.total + this.costo_envio) * 100);
+    if (this.metodo_pago === 'culqi') {
+      this.pago.cfgFormulario ("Pago por el pedido", (this.total + this.costo_envio) * 100);
 
-    const loading = await this.loadingController.create({
-      message: 'Espere un momento'
-    });
+      const loading = await this.loadingController.create({
+        message: 'Espere un momento'
+      });
 
-    loading.present ();
+      loading.present ();
 
-    loading.dismiss ().then (async () => {
-      await this.pago.open ();
-    });
+      loading.dismiss ().then (async () => {
+        await this.pago.open ();
+      });
+    } else {
+      const alert = await this.alertController.create({
+        header: 'Confirm!',
+        message: 'Message <strong>text</strong>!!!',
+        buttons: [
+          {
+            text: 'Cancelar',
+            role: 'cancel',
+            cssClass: 'secondary',
+            handler: (blah) => {
+              console.log('Confirm Cancel: blah');
+            }
+          }, {
+            text: 'Confirmar',
+            handler: async () => {
+              const loading = await this.loadingController.create({
+                message: 'Espere un momento'
+              });
+          
+              await loading.present ();
+
+              this.add_pedido ('contra_entrega', loading);
+            }
+          }
+        ]
+      });
+  
+      await alert.present();
+    }
   }
 
-  async add_pedido (loading: any) {
+  async add_pedido (tipo_pago: string, loading: any) {
     let platos: any [] = [];
     let empresas: any [] = [];
     let data: any = {
@@ -136,7 +168,7 @@ export class PagoResumenPage implements OnInit {
       direccion: this.datos_envio.direccion,
       monto_total: this.total + this.costo_envio,
       estado: 'pedido',
-      tipo_pago: 'culqi',
+      tipo_pago: tipo_pago,
       pagado: false,
       observacion: '',
       hora_finalizacion: ''

@@ -9,10 +9,23 @@ import { Storage } from '@ionic/storage';
 import { PagoService } from '../services/pago.service';
 import { EventsService } from '../services/events.service';
 
+// Animations
+import { trigger, state, style, animate, transition } from '@angular/animations';
+
 @Component({
   selector: 'app-pedido-resumen',
   templateUrl: './pedido-resumen.page.html',
   styleUrls: ['./pedido-resumen.page.scss'],
+  animations: [
+    trigger('animation-top', [
+      transition(':enter',
+        [style({ transform: 'translateY(-5%)', opacity: 0 }),
+        animate('125ms', style({ transform: 'translateY(0)', 'opacity': 1 }))]),
+      transition(':leave',
+        [style({ transform: 'translateY(0)', 'opacity': 1 }),
+        animate('125ms', style({ transform: 'translateY(-5%)', 'opacity': 0 }))])
+    ])
+  ]
 })
 export class PedidoResumenPage implements OnInit {
   subscribe: any = null;

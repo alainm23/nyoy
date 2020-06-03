@@ -27,6 +27,12 @@ export class DatabaseService {
     return this.afs.collection ('Usuarios').doc (id).valueChanges ();
   }
 
+  updateToken (uid: string, userId: string) {
+    return this.afs.collection ('Usuarios').doc (uid).update ({
+      'token_id': userId
+    });
+  }
+
   update_usuario (id: string, data: any) {
     return this.afs.collection ('Usuarios').doc (id).update (data);
   }
@@ -61,6 +67,14 @@ export class DatabaseService {
   
   add_direccion (user_id: string, data: any) {
     return this.afs.collection ('Usuarios').doc (user_id).collection ('Direcciones').doc (data.id).set (data);
+  }
+
+  delete_direccion (user_id: string, id: string) {
+    return this.afs.collection ('Usuarios').doc (user_id).collection ('Direcciones').doc (id).delete ();
+  }
+
+  update_direccion (user_id: string, data: any) {
+    return this.afs.collection ('Usuarios').doc (user_id).collection ('Direcciones').doc (data.id).update (data);
   }
 
   set_plato_favorito (user_id: string, plato_id: string, value: boolean) {

@@ -4,6 +4,9 @@ import { Platform, MenuController, NavController, AlertController } from '@ionic
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthService } from './services/auth.service';
+import { OneSignal, OSNotificationOpenedResult, OSNotification } from '@ionic-native/onesignal/ngx';
+import { Storage } from '@ionic/storage';
+import { DatabaseService } from './services/database.service';
 
 // Services
 import { StockValidatorService } from './services/stock-validator.service';
@@ -23,7 +26,10 @@ export class AppComponent {
     private menu: MenuController,
     public navController: NavController,
     public auth: AuthService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private oneSignal: OneSignal,
+    public storage: Storage,
+    public database: DatabaseService
   ) {
     this.initializeApp();
   }
@@ -36,11 +42,43 @@ export class AppComponent {
       this.stock_validator.init ();
       moment.locale ('es');
 
+      if (this.platform.is ('cordova')) {
+        this.initNotifications ();
+      }
+
       if (this.platform.is ('android')) {
         this.statusBar.overlaysWebView (false);
         this.statusBar.backgroundColorByHexString ('#000000');
       }
     });
+  }
+
+  initNotifications () {
+    this.oneSignal.startInit('07b5ca72-5699-4117-9966-1867a2306719', '934733338514');
+    this.oneSignal.inFocusDisplaying (this.oneSignal.OSInFocusDisplayOption.Notification);
+    this.oneSignal.handleNotificationOpened ().subscribe (async (jsonData: OSNotificationOpenedResult) => {
+      console.log ('handleNotificationOpened', jsonData);
+    });
+
+    this.oneSignal.handleNotificationReceived ().subscribe (async (jsonData: OSNotification) => {
+      console.log ('handleNotificationReceived', jsonData);
+    });
+
+    this.auth.authState ().subscribe (async (user: any) => {
+      this.oneSignal.getIds ().then (oS => {
+        this.storage.set ("token_id", oS.userId)
+
+        if (user) {
+          this.database.updateToken (user.uid, oS.userId);
+        }
+      });
+    });
+
+    this.oneSignal.getTags ().then (data => {
+      console.log (data);
+    });
+
+    this.oneSignal.sendTag ("Usuarios", "true");
   }
 
   open_menu () {

@@ -26,6 +26,10 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 // Google
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Facebook } from '@ionic-native/facebook/ngx';
+import { OneSignal } from '@ionic-native/onesignal/ngx';
+
+// Animations
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Modals
 import { MapaSelectPageModule } from './modals/mapa-select/mapa-select.module';
@@ -43,7 +47,8 @@ import { MapaSelectPageModule } from './modals/mapa-select/mapa-select.module';
     ReactiveFormsModule,
     IonicStorageModule.forRoot (),
     HttpClientModule,
-    MapaSelectPageModule
+    MapaSelectPageModule,
+    BrowserAnimationsModule
   ],
   providers: [
     StatusBar,
@@ -51,6 +56,7 @@ import { MapaSelectPageModule } from './modals/mapa-select/mapa-select.module';
     GooglePlus,
     Geolocation,
     Facebook,
+    OneSignal,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

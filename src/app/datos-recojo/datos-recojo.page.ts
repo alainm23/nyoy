@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 // Services
 import { StockValidatorService } from '../services/stock-validator.service';
 import { DatabaseService } from '../services/database.service';
-import { NavController, LoadingController, MenuController } from '@ionic/angular'; 
+import { NavController, LoadingController, MenuController, AlertController } from '@ionic/angular'; 
 import { Storage } from '@ionic/storage';
 import { PagoService } from '../services/pago.service';
 import { EventsService } from '../services/events.service';
@@ -16,6 +16,7 @@ import * as moment from 'moment';
   styleUrls: ['./datos-recojo.page.scss'],
 })
 export class DatosRecojoPage implements OnInit {
+  tipo_pago: string = 'culqi';
   tipo_recojo: string = 'rapido';
   proceso: number = 0;
   hora_seleccionada: string = '11:45';
@@ -32,7 +33,8 @@ export class DatosRecojoPage implements OnInit {
     private database: DatabaseService,
     private pago: PagoService,
     private events: EventsService,
-    private auth: AuthService
+    private auth: AuthService,
+    private alertController: AlertController
   ) { }
 
   ngOnInit () {
@@ -57,7 +59,7 @@ export class DatosRecojoPage implements OnInit {
             console.log ('pago', res);
             if (res.estado == 1) {
               if (res.respuesta.outcome.type == 'venta_exitosa') {
-                this.add_pedido (loading);
+                this.add_pedido ('culqi', loading);
               }
             }
           });
@@ -96,20 +98,50 @@ export class DatosRecojoPage implements OnInit {
   }
   
   async open_culqi () {
-    this.pago.cfgFormulario ("Pago por el pedido", this.total * 100);
+    if (this.tipo_pago === 'culqi') {
+      this.pago.cfgFormulario ("Pago por el pedido", this.total * 100);
 
-    const loading = await this.loadingController.create({
-      message: 'Espere un momento'
-    });
+      const loading = await this.loadingController.create({
+        message: 'Espere un momento'
+      });
 
-    loading.present ();
+      loading.present ();
 
-    loading.dismiss ().then (async () => {
-      await this.pago.open ();
-    });
+      loading.dismiss ().then (async () => {
+        await this.pago.open ();
+      });
+    } else {
+      const alert = await this.alertController.create({
+        header: 'Confirm!',
+        message: 'Message <strong>text</strong>!!!',
+        buttons: [
+          {
+            text: 'Cancelar',
+            role: 'cancel',
+            cssClass: 'secondary',
+            handler: (blah) => {
+              console.log('Confirm Cancel: blah');
+            }
+          }, {
+            text: 'Confirmar',
+            handler: async () => {
+              const loading = await this.loadingController.create({
+                message: 'Espere un momento'
+              });
+          
+              await loading.present ();
+
+              this.add_pedido ('contra_entrega', loading);
+            }
+          }
+        ]
+      });
+  
+      await alert.present();
+    }
   }
 
-  async add_pedido (loading: any) {
+  async add_pedido (tipo_pago: string, loading: any) {
     let hora_seleccionada = '';
     if (this.tipo_recojo === 'horario') {
       hora_seleccionada = this.hora_seleccionada;
@@ -128,7 +160,7 @@ export class DatosRecojoPage implements OnInit {
       tipo_recojo: this.tipo_recojo,
       hora_seleccionada: hora_seleccionada,
       estado: 'pedido',
-      tipo_pago: 'culqi',
+      tipo_pago: tipo_pago,
       pagado: false,
       observacion: '',
       hora_finalizacion: ''

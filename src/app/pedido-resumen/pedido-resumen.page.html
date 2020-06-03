@@ -37,7 +37,7 @@
         <ion-row class="ion-justify-content-center">
           <ion-col *ngFor="let item of stock_validator.carrito_platos | keyvalue" size="12" size-sm="6" size-lg="4" class="padding_start_end">
             <ion-card *ngIf="item.value.tipo === 'extra'" class="car_plato">
-              <ion-card-header>
+              <ion-card-header (click)="ver_detalles (item)">
                 <ion-thumbnail>
                   <img src="assets/img/plato.png">
                 </ion-thumbnail>
@@ -56,16 +56,13 @@
                       &nbsp;&nbsp;&nbsp;
                       <p class="p_precio">{{ item.value.cantidad }} .Unds</p>
                     </div>
-                    <!-- <div class="div_botonos">
-                      <ion-button class="btn_menos" (click)="remove_carrito (item)">-</ion-button>
-                      <p class="p_catidad">{{ item.value.cantidad  }}</p>
-                      <ion-button class="btn_mas" (click)="add_carrito (item)">+</ion-button>
-                    </div> -->
                   </div>
-                  <ion-button (click)="ver_detalles (item)" class="btn_close_card ion-no-margin"><ion-icon name="chevron-forward-outline"></ion-icon></ion-button>
+                  <ion-button [ngStyle]="{'transform': item.ver_detalles === true ? 'rotate(90deg)' : 'none' }" class="btn_close_card ion-no-margin transition">
+                    <ion-icon name="chevron-forward-outline"></ion-icon>
+                  </ion-button>
                 </div>
               </ion-card-header>
-              <ion-card-content style="width: 100%" *ngIf="item.ver_detalles">
+              <ion-card-content style="width: 100%" *ngIf="item.ver_detalles" [@animation-top]>
                 <div class="div_descrip_plato">
                   <p style="margin-bottom: 0px; white-space: pre-line;" class="p_list_descrip espacio_p">
                     {{ item.value.comentarios }}
@@ -87,7 +84,7 @@
             </ion-card>
 
             <ion-card *ngIf="item.value.tipo === 'menu'" class="car_plato">
-              <ion-card-header>
+              <ion-card-header (click)="ver_detalles (item)">
                 <ion-thumbnail>
                   <img src="assets/img/8f003918e9ee1ed3485149c7b6daf73a.png">
                 </ion-thumbnail>
@@ -104,16 +101,13 @@
                     <div class="div_precio">
                       <p class="p_precio">{{ item.value.precio | currency:'S/. ' }}</p>
                     </div>
-                    <!-- <div class="div_botonos">
-                      <ion-button class="btn_menos" (click)="remove_carrito (item.value.plato, item.value.insumos)">-</ion-button>
-                      <p class="p_catidad">{{ item.value.cantidad  }}</p>
-                      <ion-button class="btn_mas" (click)="add_carrito (item.value.plato, item.value.insumos)">+</ion-button>
-                    </div> -->
-                    <ion-button (click)="ver_detalles (item)" class="btn_close_card ion-no-margin"><ion-icon name="chevron-forward-outline"></ion-icon></ion-button>
+                    <ion-button [ngStyle]="{'transform': item.ver_detalles === true ? 'rotate(90deg)' : 'none' }" class="btn_close_card ion-no-margin transition">
+                      <ion-icon name="chevron-forward-outline"></ion-icon>
+                    </ion-button>
                   </div>
                 </div>
               </ion-card-header>
-              <ion-card-content style="width: 100%" *ngIf="item.ver_detalles">
+              <ion-card-content style="width: 100%" *ngIf="item.ver_detalles" [@animation-top]>
                 <div class="div_descrip_plato">
                   <p class="p_list_descrip espacio_p">{{ item.value.comentario }}</p>
                   <ul style="list-style-type: none;" class="ion-no-padding ion-no-margin">
@@ -130,7 +124,7 @@
             </ion-card>
 
             <ion-card *ngIf="item.value.tipo === 'promocion'" class="car_plato">
-              <ion-card-header>
+              <ion-card-header (click)="ver_detalles (item)">
                 <ion-thumbnail>
                   <img src="assets/img/8f003918e9ee1ed3485149c7b6daf73a.png">
                 </ion-thumbnail>
@@ -151,11 +145,13 @@
                     <div class="div_precio">
                       <p class="p_precio">Descuento: {{ item.value.descuento }}%</p>
                     </div>
-                    <ion-button (click)="ver_detalles (item)" class="btn_close_card ion-no-margin"><ion-icon name="chevron-forward-outline"></ion-icon></ion-button>
+                    <ion-button [ngStyle]="{'transform': item.ver_detalles === true ? 'rotate(90deg)' : 'none' }" class="btn_close_card ion-no-margin transition">
+                      <ion-icon name="chevron-forward-outline"></ion-icon>
+                    </ion-button>
                   </div>
                 </div>
               </ion-card-header>
-              <ion-card-content style="width: 100%" *ngIf="item.ver_detalles">
+              <ion-card-content style="width: 100%" *ngIf="item.ver_detalles" [@animation-top]>
                 <div class="div_descrip_plato">
                   <p style="margin-bottom: 0px; white-space: pre-line;" class="p_list_descrip espacio_p">
                     {{ item.value.comentarios }}

@@ -39,27 +39,22 @@
 
             <ion-col size="12" class="margin_bottom">
               <ion-row>
-                <ion-col size="10">
+                <ion-col size="12">
                   <p class="color_74 ion-no-margin">Mis direcciones</p>
-                  <p class="color_a6 ion-no-margin">
-                    <span style="font-weight: bold;">Casa:</span>
-                    <span>Av. de la Cultura 1902, Cus…</span>
+                  <p class="color_a6 ion-no-margin"*ngFor="let item of direcciones">
+                    <ion-row>
+                      <ion-col class="no-padding" size="10">
+                        <span style="font-weight: bold;">{{ item.nombre }}:</span>
+                        <span>{{ item.direccion }}</span>
+                      </ion-col>
+                      <ion-col class="no-padding" size="1">
+                        <ion-icon (click)="eliminar_direccion (item)" name="close-circle-outline" color="danger" class="color_icono_editar"></ion-icon>
+                      </ion-col>
+                      <ion-col class="no-padding" size="1">
+                        <ion-icon (click)="editar_direccion (item)" name="create-outline" class="color_icono_editar"></ion-icon>
+                      </ion-col>
+                    </ion-row>
                   </p>
-                  <p class="color_a6 ion-no-margin">
-                    <span style="font-weight: bold;">Oficina:</span>
-                    <span>Av. de la Cultura 1902, Cus…</span>
-                  </p>
-                  <p class="color_a6 ion-no-margin">
-                    <span style="font-weight: bold;">Mamá:</span>
-                    <span>Av. de la Cultura 1902, Cus…</span>
-                  </p>
-                  <p class="color_a6 ion-no-margin">
-                    <span style="font-weight: bold;">Otro dir:</span>
-                    <span>Av. de la Cultura 1902, Cus…</span>
-                  </p>
-                </ion-col>
-                <ion-col size="2" class="ion-text-end">
-                  <ion-icon name="create-outline" class="color_icono_editar"></ion-icon>
                 </ion-col>
               </ion-row>
             </ion-col>
