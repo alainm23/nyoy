@@ -84,8 +84,8 @@ export class PedidoResumenPage implements OnInit {
   async eliminar_plato (item: any) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
-      header: 'Confirm!',
-      message: 'Message <strong>text</strong>!!!',
+      header: 'Confirmar texto',
+      message: '¿Esta seguro que desea cancelar este pedido?',
       buttons: [
         {
           text: 'Cancelar',

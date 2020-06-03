@@ -5,7 +5,7 @@
         <ion-col size="12" class="ion-no-padding">
           <ion-row class="ion-justify-content-center" >
             <ion-col size="3" size-sm="2" size-md="2" class="ion-no-padding">
-              <ion-img src="assets/img/Componente5–1.png"></ion-img>
+              <ion-img src="assets/img/Componente61.png"></ion-img>
             </ion-col>
           </ion-row>
         </ion-col>
@@ -16,13 +16,13 @@
           <ion-input type="password" formControlName="password" placeholder="Contraseña"></ion-input>
         </ion-col>
         <ion-col size="10" size-sm="9" size-md="8" size-lg="7" class="bajar_col ion-text-center" (click)="recuperar_cuenta ()">
-          <p class="p_olvidastes_contraseña">Olvidaste contraseña</p> 
+          <p>Recuperar contraseña <span class="p_olvidastes_contraseña">aqui</span></p> 
         </ion-col>
         <ion-col size="10" size-sm="9" size-md="8" size-lg="7" class="bajar_col">
           <ion-button class="btn_entrar ion-no-margin" [disabled]="!form.valid" (click)="submit ()">Entrar</ion-button>
         </ion-col>
-        <ion-col size="10" size-sm="9" size-md="8" size-lg="7" class="ion-text-center ion-no-padding">
-          <p style="margin-top: 0px;margin-bottom: 7px;">¿Eres nuevo? Por favor <span (click)="sing_up ()">regístrate</span> o</p>
+        <ion-col size="10" size-sm="9" size-md="8" size-lg="7" class="ion-text-center ion-no-padding top_bottom_nuevo">
+          <p style="margin-top: 0px;margin-bottom: 0px;">¿Eres nuevo? Por favor <span (click)="sing_up ()">regístrate</span> o</p>
         </ion-col>
         <ion-col size="10" size-sm="9" size-md="8" size-lg="7" class="bajar_col">
           <ion-button class="btn_fb ion-no-margin" (click)="facebook ()">Sign In with Facebook</ion-button>

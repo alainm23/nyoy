@@ -42,10 +42,11 @@ ion-input
     --border-width: 1px;
     --box-shadow: 0px 3px 6px #BCBCBC;
     --color: #010008;
-    height: 2.8125rem;
+    height: 50px;
     font-family: HelveticaNeueBold;
     font-weight: bold;
     width: 100%;
+    text-transform: capitalize;
 }
 .btn_fb
 {
@@ -56,9 +57,10 @@ ion-input
     --border-width: 1px;
     --box-shadow: 0px 3px 6px #00000065;
     --color: #FFFFFF;
-    height: 2.8125rem;
+    height: 50px;
     font-family: HelveticaNeueBold;
     width: 100%;
+    text-transform: capitalize;
 }
 .btn_goo
 {
@@ -69,9 +71,10 @@ ion-input
     --border-width: 1px;
     --box-shadow: 0px 3px 6px #00000065;
     --color: #000000;
-    height: 2.8125rem;
+    height: 50px;
     font-family: HelveticaNeueBold;
     width: 100%;
+    text-transform: capitalize;
 }
 .btn_apple
 {
@@ -82,14 +85,17 @@ ion-input
     --border-width: 1px;
     --box-shadow: 0px 3px 6px #00000065;
     --color: #ffffff;
-    height: 2.8125rem;
+    height: 50px;
     font-family: HelveticaNeueBold;
     width: 100%;
+    text-transform: capitalize;
 }
 p
 {
     color: #575757;
     font-family: AvenirBook;
+    margin-top: 0px;
+    margin-bottom: 0px;
     span
     {
         font-family: AvenirBlack;
@@ -105,6 +111,11 @@ p
 ion-col.bajar_col
 {
     margin-bottom: 7px;
+}
+.top_bottom_nuevo
+{
+    margin-top: 12px;
+    margin-bottom: 12px;
 }
 @media (min-width: 480px) {
     ion-input
