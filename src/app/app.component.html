@@ -52,7 +52,7 @@
       
               <div></div>
               <ion-menu-toggle auto-hide="false" >
-                <ion-item (click)="go_page ('carrito-mercado', 3)">
+                <ion-item (click)="limpiar_cache ()">
                   <div class="div_verde" *ngIf="selected === 3"></div>
                   <img src="assets/img/Grupo49.png" class="ion-margin-end img_start">
                   <ion-label class="color_menu">Mi Lista de compras (Via Mart)</ion-label>
@@ -77,7 +77,7 @@
               </ion-menu-toggle>-->
 
               <ion-menu-toggle auto-hide="false" >
-                <ion-item (click)="go_page ('historial-de-pedido', 5)">
+                <ion-item (click)="go_page ('historial-pedidos', 5)">
                   <div class="div_verde" *ngIf="selected === 5"></div>
                   <!--<img src="assets/img/Grupo52.png" class="ion-margin-end">-->
                   <ion-icon name="time-outline"></ion-icon>

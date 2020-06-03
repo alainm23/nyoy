@@ -8,7 +8,7 @@ import 'rxjs/add/operator/map';
 
 import { map } from 'rxjs/operators';
 import { combineLatest, of } from "rxjs/index";
-
+import * as moment from 'moment';
 @Injectable({
   providedIn: 'root'
 })
@@ -237,12 +237,35 @@ export class DatabaseService {
     batch.set (
       this.afs.collection ('Usuarios').doc (data.usuario_id).collection ('Pedidos').doc (data.id).ref,
       {
-        fecha: new Date ().toISOString (),
-        estado: 'pedido',
-        monto_total: data.monto_total
+        fecha: moment().format (),
+        estado: 0,
+        monto_total: data.monto_total,
+        pedido_id: data.id
       }
     );
 
     await batch.commit ();
+  }
+
+  get_pedido_by_id (pedido_id: string) {
+    return this.afs.collection ('Pedidos_Platos_Dia').doc (pedido_id).valueChanges ();
+  }
+  get_pedidos_by_usuario (usuario_id: string) {
+    const collection = this.afs.collection ('Usuarios').doc (usuario_id).collection ('Pedidos', ref => ref.where ('estado', '>=', 2));
+
+    return collection.snapshotChanges ().pipe (map (refReferencias => {
+      if (refReferencias.length > 0) {
+        return refReferencias.map (refReferencia => {
+          const data: any = refReferencia.payload.doc.data();
+          return this.get_pedido_by_id (data.pedido_id).pipe (map (pedido => Object.assign ({}, { data, pedido })));
+        });
+      }
+    })).mergeMap (observables => {
+      if (observables) {
+        return combineLatest(observables);
+      } else {
+        return of([]);
+      }
+    });
   }
 }

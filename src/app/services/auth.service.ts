@@ -20,7 +20,8 @@ export class AuthService {
     id: '',
     nombre: '',
     direccion: '',
-    telefono: ''
+    telefono: '',
+    correo: '',
   };
   s: any = null;
   constructor (
@@ -39,9 +40,8 @@ export class AuthService {
           this.menu.enable (true, 'first');
           this.storage.set ('usuario_id', user.uid);
           this.s = this.database.get_usuario (user.uid).subscribe ((res: any) => {
-            this.usuario
-          })
-          console.log ('usuario', this.usuario);
+            this.usuario = res;
+          });
         } else {
           this.menu.enable (false, 'first');
           if (this.s !== null) {
@@ -121,7 +121,7 @@ export class AuthService {
         let request: any = {
           id: credential.user.uid,
           nombre: credential.user.displayName,
-          email: credential.user.email,
+          correo: credential.user.email,
           fecha_registro: new Date ().toISOString ()
         }
 
@@ -158,7 +158,7 @@ export class AuthService {
       let request: any = {
         id: credential.user.uid,
         nombre: credential.user.displayName,
-        email: credential.user.email,
+        correo: credential.user.email,
         fecha_registro: new Date ().toISOString ()
       }
 
@@ -201,7 +201,7 @@ export class AuthService {
       let request: any = {
         id: credential.user.uid,
         nombre: credential.user.displayName,
-        email: credential.user.email,
+        correo: credential.user.email,
         fecha_registro: new Date ().toISOString ()
       }
 
@@ -263,7 +263,7 @@ export class AuthService {
       let request: any = {
         id: credential.user.uid,
         nombre: credential.user.displayName,
-        email: credential.user.email,
+        correo: credential.user.email,
         fecha_registro: new Date ().toISOString ()
       }
 

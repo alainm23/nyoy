@@ -49,6 +49,10 @@
               <ion-button [disabled]="cantidad <= 0" (click)="agregar_carrito ()">Añadir mas</ion-button>
               <ion-button (click)="go_resumen ()">Pagar</ion-button>
             </div>
+            <div *ngIf="editar === 'true'">
+              <ion-button [disabled]="cantidad <= 0" (click)="go_resumen (true)">Actualizar</ion-button>
+              <ion-button (click)="cancelar_editar ()">Cancelar</ion-button>
+            </div>
         </form>
       </ion-col>
     </ion-row>

@@ -62,7 +62,7 @@ export class PedidoResumenPage implements OnInit {
       if (element.tipo === 'extra') {
         total += element.precio * element.cantidad;
         element.extras.forEach ((extra: any) => {
-          total += extra.precio;
+          total += extra.precio * extra.cantidad;
         });
       } else {
         total += element.precio;
@@ -75,7 +75,7 @@ export class PedidoResumenPage implements OnInit {
   get_extras_precio (extras: any []) {
     let total: number = 0;
     extras.forEach ((extra: any) => {
-      total += extra.precio;
+      total += extra.precio * extra.cantidad;
     });
 
     return total;
@@ -83,8 +83,7 @@ export class PedidoResumenPage implements OnInit {
 
   async eliminar_plato (item: any) {
     const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'Confirmar texto',
+      header: 'Confirmar',
       message: '¿Esta seguro que desea cancelar este pedido?',
       buttons: [
         {
@@ -112,7 +111,7 @@ export class PedidoResumenPage implements OnInit {
     if (this.tipo_entrega == '0') {
       this.navCtrl.navigateForward ('datos-envio');
     } else {
-
+      this.navCtrl.navigateForward ('datos-recojo');
     }
   }
 
@@ -122,5 +121,19 @@ export class PedidoResumenPage implements OnInit {
     } else {
       item.ver_detalles = !item.ver_detalles;
     }
+  }
+
+  editar_extra (item: any) {
+    console.log (item);
+    this.navCtrl.navigateForward (['plato-descripcion', item.key, true]);
+    this.stock_validator._carrito_platos.set (item.key, item.value);
+    this.stock_validator.eliminar_plato (item.key);
+  }
+
+  editar_promocion (item) {
+    console.log (item);
+    this.navCtrl.navigateForward (['promocion-descripcion', item.key, true]);
+    this.stock_validator._carrito_platos.set (item.key, item.value);
+    this.stock_validator.eliminar_plato (item.key);
   }
 }

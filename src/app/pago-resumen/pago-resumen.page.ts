@@ -67,7 +67,6 @@ export class PagoResumenPage implements OnInit {
         });
     
         await loading.present ();
-
         this.pago.procesarpagonyoy (
           token_id,
           (this.total + this.costo_envio) * 100,
@@ -87,12 +86,12 @@ export class PagoResumenPage implements OnInit {
 
   get_precio_total () {
     let total: number = 0;
+    console.log ('element', this.stock_vaidator.carrito_platos);
     this.stock_vaidator.carrito_platos.forEach (element => {
-      console.log ('element', element);
       if (element.tipo === 'extra') {
         total += element.precio * element.cantidad;
         element.extras.forEach ((extra: any) => {
-          total += extra.precio;
+          total += extra.precio * extra.cantidad;
         });
       } else {
         total += element.precio;
@@ -126,6 +125,7 @@ export class PagoResumenPage implements OnInit {
 
   async add_pedido (loading: any) {
     let platos: any [] = [];
+    let empresas: any [] = [];
     let data: any = {
       id: this.database.createId (),
       dia: moment ().format ('DD'),
@@ -143,6 +143,7 @@ export class PagoResumenPage implements OnInit {
     };
 
     this.stock_vaidator.carrito_platos.forEach ((element: any) => {
+      empresas.push (element.empresa_id);
       if (element.tipo == 'menu') {
         platos.push ({
           empresa_id: element.empresa_id,
@@ -191,10 +192,13 @@ export class PagoResumenPage implements OnInit {
       }
     });
     data.platos = platos;
+    data.empresas = empresas;
     console.log (data);
 
     this.database.add_pedido (data)
       .then (() => {
+        this.storage.clear ();
+        this.stock_vaidator.get_storage_values ();
         this.navController.navigateRoot ('operecion-exitosa');
         loading.dismiss ();
       })

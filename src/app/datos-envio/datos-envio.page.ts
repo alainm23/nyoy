@@ -84,7 +84,7 @@ export class DatosEnvioPage implements OnInit {
         ],
         buttons: [
           {
-            text: 'No',
+            text: 'En otro momento',
             role: 'cancel',
             cssClass: 'secondary',
             handler: (blah) => {
@@ -92,17 +92,19 @@ export class DatosEnvioPage implements OnInit {
               this.navController.navigateForward ('pago-resumen');
             }
           }, {
-            text: 'Si',
-            handler: async (data: any) => {
+            text: 'Guardar',
+            handler: async (response: any) => {
               let direccion: any = {
                 id: this.database.createId (),
-                nombre: data.nombre,
+                nombre: response.nombre,
                 direccion: this.form.value.direccion,
                 referencia: this.form.value.referencia,
                 latitud: this.latitude,
                 longitud: this.longitude,
                 kilometros: this.form.value.kilometros
               }
+
+              console.log (data);
 
               let usuario_id = await this.storage.get ('usuario_id');
               this.database.add_direccion (usuario_id, direccion);
