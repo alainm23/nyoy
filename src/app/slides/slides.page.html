@@ -25,8 +25,10 @@
           </ion-card>
       </ion-slide>
   </ion-slides>
-  <ion-button (click)="saltar ()">
-    <ng-container *ngIf="index <= 1">Saltar</ng-container>
-    <ng-container *ngIf="index >= 2">Empezamos</ng-container>
+  <ion-button *ngIf="index >= 2" (click)="saltar ()" class="btn_listo">
+    Empezamos
+  </ion-button>
+  <ion-button *ngIf="index <= 1" (click)="saltar ()">
+    Saltar
   </ion-button>
 </ion-content>
