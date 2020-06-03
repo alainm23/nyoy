@@ -17,13 +17,13 @@
   <p class="p_precio_total ion-text-center">Total a pagar: {{ get_precio_total (stock_validator.carrito_platos) | currency:'S/. ' }}</p>
   <ion-radio-group [(ngModel)]="tipo_entrega">
     <ion-row class="ion-justify-content-center">
-      <ion-col size="4" size-sm="3" size-lg="2">
+      <ion-col size="5" size-sm="3" size-lg="2">
         <ion-item lines="none">
           <ion-label>Delivery</ion-label>
           <ion-radio  slot="start" value='0'></ion-radio>
         </ion-item>
       </ion-col>
-      <ion-col size="4" size-sm="3" size-lg="2">
+      <ion-col size="5" size-sm="3" size-lg="2">
         <ion-item lines="none">
           <ion-label>Recogo</ion-label>
           <ion-radio slot="start" value='1'></ion-radio>
