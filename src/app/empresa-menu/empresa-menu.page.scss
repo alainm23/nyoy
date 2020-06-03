@@ -80,7 +80,7 @@ ion-back-button,.icon_carrito,ion-menu-button
         p
         {
             color: #E5E5E5;
-            font-family: HelveticaNeueRegular;
+            font-family: AvenirBook;
             font-size: 15px;
         }
     }
@@ -189,8 +189,8 @@ ion-card
             margin-top: 5px;
             color: #575757;
             font-family: AvenirBook;
-            font-size: 15px;
-            line-height: 1;
+            font-size: 13px;
+            line-height: 1.2;
             height: 30px;
             display: -webkit-box;
             -webkit-line-clamp: 2;
@@ -213,7 +213,7 @@ ion-card
                     color: #90B231;
                     margin-top: 0px;
                     margin-bottom: 0px;
-                    font-family: HelveticaNeueRegular;
+                    font-family: AvenirBook;
                     font-weight: bold;
                     font-size: 14px;
                 }
@@ -320,7 +320,7 @@ ion-item
     --padding-start: 0px;
     height: 35px;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     ion-label
     {
         --color: #575757;

@@ -24,7 +24,7 @@
           <ion-button class="btn_sumar" (click)="add_carrito ()"><ion-icon name="add-outline"></ion-icon></ion-button>
         </div>
         <ng-container>
-          <h5 *ngIf="extras.length > 0" class="bajar_opciones">Opciones menu</h5>
+          <h5 *ngIf="extras.length > 0" class="bajar_opciones">Acompaña tu pedido con:</h5>
           <ion-row>
             <ion-col size="12" *ngFor="let item of extras">
               <div *ngIf="stock_validator.check_insumo_extra_disponible (item.empresa_id + '-' + item.insumo_id)">
@@ -45,7 +45,7 @@
         <form [formGroup]="form">
           <h5>¿Algún comentario?</h5>
             <ion-textarea formControlName="comentario"></ion-textarea>
-            <div>
+            <div class="div_btn_pagar">
               <ion-button [disabled]="cantidad <= 0" (click)="agregar_carrito ()">Añadir mas</ion-button>
               <ion-button (click)="go_resumen ()">Pagar</ion-button>
             </div>

@@ -110,11 +110,16 @@ h5
     line-height: 1.3;
     margin-top: 5px;
     margin-bottom: 0px;
-    font-size: 13px;
+    font-size: 15px;
     display: -webkit-box;
     -webkit-line-clamp: 6;
     -webkit-box-orient: vertical;
     overflow: hidden;
+}
+div.div_btn_pagar
+{
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 div
 {
@@ -138,13 +143,12 @@ div
         display: -webkit-box;
         -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
-        overflow: hidden;
     }
 }
 .p_precio
 {
     color: #90B231;
-    font-family: HelveticaNeueRegular;
+    font-family: AvenirBook;
     font-size: 13px;
     margin-top: 10px;
     margin-bottom: 10px;

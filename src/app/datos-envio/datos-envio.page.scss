@@ -72,6 +72,8 @@ ion-input
     border-radius: 8px;
     --padding-start: 20px;
     --padding-end: 20px;
+    margin-top: 10px;
+    margin-bottom: 3px;
 }
 .card_mapa
 {
@@ -217,7 +219,15 @@ ion-item
     color: #A6BCD0;
     font-family: Acumin;
 }
-
+.btn_ubicacion1
+{
+    --background:#3863A4;
+    --background-activated:#3863A4;
+    --border-radius: 26px;
+    font-family: HelveticaNeueRegular;
+    font-size: 12px;
+    margin-top: 0px;
+}
 @media(min-width: 640px)
 {
     ion-card.card_menu

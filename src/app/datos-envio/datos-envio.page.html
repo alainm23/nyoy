@@ -33,16 +33,16 @@
       <ion-row class="ion-justify-content-center">
         <ion-col size="11" size-sm="9" size-md="8" size-lg="7">
           <ion-label>Nombre del receptor</ion-label>
-          <ion-input  formControlName="nombre_receptor" placeholder="Nombre del receptor"></ion-input>
+          <ion-input  formControlName="nombre_receptor" placeholder="Ingrese su nombre aqui"></ion-input>
         </ion-col>
 
         <ion-col size="11" size-sm="9" size-md="8" size-lg="7">
           <ion-label>Telefono</ion-label>
-          <ion-input formControlName="telefono" placeholder="Telefono"></ion-input>
+          <ion-input formControlName="telefono" placeholder="Ingrese su telefono"></ion-input>
         </ion-col>
 
-        <ion-col *ngIf="direcciones.length <= 0" class="ion-text-center">
-          <ion-button (click)="marcar_ubicacion ()">
+        <ion-col *ngIf="direcciones.length <= 0" class="ion-text-end" size="11">
+          <ion-button (click)="marcar_ubicacion ()" class="btn_ubicacion1">
             <ng-container *ngIf="mapa_seleccionado">
               Editar mi ubicacion
             </ng-container>
@@ -65,11 +65,11 @@
         <ng-container *ngIf="direcciones.length > 0 || mapa_seleccionado">
           <ion-col size="11" size-sm="9" size-md="8" size-lg="7">
             <ion-label>Dirección</ion-label>
-            <ion-input formControlName="direccion" placeholder="Ingresa la dirección"></ion-input>
+            <ion-input formControlName="direccion" placeholder="¿A donde va enviar?"></ion-input>
           </ion-col>
           <ion-col size="11" size-sm="9" size-md="8" size-lg="7">
             <ion-label>Referencia</ion-label>
-            <ion-input formControlName="referencia" placeholder="Referencia"></ion-input>
+            <ion-input formControlName="referencia" placeholder="Ayudanos a llegar mas facil"></ion-input>
           </ion-col>
         </ng-container>
 
