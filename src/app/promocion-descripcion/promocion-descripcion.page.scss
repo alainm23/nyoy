@@ -20,7 +20,7 @@ ion-content
     --background: transparent;
     --background-activated: transparent;
     --box-shadow: none;
-    position: absolute;
+    position: fixed;
     top: 0.9375rem;
     left: 0.625rem;
     z-index: 999999;
@@ -179,13 +179,17 @@ div
     {
         --background:#D0D0CE;
         --background-activated: #D0D0CE;
-        width: 15px;
-        height: 15px;
+        width: 25px;
+        height: 25px;
         --border-radius: 50%;
         margin-right: 8px;
         --padding-start: 0px;
         --padding-end: 0px;
         margin-left: 0px;
+        ion-icon
+        {
+            font-size: 32px;
+        }
     }
     .p_catidad
     {
@@ -199,12 +203,16 @@ div
     {
         --background:#A8D62B;
         --background-activated:#A8D62B;
-        width: 15px;
-        height: 15px;
+        width: 25px;
+        height: 25px;
         --border-radius: 50%;
         margin-left: 8px;
         --padding-start: 0px;
         --padding-end: 0px;
         margin-right: 0px;
+        ion-icon
+        {
+            font-size: 32px;
+        }
     }
 }
