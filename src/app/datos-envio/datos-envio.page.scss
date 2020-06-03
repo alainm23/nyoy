@@ -228,6 +228,20 @@ ion-item
     font-size: 12px;
     margin-top: 0px;
 }
+ion-select
+{
+    color: #748A9D;
+    background:#F0F4F8;
+    --placeholder-color:#A6BCD0;
+    font-family: Acumin;
+    --padding-top: 15px;
+    --padding-bottom: 15px;
+    border-radius: 8px;
+    --padding-start: 20px;
+    --padding-end: 20px;
+    margin-top: 10px;
+    margin-bottom: 3px;
+}
 @media(min-width: 640px)
 {
     ion-card.card_menu

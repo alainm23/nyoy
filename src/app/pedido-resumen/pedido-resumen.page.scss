@@ -128,7 +128,7 @@ ion-card
             padding-top:0px;
             margin-left: 3%;
             height: 100%;
-            padding-right: 30px;
+            padding-right: 0px;
             h5
             {
                 margin: 0px;
@@ -139,13 +139,6 @@ ion-card
                 -webkit-line-clamp: 1;
                 -webkit-box-orient: vertical;
                 overflow: hidden;
-                .span_number
-                {
-                    color: #90B231;
-                    margin-left: 5px;
-                    font-family: HelveticaNeueRegular;
-                    font-weight: bold;
-                }
             }
             p.descripcion_card
             {
@@ -274,6 +267,13 @@ ion-card
         }
     }
 }
+.span_number
+{
+    color: #90B231;
+    margin-left: 5px;
+    font-family: HelveticaNeueRegular;
+    font-weight: bold;
+}
 ion-col.padding_start_end
 {
     padding-left: 5px;
@@ -323,10 +323,16 @@ ion-item
         font-family: AvenirBook;
     }
 }
+ion-footer
+{
+    background: url('/assets/img/fondo.png') 0 0/100% 100% no-repeat;
+    height: 83px;
+    display: flex;
+}
 .ion-toolbar-footer
 {
     --background: #7BED8D;
-    height: 60px;
+    height: 50px;
     border-radius: 26px;
     --padding-bottom: 0px;
     --padding-start:30px;
@@ -334,31 +340,24 @@ ion-item
     --padding-top: 5px;
     width: 90%;
     margin-left: 5%;
-    
-}
-div.div_footer
-{
     display: flex;
     align-items: center;
-    background-color: #7BED8D;
-    border-radius: 26px;
-    height: 50px;
-    margin-bottom: 50px;
-    ion-button.btn_footer
-    {
-        --background: tranparent;
-        --color: #ffffff;
-        font-family: AvenirBlack; 
-        font-size: 15px;
-        width: 50%;
-        height: 40px;
-        --box-shadow: none;
-        height: 20px;
-    } 
-    ion-button.btn_border
-    {
-        border-right: 1px solid #ffffff;
-    }
+    
+}
+ion-button.btn_footer
+{
+    --background: tranparent;
+    --color: #ffffff;
+    font-family: AvenirBlack; 
+    font-size: 15px;
+    width: 50%;
+    height: 40px;
+    --box-shadow: none;
+    height: 20px;
+} 
+ion-button.btn_border
+{
+    border-right: 1px solid #ffffff;
 }
 .bajar_precio
 {
@@ -368,6 +367,7 @@ div.div_footer
 {
     padding: 0px 10px;
 }
+
 @media(min-width: 640px)
 {
     ion-card.card_menu
