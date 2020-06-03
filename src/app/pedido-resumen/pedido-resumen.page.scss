@@ -328,6 +328,7 @@ ion-footer
     background: url('/assets/img/fondo.png') 0 0/100% 100% no-repeat;
     height: 83px;
     display: flex;
+    justify-content: center;
 }
 .ion-toolbar-footer
 {
@@ -385,6 +386,10 @@ ion-button.btn_border
             margin-left: 37.5%;
         }
     }
+    ion-footer
+    {
+        align-items: center;
+    }
 }
 @media(min-width: 768px)
 {
@@ -413,6 +418,33 @@ ion-button.btn_border
             margin-bottom: 10px;
         }
     }
+    ion-card
+    {
+        ion-card-header
+        {
+            div.div_padding_top
+            {
+                width: 72%;
+                padding-top:0px;
+                margin-left: 3%;
+                height: 100%;
+                padding-right: 15px;
+                
+            }
+        }
+        
+    }
+    .ion-toolbar-footer
+    {
+        
+        width: 60%;
+        height: 56px;
+    }
+    ion-button.btn_footer
+    {
+        font-size: 25px;
+        height: 30px;
+    } 
 }
 @media(min-width: 1024px)
 {
