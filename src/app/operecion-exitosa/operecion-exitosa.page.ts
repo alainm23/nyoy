@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-operecion-exitosa',
@@ -8,7 +8,10 @@ import { NavController } from '@ionic/angular';
 })
 export class OperecionExitosaPage implements OnInit {
 
-  constructor (private navControl: NavController) { }
+  constructor (
+    private navControl: NavController,
+    private menu: MenuController
+  ) { }
 
   ngOnInit() {
   }
@@ -17,4 +20,8 @@ export class OperecionExitosaPage implements OnInit {
     this.navControl.navigateRoot ('home');
   }
 
+  open_menu () {
+    this.menu.enable (true, 'first');
+    this.menu.close ('first');
+  }
 }

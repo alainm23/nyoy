@@ -7,7 +7,7 @@
       <img [src]="plato?.data.imagen">
     </ion-thumbnail>
     <ion-button class="btn_corazon" (click)="favorito ()">
-      <ion-icon style="font-size: 24px;" [ngStyle]="{'color':es_favorito === true ? 'red' : 'white' }" name="heart"></ion-icon>
+      <ion-icon style="font-size: 24px;" [name]="es_favorito === true ? 'heart' : 'heart-outline'"></ion-icon>
     </ion-button>
   </ion-card>
   <ion-grid class="ion-no-padding" style="background-color: rgba(255, 255, 255, 0.3);">
@@ -47,7 +47,7 @@
             <ion-textarea formControlName="comentario"></ion-textarea>
             <div class="div_btn_pagar">
               <ion-button [disabled]="cantidad <= 0" (click)="agregar_carrito ()">Añadir mas</ion-button>
-              <ion-button (click)="go_resumen ()">Pagar</ion-button>
+              <ion-button [disabled]="cantidad <= 0" (click)="go_resumen (false)">Pagar</ion-button>
             </div>
             <div *ngIf="editar === 'true'">
               <ion-button [disabled]="cantidad <= 0" (click)="go_resumen (true)">Actualizar</ion-button>

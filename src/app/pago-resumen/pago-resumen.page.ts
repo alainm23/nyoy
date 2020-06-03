@@ -65,7 +65,7 @@ export class PagoResumenPage implements OnInit {
       this.subscribe = this.events.get_token_id ().subscribe (async (token_id: string) => {
         console.log (token_id);
         const loading = await this.loadingController.create({
-          message: 'Espere un momento'
+          message: 'Espere un momento...'
         });
     
         await loading.present ();
@@ -126,8 +126,8 @@ export class PagoResumenPage implements OnInit {
       });
     } else {
       const alert = await this.alertController.create({
-        header: 'Confirm!',
-        message: 'Message <strong>text</strong>!!!',
+        header: 'Confirmar operacion',
+        message: 'Procederemos a registrar su pedido, ¿Esta seguro?',
         buttons: [
           {
             text: 'Cancelar',

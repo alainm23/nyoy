@@ -114,7 +114,7 @@ export class MiCuentaPage implements OnInit {
   async eliminar_direccion (item: any) {
     console.log (item);
     const alert = await this.alertController.create({
-      header: 'Eliminar ' + item.nombre,
+      header: 'Eliminar ubicación',
       message: '¿Esta seguro que desea eliminar esta direccion?',
       buttons: [
         {
@@ -138,7 +138,7 @@ export class MiCuentaPage implements OnInit {
 
   async editar_direccion (item: any) {
     const alert = await this.alertController.create({
-      header: 'Editar direccion',
+      header: 'Editar ubicación',
       subHeader: 'ascasc',
       inputs: [
         {

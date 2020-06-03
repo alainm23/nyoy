@@ -31,7 +31,7 @@
               <div class="dv_img_restaurant">
                 <img [src]="item.logotipo" class="img_ob_cover">
               </div>
-              <p>({{ item.nombre }})</p>
+              <p>({{ item.linea_comida }})</p>
             </ion-card>
           </ion-col>
           <!-- <ion-col size="6">
@@ -47,7 +47,7 @@
             </ion-card>
           </ion-col> -->
           <ion-col size="6">
-            <ion-card class="ion-no-margin">
+            <ion-card class="ion-no-margin" style="opacity: 0.7;" (click)="alerta ()">
               <div class="dv_img_restaurant">
                 <img src="assets/img/Grupo1558.png" class="img_ob_cover baja_img">
               </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 // Services
-import { MenuController, NavController, PopoverController, IonSlides } from '@ionic/angular'; 
+import { MenuController, NavController, PopoverController, IonSlides, IonContent } from '@ionic/angular'; 
 import { DatabaseService } from '../services/database.service';
 import { ActivatedRoute } from '@angular/router';
 import { StockValidatorService } from '../services/stock-validator.service';
@@ -14,6 +14,7 @@ import { Storage } from '@ionic/storage';
 export class EmpresaMenuPage implements OnInit {
   @ViewChild ('slideWithNav2', { static: false }) slides_empresa: IonSlides;
   @ViewChild ('slideWithNav3', { static: false }) slides_carta: IonSlides;
+  @ViewChild (IonContent) content: IonContent;
 
   sliderTwo: any;
   usuario_id: string = '';
@@ -355,7 +356,7 @@ export class EmpresaMenuPage implements OnInit {
     return precio;
   }
 
-  agregar_carrito_menu (menus_completos: number, cantidad_elementos_menu: any [], menus_dia: any []) {
+  agregar_carrito_menu (menus_completos: number, cantidad_elementos_menu: any [], menus_dia: any [], pagar: boolean =  false) {
     let request: any = {
       id: this.database.createId (),
       empresa_id: this.empresa_seleccionada.id,
@@ -372,11 +373,16 @@ export class EmpresaMenuPage implements OnInit {
     this.menus_dia_seleccionado = [];
     this.carta_seleccionada.cantidad_elementos_menu = [];
     this.carta_seleccionada.menus_completos = 0;
+    this.content.scrollToTop (500);
     menus_dia.forEach ((x: any) => {
       x.menus_dia.forEach ((y: any) => {
         y.cantidad_solicitado = 0;
       });
     });
+
+    if (pagar) {
+      this.navCtrl.navigateForward (['pedido-resumen']);  
+    }
   }
 
   ver_promocion (promocion: any) {

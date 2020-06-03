@@ -53,8 +53,6 @@
                   <div class="bajar_precio">
                     <div class="div_precio">
                       <p class="p_precio">{{ (item.value.precio * item.value.cantidad) + get_extras_precio (item.value.extras) | currency:'S/. ' }}</p>
-                      &nbsp;&nbsp;&nbsp;
-                      <p class="p_precio">{{ item.value.cantidad }} .Unds</p>
                     </div>
                   </div>
                   <ion-button [ngStyle]="{'transform': item.ver_detalles === true ? 'rotate(90deg)' : 'none' }" class="btn_close_card ion-no-margin transition">
@@ -116,7 +114,6 @@
                     </li>
                   </ul>
                   <div class="div_botones">
-                    <ion-button class="btn_circulo ion-no-padding"><ion-icon name="pencil-outline" class="icono_plomo_circulo"></ion-icon></ion-button>
                     <ion-button (click)="eliminar_plato (item)" class="btn_circulo ion-no-padding"><ion-icon name="trash-outline" class="icono_plomo_circulo"></ion-icon></ion-button>
                   </div>
                 </div>
@@ -177,12 +174,12 @@
     </ion-row>
   </ion-grid>
 </ion-content>
-<ion-footer class="ion-no-border">
+<ion-footer class="ion-no-border" *ngIf="stock_validator.carrito_platos.size > 0">
   <ion-toolbar (click)="openCulqi (stock_validator.carrito_platos)" class="ion-text-center ion-toolbar-footer">
-    <ion-button  class="ion-no-margin btn_border btn_footer">
+    <ion-button  style="margin-bottom: 6px;" class="ion-no-margin btn_border btn_footer">
       Pagar
     </ion-button>
-    <ion-button  class="ion-no-margin btn_footer">
+    <ion-button  style="margin-bottom: 6px;" class="ion-no-margin btn_footer">
       {{ get_precio_total (stock_validator.carrito_platos) | currency:'S/. ' }}
     </ion-button>
   </ion-toolbar>

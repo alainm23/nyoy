@@ -184,7 +184,7 @@ export class PromocionDescripcionPage implements OnInit {
     this.navCtrl.back ();
   }
 
-  go_resumen (editar: true) {
+  go_resumen (editar: boolean) {
     if (editar) {
       this.stock_validator._carrito_platos.delete (this.route.snapshot.paramMap.get ('id'));
     }

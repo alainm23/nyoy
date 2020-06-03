@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 // Services
-import { NavController } from '@ionic/angular';
+import { NavController, AlertController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import { DatabaseService } from '../services/database.service';
 @Component({
@@ -15,7 +15,8 @@ export class HomePage implements OnInit {
   constructor (
     public auth: AuthService,
     public database: DatabaseService,
-    public navController: NavController
+    public navController: NavController,
+    public alertController: AlertController
   ) {}
 
   ngOnInit () {
@@ -34,5 +35,22 @@ export class HomePage implements OnInit {
 
   view_empresa (item: any) {
     this.navController.navigateForward (['empresa-menu', item.id]);
+  }
+
+  async alerta () {
+    const alert = await this.alertController.create({
+      message: 'Pronto, tu tienda de abarrotes en linea a tu disposición.',
+      buttons: [
+        {
+          text: 'Ok',
+          role: 'cancel',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 } 

@@ -34,7 +34,8 @@ export class DatosRecojoPage implements OnInit {
     private pago: PagoService,
     private events: EventsService,
     private auth: AuthService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private menu: MenuController
   ) { }
 
   ngOnInit () {
@@ -67,8 +68,11 @@ export class DatosRecojoPage implements OnInit {
     }
   }
 
-  escoger_hora (val: string) {
+  select_hora (val: string) {
     this.hora_seleccionada = val;
+  }
+
+  escoger_hora () {
     this.proceso = 1;
   }
 
@@ -112,8 +116,8 @@ export class DatosRecojoPage implements OnInit {
       });
     } else {
       const alert = await this.alertController.create({
-        header: 'Confirm!',
-        message: 'Message <strong>text</strong>!!!',
+        header: 'Confirmar operacion',
+        message: 'Procederemos a registrar su pedido, ¿Esta seguro?',
         buttons: [
           {
             text: 'Cancelar',
@@ -230,5 +234,14 @@ export class DatosRecojoPage implements OnInit {
         console.log (error);
         loading.dismiss ();
       })
+  }
+
+  back () {
+    this.navController.back ();
+  }
+
+  open_menu () {
+    this.menu.enable (true, 'first');
+    this.menu.close ('first');
   }
 }

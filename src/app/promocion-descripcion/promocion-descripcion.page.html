@@ -55,7 +55,7 @@
         <ion-textarea rows="10" [(ngModel)]="comentario"></ion-textarea>
         <div *ngIf="editar === 'false'">
           <ion-button [disabled]="cantidad <= 0" (click)="agregar_carrito ()">Agregar más</ion-button>
-          <ion-button (click)="go_resumen (false)">Pagar</ion-button>
+          <ion-button [disabled]="cantidad <= 0" (click)="go_resumen (false)">Pagar</ion-button>
         </div>
         <div *ngIf="editar === 'true'">
           <ion-button [disabled]="cantidad <= 0" (click)="go_resumen (true)">Actualizar</ion-button>

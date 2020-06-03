@@ -54,6 +54,7 @@ export class AppComponent {
   }
 
   initNotifications () {
+    console.log ('Entro aqui para las notificaciones');
     this.oneSignal.startInit('07b5ca72-5699-4117-9966-1867a2306719', '934733338514');
     this.oneSignal.inFocusDisplaying (this.oneSignal.OSInFocusDisplayOption.Notification);
     this.oneSignal.handleNotificationOpened ().subscribe (async (jsonData: OSNotificationOpenedResult) => {

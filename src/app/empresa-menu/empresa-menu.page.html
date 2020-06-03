@@ -143,8 +143,8 @@
                   <ion-label class="ion-text-wrap">{{ menu_dia.menu_nombre }}</ion-label>
 
                   <ion-button class="btn_restar" (click)="remove_menu_dia_carrito (menu_dia)"><ion-icon name="remove"></ion-icon></ion-button>
-                    <p class="p_cantidad">{{ menu_dia.cantidad_solicitado !== undefined ? menu_dia.cantidad_solicitado : 0 }}</p>
-                    <ion-button class="btn_sumar" (click)="add_menu_dia_carrito (menu_dia)"><ion-icon name="add"></ion-icon></ion-button>
+                  <p class="p_cantidad">{{ menu_dia.cantidad_solicitado !== undefined ? menu_dia.cantidad_solicitado : 0 }}</p>
+                  <ion-button class="btn_sumar" (click)="add_menu_dia_carrito (menu_dia)"><ion-icon name="add"></ion-icon></ion-button>
                 </ion-item>
               </ion-col>
             </ion-row>
@@ -194,7 +194,7 @@
         <ion-textarea rows="4" [(ngModel)]="menu_dia_comentario"></ion-textarea>
         <div class="div_btn_final">
           <ion-button class="btn_anadir_pagar" [disabled]="get_precio_total (carta_seleccionada, carta_seleccionada.menus_completos, carta_seleccionada.cantidad_elementos_menu, carta_seleccionada?.menus_dia) <= 0" (click)="agregar_carrito_menu (carta_seleccionada.menus_completos, carta_seleccionada.cantidad_elementos_menu, carta_seleccionada?.menus_dia)">Añadir mas</ion-button>
-          <ion-button class="btn_anadir_pagar">Pagar</ion-button>
+          <ion-button class="btn_anadir_pagar" [disabled]="get_precio_total (carta_seleccionada, carta_seleccionada.menus_completos, carta_seleccionada.cantidad_elementos_menu, carta_seleccionada?.menus_dia) <= 0" (click)="agregar_carrito_menu (carta_seleccionada.menus_completos, carta_seleccionada.cantidad_elementos_menu, carta_seleccionada?.menus_dia, true)">Pagar</ion-button>
         </div>
       </ion-col>
     </ion-row>
@@ -251,7 +251,7 @@
             <ion-card (click)="ver_promocion (promocion)">
               <ion-thumbnail >
                 <img *ngIf="promocion.tipo === '0'" [src]="promocion.plato.imagen">
-                <img *ngIf="promocion.tipo === '1'" [src]="get_imagen (promocion)">
+                <img *ngIf="promocion.tipo === '1'" [src]="promocion.imagen">
               </ion-thumbnail>
               <div class="div_padding_top">
                 <h5 >{{ promocion.nombre }}</h5>

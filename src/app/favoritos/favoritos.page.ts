@@ -33,7 +33,7 @@ export class FavoritosPage implements OnInit {
   }
 
   ver_plato (plato) {
-    this.navCtrl.navigateForward (['plato-descripcion', plato.id]);
+    this.navCtrl.navigateForward (['plato-descripcion', plato.id, false]);
   }
   
   async favorito (item: any) {
