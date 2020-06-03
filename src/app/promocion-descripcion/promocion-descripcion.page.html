@@ -10,7 +10,7 @@
   </ion-card>
   <ion-grid class="ion-no-padding">
     <ion-row class="ion-justify-content-center">
-      <ion-col size="8" size-sm="7">
+      <ion-col size="9" size-sm="7">
         <h1>{{ promocion?.nombre }}</h1>
         <p class="p_descripcion">
           {{ promocion?.descripcion }}
@@ -49,8 +49,8 @@
         </ul>
       </ion-col>
     </ion-row>
-    <ion-row class="ion-justify-content-center ion-margin-bottom" style="background: #ffffff;">
-      <ion-col size="8" size-sm="7">
+    <ion-row class="ion-justify-content-center ion-margin-bottom">
+      <ion-col size="9" size-sm="7">
         <h5>¿Algún comentario?</h5>
         <ion-textarea rows="4" [(ngModel)]="comentario"></ion-textarea>
         <div *ngIf="editar === 'false'">

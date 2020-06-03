@@ -10,9 +10,17 @@
   font-family: AvenirMedium;
   src : url('/assets/font/Avenir-Medium.ttf')
 }
+@font-face{
+  font-family: AvenirBook;
+  src : url('/assets/font/Avenir Book.ttf')
+}
 ion-content
 {
   --background: url('/assets/img/fondo.png') 0 0/100% 100% no-repeat;
+}
+ion-menu-button
+{
+  color: #707070;
 }
 .btn_menu
 {
@@ -30,12 +38,16 @@ ion-content
 }
 .p1
 {
-  font-size: 1.3125rem;
+  font-size: 1.25rem;
   font-weight: bolder;
+  font-family: HelveticaNeueRegular;
+  color: #969696;
 }
 .p2
 {
   font-size: 1rem;
+  font-family: AvenirBook;
+  color: #969696;
 }
 .col_bajar
 {
@@ -55,8 +67,8 @@ ion-card
   p
   {
       color: #707070;
-      font-family: AvenirMedium;
-      font-size: 11px;
+      font-family: AvenirBook;
+      font-size: 15px;
       margin: 0rem;
   }
   p.p4_card

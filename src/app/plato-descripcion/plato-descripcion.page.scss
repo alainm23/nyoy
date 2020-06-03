@@ -120,22 +120,25 @@ div
 {
     width: 100%;
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
     margin-top: 8px;
     margin-bottom: 0px;
     align-items: center;
     ion-button
     {
-        width: 48%;
+        width: 50%;
         --border-radius: 26px;
         --color:#FFFFFF;
         text-shadow: 0px 2px 2px #00000029;
         --background: #7BED8D;
         --background-activated: #7BED8D;
         font-family: AvenirBlack;
-        height: 35px;
-        font-size: 8px;
+        height: 45px;
+        font-size: 13px;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
 }
 .p_precio
@@ -153,27 +156,36 @@ div
     align-items: center;
     margin-top: 25px;
     margin-bottom: 25px;
+    height: 45px;
     .btn_restar
     {
-        width: 20px;
-        height: 20px;
+        width: 25px;
+        height: 25px;
         --background: #D0D0CE;
         --border-radius: 50%;
         --padding-start: 0px;
         --padding-end: 0px;
         margin-right: 12px !important;
         margin: 0px;
+        ion-icon
+        {
+            font-size: 32px;
+        }
     }
     .btn_sumar
     {
-        width: 20px;
-        height: 20px;
+        width: 25px;
+        height: 25px;
         --background: #A8D62B;
         --border-radius: 50%;
         --padding-start: 0px;
         --padding-end: 0px;
         margin-left: 12px !important;
         margin: 0px;
+        ion-icon
+        {
+            font-size: 32px;
+        }
     }
     .p_cantidad
     {
@@ -212,13 +224,17 @@ div.div_botonos
     {
         --background:#D0D0CE;
         --background-activated: #D0D0CE;
-        width: 15px;
-        height: 15px;
+        width: 20px;
+        height: 20px;
         --border-radius: 50%;
         margin-right: 8px;
         --padding-start: 0px;
         --padding-end: 0px;
         margin-left: 0px;
+        ion-icon
+        {
+            font-size: 32px;
+        }
     }
     .p_catidad
     {
@@ -232,13 +248,17 @@ div.div_botonos
     {
         --background:#A8D62B;
         --background-activated:#A8D62B;
-        width: 15px;
-        height: 15px;
+        width: 20px;
+        height: 20px;
         --border-radius: 50%;
         margin-left: 8px;
         --padding-start: 0px;
         --padding-end: 0px;
         margin-right: 0px;
+        ion-icon
+        {
+            font-size: 32px;
+        }
     }
 }
 div.div_precio

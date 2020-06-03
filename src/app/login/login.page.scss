@@ -7,10 +7,6 @@
     src : url('/assets/font/Avenir Book.ttf')
 }
 @font-face{
-    font-family: AvenirBook;
-    src : url('/assets/font/Avenir Book.ttf')
-}
-@font-face{
     font-family: AvenirBlack;
     src : url('/assets/font/Avenir-Black.otf')
 }
@@ -35,6 +31,7 @@ ion-input
     --padding-top: 0.875rem;
     --padding-bottom: 0.875rem;
     box-shadow: 0px 2px 3px #00000029;
+    font-family: AvenirBook;
 }
 .btn_entrar
 {
@@ -97,6 +94,13 @@ p
     {
         font-family: AvenirBlack;
     }
+}
+.p_olvidastes_contraseña
+{
+    color: #575757;
+    font-family: AvenirBlack;
+    margin-top: 8px;
+    margin-bottom: 8px;
 }
 ion-col.bajar_col
 {
