@@ -1,0 +1,115 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card class="ion-no-margin card_menu">
+    <h1 class="ion-text-center">Historial de pedidos</h1>
+  </ion-card>
+  <ion-grid>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="11" size-sm="8" size-md="7">
+          <ion-select placeholder="Escoge establecimiento" interface="popover" (ionChange)="select_changed ($event.detail.value)">
+            <ion-select-option value="todos">
+              Todos
+            </ion-select-option>
+            <ion-select-option *ngFor="let item of empresas" [value]="item">
+              {{ item.nombre }}
+            </ion-select-option>
+          </ion-select>
+      </ion-col>
+      <ion-col size="11" size-sm="8" size-md="7" *ngFor="let item of items">
+        <ion-card class="ion-no-margin card_acordion">
+          <ion-card-header (click)="ver_detalles (item)" style="padding-left: 0.5rem;">
+            <ion-card-title>
+              <!-- <span class="ion-margin-end">Order #5678</span> -->
+              <span class="ion-margin-start">{{ get_format_date (item.data.fecha) }}</span>
+            </ion-card-title>
+            <ion-icon name="chevron-down-outline"></ion-icon>
+          </ion-card-header>
+          <ion-card-content *ngIf="item.ver_detalles" class="card_conten_none card_conten_block">
+            <ion-row>
+              <ion-col size="12">
+                <ion-row *ngFor="let plato of item.pedido.platos">
+                  <ion-col size="12" class="header" *ngIf="plato.tipo === 'menu'">Menus</ion-col>
+                  <ion-col size="12" class="header" *ngIf="plato.tipo === 'extra'">Extras</ion-col>
+                  <ion-col size="12" class="header" *ngIf="plato.tipo === 'promocion'">Promocion</ion-col>
+                  <ng-container *ngIf="plato.tipo === 'extra'">
+                    <ion-col size="8">
+                      <p class="color_74">{{ plato.plato_nombre }}</p>
+                    </ion-col>
+                    <ion-col size="4" class="ion-text-end">
+                      <p class="color_a6">{{ plato.cantidad }} Unds.</p>
+                    </ion-col>
+                    <!-- <ion-col size="3" class="ion-text-end">
+                      <p class="color_74">{{ plato.precio | currency:'S/. ' }}</p>
+                    </ion-col> -->
+                  </ng-container>
+
+                  <ng-container *ngIf="plato.tipo === 'menu'">
+                    <ng-container *ngFor="let menu of plato.menus">
+                      <ion-col size="8">
+                        <p class="color_74">{{ menu.nombre }}</p>
+                      </ion-col>
+                      <ion-col size="4" class="ion-text-end">
+                        <p class="color_a6">{{ menu.cantidad }} Unds.</p>
+                      </ion-col>
+                      <!-- <ion-col size="3" class="ion-text-end">
+                        <p class="color_74">15</p>
+                      </ion-col> -->
+                    </ng-container>
+                  </ng-container>
+
+                  <ng-container *ngIf="plato.tipo === 'promocion' && plato.promocion_tipo === '1'">
+                    <ng-container *ngFor="let plato_p of plato.platos">
+                      <ion-col size="8">
+                        <p class="color_74">{{ plato_p.nombre }}</p>
+                      </ion-col>
+                      <ion-col size="4" class="ion-text-end">
+                        <p class="color_a6">{{ plato.cantidad }} Unds.</p>
+                      </ion-col>
+                      <!-- <ion-col size="3" class="ion-text-end">
+                        <p class="color_74">{{ plato_p.precio | currency:'S/. ' }}</p>
+                      </ion-col> -->
+                    </ng-container>
+                  </ng-container>
+                </ion-row>
+              </ion-col>
+              <ion-col size="12">
+                <ion-row>
+                  <ion-col size="4">
+                    <ion-chip>
+                      <div class="circulo_verdes">
+                        <ion-icon name="checkmark-outline"></ion-icon>
+                      </div>
+                      &nbsp;
+                      <ion-label *ngIf="item.data.estado === 2">Entregado</ion-label>
+                      <ion-label *ngIf="item.data.estado === 3">Cancelado</ion-label>
+                      <ion-label *ngIf="item.data.estado === 4">Rechazado</ion-label>
+                    </ion-chip>
+                  </ion-col>
+                  <ion-col size="4" class="ion-text-end">
+                    <!-- <p class="color_a6">Delivery</p> -->
+                    <p class="color_a6">Total</p>
+                  </ion-col>
+                  <ion-col size="4" class="ion-text-end">
+                    <!-- <p class="color_74">£4.99</p> -->
+                    <p class="color_74">{{ item.data.monto_total | currency:'S/. ' }}</p>
+                  </ion-col>
+                </ion-row>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

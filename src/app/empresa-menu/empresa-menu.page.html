@@ -191,7 +191,7 @@
       </ion-col>
       <ion-col size="9" size-sm="7">
         <h5>¿Algún comentario?</h5>
-        <ion-textarea [(ngModel)]="menu_dia_comentario"></ion-textarea>
+        <ion-textarea rows="4" [(ngModel)]="menu_dia_comentario"></ion-textarea>
         <div class="div_btn_final">
           <ion-button class="btn_anadir_pagar" [disabled]="get_precio_total (carta_seleccionada, carta_seleccionada.menus_completos, carta_seleccionada.cantidad_elementos_menu, carta_seleccionada?.menus_dia) <= 0" (click)="agregar_carrito_menu (carta_seleccionada.menus_completos, carta_seleccionada.cantidad_elementos_menu, carta_seleccionada?.menus_dia)">Añadir mas</ion-button>
           <ion-button class="btn_anadir_pagar">Pagar</ion-button>

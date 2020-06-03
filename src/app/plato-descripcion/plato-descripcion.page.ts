@@ -19,10 +19,12 @@ export class PlatoDescripcionPage implements OnInit {
       imagen: ''
     }
   };
+  _plato: any;
   extras: any [] = [];
   form: FormGroup;
   cantidad: number = 0;
   es_favorito: boolean = false;
+  editar: string = 'false';
   constructor (
     public menu:MenuController,
     public navCtrl: NavController,
@@ -46,13 +48,32 @@ export class PlatoDescripcionPage implements OnInit {
 
     await loading.present ();
 
+    this.editar = this.route.snapshot.paramMap.get ('editar');
+    console.log (this.editar);
+
+    if (this.editar === 'true') {
+      this._plato = this.stock_validator.get_backup_carrito_plato (this.route.snapshot.paramMap.get ('id'));
+      console.log ('backup', this._plato);
+      this.cantidad = this._plato.cantidad;
+      this.form.controls ['comentario'].setValue (this._plato.comentarios);
+    }
+
     this.database.get_plato_by_id (this.route.snapshot.paramMap.get ('id')).subscribe ((res: any) => {
       this.plato = res [0];
       // this.plato.cantidad = this.stock_validator.check_carrito_plato (this.plato.data.id);
       this.database.get_extras_by_carta (this.plato.data.carta_id).subscribe (async (res: any []) => {
         this.extras = res;
         this.extras.forEach ((e: any) => {
-          e.cantidad = 0;
+          console.log ('entras', e);
+          if (this.editar === 'true') {
+            if (this._plato.extras.find (x => x.id === e.insumo_id) !== undefined) {
+              e.cantidad = this._plato.extras.find (x => x.id === e.insumo_id).cantidad;
+            } else {
+              e.cantidad = 0;
+            }
+          } else {
+            e.cantidad = 0;
+          }
         });
 
         await loading.dismiss ();
@@ -84,11 +105,44 @@ export class PlatoDescripcionPage implements OnInit {
   }
 
   back () {
+    if (this.editar === 'true') {
+      this.cancelar_editar ();
+    } else {
+      this.navCtrl.back ();
+    }
+  }
+
+  go_resumen (editar: true) {
+    if (editar) {
+      this.stock_validator._carrito_platos.delete (this.route.snapshot.paramMap.get ('id'));
+    }
+
+    this.stock_validator.agregar_carrito (this.plato.data, this.plato.insumos, this.cantidad, this.extras, this.form.value.comentario);
+    this.form.reset ();
+    this.cantidad = 0;
+    this.navCtrl.navigateForward ('pedido-resumen');
+  }
+
+  agregar_carrito () {
+    console.log ('extras', this.extras);
+    this.stock_validator.agregar_carrito (this.plato.data, this.plato.insumos, this.cantidad, this.extras, this.form.value.comentario, false);
+    this.form.reset ();
+    this.cantidad = 0;
     this.navCtrl.back ();
   }
 
-  go_resumen () {
-    this.stock_validator.agregar_carrito (this.plato.data, this.plato.insumos, this.cantidad, this.extras, this.form.value.comentario);
+  cancelar_editar () {
+    let extras: any [] = [];
+    this.extras.forEach ((e: any) => {
+      if (this._plato.extras.find (x => x.id === e.insumo_id) !== undefined) {
+        e.cantidad = this._plato.extras.find (x => x.id === e.insumo_id).cantidad;
+      } else {
+        e.cantidad = 0;
+      }
+
+      extras.push (e);
+    });
+    this.stock_validator.agregar_carrito (this.plato.data, this.plato.insumos, this._plato.cantidad, extras, this.form.value.comentario, true);
     this.form.reset ();
     this.cantidad = 0;
     this.extras.forEach ((e: any) => {
@@ -96,17 +150,7 @@ export class PlatoDescripcionPage implements OnInit {
     });
     this.navCtrl.navigateForward ('pedido-resumen');
   }
-
-  agregar_carrito () {
-    this.stock_validator.agregar_carrito (this.plato.data, this.plato.insumos, this.cantidad, this.extras, this.form.value.comentario);
-    this.form.reset ();
-    this.cantidad = 0;
-    this.extras.forEach ((e: any) => {
-      e.cantidad = 0;
-    });
-    this.navCtrl.back ();
-  }
-
+  
   update_extra_cantidad (item: any, tipo: number) {
     if (tipo === +1) {
       if (this.stock_validator.check_add_extra_cantidad (item, item.cantidad + 1)) {

@@ -42,10 +42,12 @@
                   <img src="assets/img/plato.png">
                 </ion-thumbnail>
                 <div class="div_padding_top">
-                  <h5>{{ item.value.nombre }}<span class="span_number">({{ item.value.cantidad }})</span></h5>
+                  <h5>{{ item.value.nombre }}</h5>
                   <div class="bajar_precio">
                     <div class="div_precio">
                       <p class="p_precio">{{ (item.value.precio * item.value.cantidad) + get_extras_precio (item.value.extras) | currency:'S/. ' }}</p>
+                      &nbsp;&nbsp;&nbsp;
+                      <p class="p_precio">{{ item.value.cantidad }} .Unds</p>
                     </div>
                     <!-- <div class="div_botonos">
                       <ion-button class="btn_menos" (click)="remove_carrito (item)">-</ion-button>
@@ -58,16 +60,19 @@
               </ion-card-header>
               <ion-card-content style="width: 100%" *ngIf="item.ver_detalles">
                 <div class="div_descrip_plato">
-                  <p *ngFor="let comentario of item.value.comentarios" class="p_list_descrip espacio_p">
-                    {{ comentario }}
+                  <p style="margin-bottom: 0px; white-space: pre-line;" class="p_list_descrip espacio_p">
+                    {{ item.value.comentarios }}
                   </p>
+                  <br>
                   <ul style="list-style-type: none;" class="ion-no-padding ion-no-margin">
                     <li class="p_list_descrip" *ngFor="let extra of item.value.extras">
-                      ({{ extra.cantidad }}) {{ extra.nombre }} {{ extra.precio | currency:'S/. ' }}
+                      <ng-container *ngIf="extra.cantidad > 0">
+                        ({{ extra.cantidad }}) {{ extra.nombre }} {{ extra.precio | currency:'S/. ' }}
+                      </ng-container>
                     </li>
                   </ul>
                   <div class="div_botones">
-                    <ion-button class="btn_circulo ion-no-padding"><ion-icon name="pencil-outline" class="icono_plomo_circulo"></ion-icon></ion-button>
+                    <ion-button (click)="editar_extra (item)" class="btn_circulo ion-no-padding"><ion-icon name="pencil-outline" class="icono_plomo_circulo"></ion-icon></ion-button>
                     <ion-button (click)="eliminar_plato (item)" class="btn_circulo ion-no-padding"><ion-icon name="trash-outline" class="icono_plomo_circulo"></ion-icon></ion-button>
                   </div>
                 </div>
@@ -116,7 +121,7 @@
                   <img src="assets/img/8f003918e9ee1ed3485149c7b6daf73a.png">
                 </ion-thumbnail>
                 <div class="div_padding_top">
-                  <h5>{{ item.value.nombre }}<span class="span_number">({{ item.value.cantidad }})</span></h5>
+                  <h5>{{ item.value.nombre }}</h5>
                   <div class="bajar_precio">
                     <div class="div_precio">
                       <p class="p_precio">{{ item.value.precio | currency:'S/. ' }}</p>
@@ -131,17 +136,19 @@
               </ion-card-header>
               <ion-card-content style="width: 100%" *ngIf="item.ver_detalles">
                 <div class="div_descrip_plato">
-                  <p class="p_list_descrip espacio_p" *ngFor="let comentario of item.value.comentarios">
-                    {{ comentario }}
+                  <p style="margin-bottom: 0px; white-space: pre-line;" class="p_list_descrip espacio_p">
+                    {{ item.value.comentarios }}
                   </p>
                   <ul *ngIf="item.value.promocion_tipo === '1'" style="list-style-type: none;" class="ion-no-padding ion-no-margin">
                     <li class="p_list_descrip" *ngFor="let plato of item.value.platos">
-                      {{ plato.nombre }} {{ plato.precio | currency:'S/. ' }}
+                      ({{ item.value.cantidad }}) {{ plato.nombre }} {{ plato.precio | currency:'S/. ' }}
                     </li>
                   </ul>
-                  <p *ngIf="item.value.promocion_tipo === '0'" class="p_list_descrip espacio_p">{{ item.value.plato.nombre }}</p>
+                  <p *ngIf="item.value.promocion_tipo === '0'" class="p_list_descrip espacio_p">
+                    ({{ item.value.cantidad }}) {{ item.value.plato.nombre }}
+                  </p>
                   <div class="div_botones">
-                    <ion-button class="btn_circulo ion-no-padding"><ion-icon name="pencil-outline" class="icono_plomo_circulo"></ion-icon></ion-button>
+                    <ion-button (click)="editar_promocion (item)" class="btn_circulo ion-no-padding"><ion-icon name="pencil-outline" class="icono_plomo_circulo"></ion-icon></ion-button>
                     <ion-button (click)="eliminar_plato (item)" class="btn_circulo ion-no-padding"><ion-icon name="trash-outline" class="icono_plomo_circulo"></ion-icon></ion-button>
                   </div>
                 </div>
@@ -154,8 +161,8 @@
   </ion-grid>
 </ion-content>
 <ion-footer>
-  <ion-toolbar class="ion-text-center ion-toolbar-footer">
-    <ion-button  class="ion-no-margin btn_border" (click)="openCulqi (stock_validator.carrito_platos)">
+  <ion-toolbar (click)="openCulqi (stock_validator.carrito_platos)" class="ion-text-center ion-toolbar-footer">
+    <ion-button  class="ion-no-margin btn_border">
       Pagar
     </ion-button>
     <ion-button  class="ion-no-margin">

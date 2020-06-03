@@ -54,7 +54,7 @@ export class SingUpPage implements OnInit {
         let request: any = {
           id: res.user.uid,
           nombre: this.form.value.nombre,
-          email: this.form.value.email,
+          correo: this.form.value.email,
           fecha_registro: new Date ().toISOString ()
         }
 

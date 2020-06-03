@@ -249,7 +249,7 @@ export class EmpresaMenuPage implements OnInit {
   }
 
   ver_plato (plato: any) {
-    this.navCtrl.navigateForward (['plato-descripcion', plato.id]);
+    this.navCtrl.navigateForward (['plato-descripcion', plato.id, false]);
   }
 
   check_plato_cantidad (plato) {
@@ -380,7 +380,7 @@ export class EmpresaMenuPage implements OnInit {
   }
 
   ver_promocion (promocion: any) {
-    this.navCtrl.navigateForward (['promocion-descripcion', promocion.id]);
+    this.navCtrl.navigateForward (['promocion-descripcion', promocion.id, false]);
   }
 
   get_imagen (promocion: any) {

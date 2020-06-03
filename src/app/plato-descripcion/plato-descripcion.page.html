@@ -41,13 +41,17 @@
           </ion-row>
         </ng-container>
       </ion-col>
-      <ion-col size="8" size-sm="7" class="ion-margin-top">
+      <ion-col size="8" size-sm="7" class="ion-margin-top ion-margin-bottom">
         <form [formGroup]="form">
           <h5>¿Algún comentario?</h5>
-            <ion-textarea formControlName="comentario"></ion-textarea>
-            <div>
+            <ion-textarea rows="4" formControlName="comentario"></ion-textarea>
+            <div *ngIf="editar === 'false'">
               <ion-button [disabled]="cantidad <= 0" (click)="agregar_carrito ()">Agregar al carrito</ion-button>
               <ion-button (click)="go_resumen ()">Pagar</ion-button>
+            </div>
+            <div *ngIf="editar === 'true'">
+              <ion-button [disabled]="cantidad <= 0" (click)="go_resumen (true)">Actualizar</ion-button>
+              <ion-button (click)="cancelar_editar ()">Cancelar</ion-button>
             </div>
         </form>
       </ion-col>

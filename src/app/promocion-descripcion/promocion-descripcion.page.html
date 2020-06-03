@@ -1,5 +1,5 @@
 <ion-content>
-  <ion-button class="btn_menu_izquierdo" (click)="back ()">
+  <ion-button style="position: fixed;" class="btn_menu_izquierdo" (click)="back ()">
     <ion-icon name="chevron-back-outline"></ion-icon>
   </ion-button>
   <ion-card>
@@ -52,10 +52,14 @@
     <ion-row class="ion-justify-content-center ion-margin-bottom" style="background: #ffffff;">
       <ion-col size="8" size-sm="7">
         <h5>¿Algún comentario?</h5>
-        <ion-textarea [(ngModel)]="comentario"></ion-textarea>
-        <div>
-          <ion-button [disabled]="cantidad <= 0" (click)="agregar_carrito ()">Añadir mas</ion-button>
-          <ion-button>Pagar</ion-button>
+        <ion-textarea rows="4" [(ngModel)]="comentario"></ion-textarea>
+        <div *ngIf="editar === 'false'">
+          <ion-button [disabled]="cantidad <= 0" (click)="agregar_carrito ()">Agregar al carrito</ion-button>
+          <ion-button (click)="go_resumen (false)">Pagar</ion-button>
+        </div>
+        <div *ngIf="editar === 'true'">
+          <ion-button [disabled]="cantidad <= 0" (click)="go_resumen (true)">Actualizar</ion-button>
+          <ion-button (click)="cancelar_editar ()">Cancelar</ion-button>
         </div>
       </ion-col>
     </ion-row>
