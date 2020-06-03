@@ -15,8 +15,10 @@ import { StockValidatorService } from '../services/stock-validator.service';
 export class PromocionDescripcionPage implements OnInit {
   promocion_id: string;
   promocion: any;
+  _promocion: any;
   cantidad: number = 0;
   comentario: string = '';
+  editar: string = 'false';
   constructor (
     public menu:MenuController,
     public navCtrl: NavController,
@@ -33,6 +35,16 @@ export class PromocionDescripcionPage implements OnInit {
     });
 
     await loading.present ();
+
+    this.editar = this.route.snapshot.paramMap.get ('editar');
+    console.log (this.editar);
+
+    if (this.editar === 'true') {
+      this._promocion = this.stock_validator.get_backup_carrito_plato (this.route.snapshot.paramMap.get ('id'));
+      console.log ('backup', this._promocion);
+      this.cantidad = this._promocion.cantidad;
+      this.comentario = this._promocion.comentarios;
+    }
 
     this.promocion_id = this.route.snapshot.paramMap.get ('id');
     this.database.get_promocion_by_id (this.promocion_id).subscribe (async (res: any) => {
@@ -113,6 +125,7 @@ export class PromocionDescripcionPage implements OnInit {
         tipo: 'promocion',
         promocion_tipo: this.promocion.tipo,
         descripcion: this.promocion.descripcion,
+        empresa_id: this.promocion.empresa_id,
         cantidad: this.cantidad,
         nombre: this.promocion.nombre,
         plato: this.promocion.plato,
@@ -164,7 +177,6 @@ export class PromocionDescripcionPage implements OnInit {
     }
 
     console.log (request);
-
     this.stock_validator.agregar_carrito_promocion (request, this.comentario);
 
     this.comentario = '';
@@ -172,7 +184,157 @@ export class PromocionDescripcionPage implements OnInit {
     this.navCtrl.back ();
   }
 
+  go_resumen (editar: true) {
+    if (editar) {
+      this.stock_validator._carrito_platos.delete (this.route.snapshot.paramMap.get ('id'));
+    }
+    
+    let request: any;
+    if (this.promocion.tipo === '0') {
+      this.promocion.insumos.forEach ((e: any) => {
+        e.empresa_id = this.promocion.empresa_id;
+      });
+
+      request = {
+        id: this.promocion_id,
+        tipo: 'promocion',
+        promocion_tipo: this.promocion.tipo,
+        descripcion: this.promocion.descripcion,
+        empresa_id: this.promocion.empresa_id,
+        cantidad: this.cantidad,
+        nombre: this.promocion.nombre,
+        plato: this.promocion.plato,
+        precio: this.promocion.precio_total,
+        imagen: this.promocion.plato.imagen,
+        carta_id: this.promocion.carta_id,
+        descuento: this.promocion.descuento,
+        insumos: this.promocion.insumos
+      }
+    } else {
+      let insumos: any [] = [];
+      this.promocion.platos.forEach((plato: any) => {
+        if (plato.tipo === 'plato') {
+          plato.insumos.forEach((insumo: any) => {
+            insumos.push ({
+              cantidad: insumo.cantidad,
+              id: insumo.id,
+              insumo_id: insumo.insumo_id,
+              plato_id: insumo.plato_id,
+              empresa_id: plato.empresa_id
+            });
+          });
+        } else {
+          insumos.push ({
+            cantidad: 1,
+            id: plato.id,
+            insumo_id: plato.id,
+            plato_id: 0,
+            empresa_id: plato.empresa_id
+          });
+        }
+      });
+
+      request = {
+        id: this.promocion_id,
+        tipo: 'promocion',
+        empresa_id: this.promocion.empresa_id,
+        promocion_tipo: this.promocion.tipo,
+        descripcion: this.promocion.descripcion,
+        cantidad: this.cantidad,
+        nombre: this.promocion.nombre,
+        platos: this.promocion.platos,
+        precio: this.promocion.precio_total,
+        imagen: this.get_imagen_principal (this.promocion),
+        carta_id: this.promocion.carta_id,
+        descuento: this.promocion.descuento,
+        insumos: insumos
+      }
+    }
+
+    console.log (request);
+    this.stock_validator.agregar_carrito_promocion (request, this.comentario);
+
+    this.comentario = '';
+    this.cantidad = 0;
+    this.navCtrl.navigateForward ('pedido-resumen');
+  }
+
+  cancelar_editar () {
+    let request: any;
+    if (this.promocion.tipo === '0') {
+      this.promocion.insumos.forEach ((e: any) => {
+        e.empresa_id = this.promocion.empresa_id;
+      });
+
+      request = {
+        id: this.promocion_id,
+        tipo: 'promocion',
+        promocion_tipo: this.promocion.tipo,
+        descripcion: this.promocion.descripcion,
+        empresa_id: this.promocion.empresa_id,
+        cantidad: this._promocion.cantidad,
+        nombre: this.promocion.nombre,
+        plato: this.promocion.plato,
+        precio: this.promocion.precio_total,
+        imagen: this.promocion.plato.imagen,
+        carta_id: this.promocion.carta_id,
+        descuento: this.promocion.descuento,
+        insumos: this.promocion.insumos
+      }
+    } else {
+      let insumos: any [] = [];
+      this.promocion.platos.forEach((plato: any) => {
+        if (plato.tipo === 'plato') {
+          plato.insumos.forEach((insumo: any) => {
+            insumos.push ({
+              cantidad: insumo.cantidad,
+              id: insumo.id,
+              insumo_id: insumo.insumo_id,
+              plato_id: insumo.plato_id,
+              empresa_id: plato.empresa_id
+            });
+          });
+        } else {
+          insumos.push ({
+            cantidad: 1,
+            id: plato.id,
+            insumo_id: plato.id,
+            plato_id: 0,
+            empresa_id: plato.empresa_id
+          });
+        }
+      });
+
+      request = {
+        id: this.promocion_id,
+        tipo: 'promocion',
+        empresa_id: this.promocion.empresa_id,
+        promocion_tipo: this.promocion.tipo,
+        descripcion: this.promocion.descripcion,
+        cantidad: this._promocion.cantidad,
+        nombre: this.promocion.nombre,
+        platos: this.promocion.platos,
+        precio: this.promocion.precio_total,
+        imagen: this.get_imagen_principal (this.promocion),
+        carta_id: this.promocion.carta_id,
+        descuento: this.promocion.descuento,
+        insumos: insumos
+      }
+    }
+
+    console.log (request);
+    this.stock_validator.agregar_carrito_promocion (request, this.comentario, true);
+
+    this.comentario = '';
+    this.cantidad = 0;
+    this.navCtrl.navigateForward ('pedido-resumen');
+  }
+
   back () {
-    this.navCtrl.back ();
+    if (this.editar === 'true') {
+      this.cancelar_editar ();
+    } else {
+      this.navCtrl.back ();
+    }
   }
 }

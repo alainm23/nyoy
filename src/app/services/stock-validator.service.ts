@@ -25,6 +25,7 @@ export class StockValidatorService {
 
   carrito_insumos = new Map <string, number> ();
   carrito_platos = new Map <string, any> ();
+  _carrito_platos = new Map <string, any> ();
   carrito_extras = new Map <string, any> ();
 
   constructor (
@@ -34,6 +35,10 @@ export class StockValidatorService {
     private storage: Storage
   ) {
     
+  }
+
+  get_backup_carrito_plato (id: string) {
+    return this._carrito_platos.get (id);
   }
 
   init () {
@@ -62,6 +67,7 @@ export class StockValidatorService {
       res.forEach ((i: any) => {
         this.empresas_insumos.set (i.empresa_id + '-' + i.insumo_id, i.stock);
       });
+      console.log ('Stock empresa', this.empresas_insumos);
     });
   }
 
@@ -97,7 +103,8 @@ export class StockValidatorService {
       this.carrito_menus_dia = new Map <string, number> ();
     }
 
-    console.log (this.carrito_platos);
+    console.log ('insumo', this.carrito_insumos);
+    console.log ('carrito_platos', this.carrito_platos);
   }
 
   check_valid (plato: any, insumos: any [], cantidad: number) {
@@ -233,7 +240,9 @@ export class StockValidatorService {
     return valid;
   }
 
-  agregar_carrito (plato: any, insumos: any [], cantidad: number, extras: any [], comentario: string) {
+  agregar_carrito (plato: any, insumos: any [], cantidad: number, extras: any [], comentario: string, cancelar: boolean=false) {
+    console.log ('insumos', insumos);
+    console.log ('extras', extras);
     if (this.carrito_platos.get (plato.id) === undefined) {
       let _extras: any [] = [];
       extras.forEach ((e: any) => {
@@ -244,11 +253,6 @@ export class StockValidatorService {
           cantidad: e.cantidad
         });
       });
-
-      let comentarios = [];
-      if (comentario !== '') {
-        comentarios.push (comentario);
-      }
 
       this.carrito_platos.set (plato.id, {
         id: plato.id,
@@ -261,9 +265,9 @@ export class StockValidatorService {
         empresa_id: plato.empresa_id,
         carta_id: plato.carta_id,
         extras: _extras,
-        comentarios: comentarios,
-        plato: plato, // Variables apoto
-        insumos: insumos // Variables apoto
+        comentarios: comentario.trim (),
+        plato: plato, // Variables apoyo
+        insumos: insumos // Variables apoyo
       });
     } else {
       let c = this.carrito_platos.get (plato.id).cantidad + cantidad;
@@ -283,7 +287,7 @@ export class StockValidatorService {
       });
       let comentarios = this.carrito_platos.get (plato.id).comentarios;
       if (comentario !== '') {
-        comentarios.push (comentario);
+        comentarios += '\n' + comentario.trim ();
       }
 
       this.carrito_platos.set (plato.id, {
@@ -302,13 +306,13 @@ export class StockValidatorService {
         insumos: insumos,
       });
     }
-    
+  
     insumos.forEach ((i: any) => {
       if (this.carrito_insumos.get (plato.empresa_id + '-' + i.insumo_id) === undefined) {
-        this.carrito_insumos.set (plato.empresa_id + '-' + i.insumo_id, i.cantidad);
+        this.carrito_insumos.set (plato.empresa_id + '-' + i.insumo_id, i.cantidad * cantidad);
       } else {
         let c = this.carrito_insumos.get (plato.empresa_id + '-' + i.insumo_id);
-        this.carrito_insumos.set (plato.empresa_id + '-' + i.insumo_id, i.cantidad + c);
+        this.carrito_insumos.set (plato.empresa_id + '-' + i.insumo_id, (c + i.cantidad * cantidad));
       }
     });
 
@@ -323,7 +327,9 @@ export class StockValidatorService {
 
     this.storage.set ('carrito-platos', JSON.stringify (Array.from (this.carrito_platos.entries ())));
     this.storage.set ('carrito-insumos', JSON.stringify (Array.from (this.carrito_insumos.entries ())));
-    this.presentToast ('Tu pedido fue agregado al carrito de compras', 'success');
+    if (!cancelar) {
+      this.presentToast ('Tu pedido fue agregado al carrito de compras', 'success');
+    }
   }
 
   check_carrito_plato (id: string) {
@@ -516,9 +522,9 @@ export class StockValidatorService {
     this.presentToast ('Tu pedido fue agregado al carrito de compras', 'success');
   }
 
-  agregar_carrito_promocion (request: any, comentario: string) {
+  agregar_carrito_promocion (request: any, comentario: string, cancelar: boolean = false) {
     if (this.carrito_platos.get (request.id) === undefined) {
-      request.comentarios = [comentario];
+      request.comentarios = comentario;
       this.carrito_platos.set (request.id, request);
     } else {
       let insumos = this.carrito_platos.get (request.id).insumos;
@@ -526,9 +532,16 @@ export class StockValidatorService {
       let cantidad = this.carrito_platos.get (request.id).cantidad;
       
       request.insumos.forEach(element => {
-        insumos.push (element);
+        if (insumos.find (x => x.insumo_id === element.insumo_id) === undefined) {
+          insumos.push (element); 
+        } else {
+          let tmp = insumos.find (x => x.insumo_id === element.insumo_id);
+          tmp.cantidad += element.cantidad;
+        }
       });
-      comentarios.push (comentario);
+      if (comentario !== '') {
+        comentarios += '\n' + comentario;
+      }
       cantidad += request.cantidad
 
       let tmp = this.carrito_platos.get (request.id);
@@ -538,19 +551,22 @@ export class StockValidatorService {
 
       this.carrito_platos.set (request.id, tmp);
     }
-
+    
     request.insumos.forEach ((i: any) => {
+      console.log ('insumos', i);
       if (this.carrito_insumos.get (i.empresa_id + '-' + i.insumo_id) === undefined) {
-        this.carrito_insumos.set (i.empresa_id + '-' + i.insumo_id, i.cantidad);
+        this.carrito_insumos.set (i.empresa_id + '-' + i.insumo_id, i.cantidad * request.cantidad);
       } else {
         let c = this.carrito_insumos.get (i.empresa_id + '-' + i.insumo_id);
-        this.carrito_insumos.set (i.empresa_id + '-' + i.insumo_id, i.cantidad + c);
+        this.carrito_insumos.set (i.empresa_id + '-' + i.insumo_id, c + (i.cantidad * request.cantidad));
       }
     });
 
     this.storage.set ('carrito-platos', JSON.stringify (Array.from (this.carrito_platos.entries ())));
     this.storage.set ('carrito-insumos', JSON.stringify (Array.from (this.carrito_insumos.entries ())));
-    this.presentToast ('Tu pedido fue agregado al carrito de compras', 'success');
+    if (!cancelar) {
+      this.presentToast ('Tu pedido fue agregado al carrito de compras', 'success');
+    }
   } 
 
   check_insumo_extra_disponible (id: string) {
@@ -582,6 +598,7 @@ export class StockValidatorService {
 
   eliminar_plato (key: string) {
     let item = this.carrito_platos.get (key);
+    console.log (item);
     if (item.tipo === 'menu') {
       item.menus.forEach (element => {
         if (this.carrito_menus_dia.get (item.carta_id + '-' + element.id) !== undefined) {
@@ -598,10 +615,10 @@ export class StockValidatorService {
         }
       });
 
-      item.insumos.forEach (element => {
+      item.insumos.forEach (element => {// 3 pollos - 0.5
         if (this.carrito_insumos.get (item.empresa_id + '-' + element.insumo_id) !== undefined) {
           let c = this.carrito_insumos.get (item.empresa_id + '-' + element.insumo_id);
-          this.carrito_insumos.set (item.empresa_id + '-' + element.insumo_id, c - element.cantidad);
+          this.carrito_insumos.set (item.empresa_id + '-' + element.insumo_id, c - (element.cantidad * item.cantidad));
         }
       });
       this.carrito_platos.delete (key);
@@ -609,7 +626,7 @@ export class StockValidatorService {
       item.insumos.forEach (element => {
         if (this.carrito_insumos.get (element.empresa_id + '-' + element.insumo_id) !== undefined) {
           let c = this.carrito_insumos.get (element.empresa_id + '-' + element.insumo_id);
-          this.carrito_insumos.set (element.empresa_id + '-' + element.insumo_id, c - element.cantidad);
+          this.carrito_insumos.set (element.empresa_id + '-' + element.insumo_id, c - (element.cantidad * item.cantidad));
         }
       });
       this.carrito_platos.delete (key);

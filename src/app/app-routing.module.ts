@@ -30,7 +30,7 @@ const routes: Routes = [
     loadChildren: () => import('./empresa-menu/empresa-menu.module').then( m => m.EmpresaMenuPageModule)
   },
   {
-    path: 'plato-descripcion/:id',
+    path: 'plato-descripcion/:id/:editar',
     loadChildren: () => import('./plato-descripcion/plato-descripcion.module').then( m => m.PlatoDescripcionPageModule)
   },
   {
@@ -38,7 +38,7 @@ const routes: Routes = [
     loadChildren: () => import('./pedido-resumen/pedido-resumen.module').then( m => m.PedidoResumenPageModule)
   },
   {
-    path: 'promocion-descripcion/:id',
+    path: 'promocion-descripcion/:id/:editar',
     loadChildren: () => import('./promocion-descripcion/promocion-descripcion.module').then( m => m.PromocionDescripcionPageModule)
   },
   {
@@ -65,6 +65,15 @@ const routes: Routes = [
     path: 'favoritos',
     loadChildren: () => import('./favoritos/favoritos.module').then( m => m.FavoritosPageModule)
   },
+  {
+    path: 'pedidos',
+    loadChildren: () => import('./pedidos/pedidos.module').then( m => m.PedidosPageModule)
+  },
+  {
+    path: 'historial-pedidos',
+    loadChildren: () => import('./historial-pedidos/historial-pedidos.module').then( m => m.HistorialPedidosPageModule)
+  },
+
 
 ];
 
