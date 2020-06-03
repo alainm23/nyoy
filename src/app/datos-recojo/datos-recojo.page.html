@@ -12,93 +12,97 @@
     <ion-grid class="grid_card">
       <ion-row class="ion-justify-content-center">
         <ion-col size="3" size-sm="2">
-          <ion-button class="btn_iconos active ion-no-margin"><img src="assets/img/icon-delivery.png"></ion-button>
+          <ion-button [color]="proceso === 0 ? 'selected' : 'no-segment-selected'" class="btn_iconos ion-no-margin">
+            <ion-icon name="car-outline"></ion-icon>
+          </ion-button>
         </ion-col>
         <ion-col size="3" size-sm="2">
-          <ion-button class="btn_iconos desactive ion-no-margin"><ion-icon name="list-outline" class="desactive"></ion-icon></ion-button>
+          <ion-button [color]="proceso === 1 ? 'selected' : 'no-segment-selected'" class="btn_iconos ion-no-margin">
+            <ion-icon name="list-outline"></ion-icon>
+          </ion-button>
         </ion-col>
         <ion-col size="3" size-sm="2">
-          <ion-button class="btn_iconos desactive ion-no-margin"><ion-icon name="card-outline" class="desactive"></ion-icon></ion-button>
+          <ion-button [color]="proceso === 2 ? 'selected' : 'no-segment-selected'" class="btn_iconos ion-no-margin">
+            <ion-icon name="card-outline">
+          </ion-icon></ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>
   </ion-card>
   <ion-grid>
-    <ion-row class="ion-justify-content-center">
+    <ion-row *ngIf="proceso === 0" class="ion-justify-content-center">
       <ion-col size="11" size-sm="8" size-md="7" size-lg="7">
         <p class="p_subtitulos">Cuando</p>
-        <ion-radio-group value="biff">
+        <ion-radio-group [(ngModel)]="tipo_recojo">
           <ion-row>
             <ion-col size="12" class="">
               <ion-item lines="none">
                 <ion-label class="ion-no-margin">Lo mas antes posible</ion-label>
-                <ion-radio slot="start" value="biff" mode="ios"></ion-radio>
+                <ion-radio slot="start" value="rapido" mode="ios"></ion-radio>
               </ion-item>
             </ion-col>
             <ion-col size="12" class="">
               <ion-item lines="none">
                 <ion-label class="ion-no-margin">Escoge un horario</ion-label>
-                <ion-radio slot="start" value="griff" mode="ios"></ion-radio>
+                <ion-radio slot="start" value="horario" mode="ios"></ion-radio>
               </ion-item>
             </ion-col>
           </ion-row>
         </ion-radio-group>
       </ion-col>
-      <ion-col size="11" size-sm="8" size-md="7" size-lg="7">
+
+      <ion-col *ngIf="tipo_recojo === 'horario'" size="11" size-sm="8" size-md="7" size-lg="7">
         <p class="p_subtitulos">Escoge horario de recojo</p>
         <ion-row>
           <ion-col size="4">
-            <ion-button class="btn_hora">11:45 - 12:00</ion-button>
+            <ion-button class="btn_hora" [color]="hora_seleccionada === '11:45' ? 'selected' : 'no-selected'" (click)="select_hora ('11:45')">11:45 - 12:00</ion-button>
           </ion-col>
           <ion-col size="4">
-            <ion-button class="btn_hora">12:00 - 12:15</ion-button>
+            <ion-button class="btn_hora" [color]="hora_seleccionada === '12:00' ? 'selected' : 'no-selected'" (click)="select_hora ('12:00')">12:00 - 12:15</ion-button>
           </ion-col>
           <ion-col size="4">
-            <ion-button class="btn_hora">12:15 - 12:30</ion-button>
+            <ion-button class="btn_hora" [color]="hora_seleccionada === '12:15' ? 'selected' : 'no-selected'" (click)="select_hora ('12:15')">12:15 - 12:30</ion-button>
           </ion-col>
           <ion-col size="4">
-            <ion-button class="btn_hora">11:45 - 12:00</ion-button>
+            <ion-button class="btn_hora" [color]="hora_seleccionada === '12:30' ? 'selected' : 'no-selected'" (click)="select_hora ('12:30')">12:30 - 12:45</ion-button>
           </ion-col>
           <ion-col size="4">
-            <ion-button class="btn_hora">12:00 - 12:15</ion-button>
+            <ion-button class="btn_hora" [color]="hora_seleccionada === '12:45' ? 'selected' : 'no-selected'" (click)="select_hora ('12:45')">12:45 - 13:00</ion-button>
           </ion-col>
           <ion-col size="4">
-            <ion-button class="btn_hora">12:15 - 12:30</ion-button>
+            <ion-button class="btn_hora" [color]="hora_seleccionada === '13:00' ? 'selected' : 'no-selected'" (click)="select_hora ('13:00')">13:00 - 13:15</ion-button>
           </ion-col>
           <ion-col size="4">
-            <ion-button class="btn_hora">11:45 - 12:00</ion-button>
+            <ion-button class="btn_hora" [color]="hora_seleccionada === '13:15' ? 'selected' : 'no-selected'" (click)="select_hora ('13:15')">13:15 - 13:30</ion-button>
           </ion-col>
           <ion-col size="4">
-            <ion-button class="btn_hora">12:00 - 12:15</ion-button>
+            <ion-button class="btn_hora" [color]="hora_seleccionada === '13:30' ? 'selected' : 'no-selected'" (click)="select_hora ('13:30')">13:30 - 13:45</ion-button>
           </ion-col>
           <ion-col size="4">
-            <ion-button class="btn_hora">12:15 - 12:30</ion-button>
+            <ion-button class="btn_hora" [color]="hora_seleccionada === '13:45' ? 'selected' : 'no-selected'" (click)="select_hora ('13:45')">13:45 - 14:00</ion-button>
           </ion-col>
         </ion-row>
       </ion-col>
       <ion-col size="10" size-sm="7" size-md="7" size-lg="6" class="ion-margin-top">
-        <ion-button class="btn_listo">Adelante</ion-button>
+        <ion-button class="btn_listo" (click)="escoger_hora ()">Adelante</ion-button>
       </ion-col>
     </ion-row>
-    <ion-row class="ion-justify-content-center">
+
+    <ion-row *ngIf="proceso === 1" class="ion-justify-content-center">
       <ion-col size="11" size-sm="8" size-md="7" size-lg="7">
         <p class="p_subtitulos ion-no-margin">Resumen</p>
         <ion-card class="ion-no-margin card_list">
           <div class="div_list">
             <p class="p_book">SubTotal</p>
-            <p class="p_black">S/. 61.50</p>
-          </div>
-          <div class="div_list">
-            <p class="p_book">Costo de envio (+ 0.5 km)</p>
-            <p class="p_black">S/. 6.00</p>
+            <p class="p_black">{{ subtotal | currency:'S/. ' }}</p>
           </div>
           <div class="div_list">
             <p class="p_book">IGV</p>
-            <p class="p_black">S/. 3.00</p>
+            <p class="p_black">{{ igv | currency:'S/. ' }}</p>
           </div>
           <div class="div_list margin_top_sin_borde">
             <p class="p_book">Total</p>
-            <p class="p_black p_precio_total">S/. 64.50</p>
+            <p class="p_black p_precio_total">{{ total | currency:'S/. ' }}</p>
           </div>
         </ion-card>
       </ion-col>
@@ -122,7 +126,7 @@
         </ion-radio-group>
       </ion-col>
       <ion-col size="10" size-sm="7" size-md="7" size-lg="6" class="ion-margin-top">
-        <ion-button class="btn_listo">Adelante</ion-button>
+        <ion-button class="btn_listo" (click)="open_culqi ()">Adelante</ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

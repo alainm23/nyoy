@@ -91,7 +91,7 @@ export class PagoResumenPage implements OnInit {
       if (element.tipo === 'extra') {
         total += element.precio * element.cantidad;
         element.extras.forEach ((extra: any) => {
-          total += extra.precio;
+          total += extra.precio * extra.cantidad;
         });
       } else {
         total += element.precio;

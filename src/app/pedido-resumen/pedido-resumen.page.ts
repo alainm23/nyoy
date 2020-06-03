@@ -111,7 +111,7 @@ export class PedidoResumenPage implements OnInit {
     if (this.tipo_entrega == '0') {
       this.navCtrl.navigateForward ('datos-envio');
     } else {
-
+      this.navCtrl.navigateForward ('datos-recojo');
     }
   }
 
