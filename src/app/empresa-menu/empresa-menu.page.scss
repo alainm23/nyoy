@@ -328,6 +328,7 @@ ion-item
         font-size: 12px;
         margin: 0px;
         line-height: 1;
+        padding-right: 10px;
     }
 }
 .h5_precio
@@ -343,7 +344,7 @@ ion-item
     --border-radius: 50%;
     --padding-start: 0px;
     --padding-end: 0px;
-    margin-right: 8px !important;
+    margin-right: 5px !important;
     margin: 0px;
     ion-icon
     {
@@ -358,7 +359,7 @@ ion-item
     --border-radius: 50%;
     --padding-start: 0px;
     --padding-end: 0px;
-    margin-left: 8px !important;
+    margin-left: 5px !important;
     margin: 0px;
     ion-icon
     {
@@ -371,6 +372,8 @@ ion-item
     font-family: HelveticaNeueRegular;
     margin-top: 0px;
     margin-bottom: 0px;
+    width: 20px;
+    text-align: center;
 }
 ion-textarea
 {
@@ -381,6 +384,7 @@ ion-textarea
     background-color: #ffffff;
     margin-top: 20px;
     overflow: hidden;
+    height: 115px;
 }
 div.div_btn_final
 {

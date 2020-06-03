@@ -52,6 +52,7 @@
           </ion-button>
         </ion-col>
         <ion-col *ngIf="direcciones.length > 0" size="11" size-sm="9" size-md="8" size-lg="7">
+          <ion-label>Ubicación</ion-label>
           <ion-select  formControlName="_direccion" placeholder="Mis ubicaciones" interface="popover" (ionChange)="select_changed ($event.detail.value)">
             <ion-select-option *ngFor="let item of direcciones" [value]="item">
               {{ item.nombre }}
