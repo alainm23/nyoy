@@ -17,18 +17,24 @@ ion-content
 }
 .btn_menu_izquierdo
 {
-    --background: transparent;
+    --background: rgba(12, 12, 12, 0.4);
     --background-activated: transparent;
     --box-shadow: none;
-    position: absolute;
+    --border-radius:50%;
+    position: fixed;
     top: 0.9375rem;
-    left: 0.625rem;
+    left: 14px;
     z-index: 999999;
+    --padding-start: 0px;
+    --padding-end: 0px;
+    width: 35px;
+    height: 35px;
     ion-icon
     {
         color: #ffffff;
-        font-size: 2.1875rem;
+        font-size: 25px;
         text-shadow: -3px 3px 6px #0000006E;
+        margin-right: 4px;
     }
 }
 ion-card
