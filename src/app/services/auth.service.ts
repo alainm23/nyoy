@@ -19,7 +19,6 @@ export class AuthService {
   usuario: any = {
     id: '',
     nombre: '',
-    direccion: '',
     telefono: '',
     correo: '',
   };
@@ -52,7 +51,6 @@ export class AuthService {
           this.usuario = {
             id: '',
             nombre: '',
-            direccion: '',
             telefono: ''
           }
         }
@@ -122,7 +120,9 @@ export class AuthService {
           id: credential.user.uid,
           nombre: credential.user.displayName,
           correo: credential.user.email,
-          fecha_registro: new Date ().toISOString ()
+          fecha_registro: new Date ().toISOString (),
+          tipo: 2,
+          habilitado: true
         }
 
         this.database.create_user (request)
@@ -159,7 +159,9 @@ export class AuthService {
         id: credential.user.uid,
         nombre: credential.user.displayName,
         correo: credential.user.email,
-        fecha_registro: new Date ().toISOString ()
+        fecha_registro: new Date ().toISOString (),
+        tipo: 2,
+        habilitado: true
       }
 
       this.database.create_user (request)
@@ -264,7 +266,9 @@ export class AuthService {
         id: credential.user.uid,
         nombre: credential.user.displayName,
         correo: credential.user.email,
-        fecha_registro: new Date ().toISOString ()
+        fecha_registro: new Date ().toISOString (),
+        tipo: 2,
+        habilitado: true
       }
 
       this.database.create_user (request)

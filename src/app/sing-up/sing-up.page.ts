@@ -55,7 +55,9 @@ export class SingUpPage implements OnInit {
           id: res.user.uid,
           nombre: this.form.value.nombre,
           correo: this.form.value.email,
-          fecha_registro: new Date ().toISOString ()
+          fecha_registro: new Date ().toISOString (),
+          tipo: 2,
+          habilitado: true
         }
 
         this.database.create_user (request)
