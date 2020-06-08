@@ -1,0 +1,125 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-grid class="ion-padding-start ion-padding-end" style="background-color: rgba(255, 255, 255, 0.3);">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="12" class="ion-no-padding">
+          <ion-row class="ion-justify-content-center" >
+            <ion-col size="3" size-sm="2" size-md="3" size-xl="2" class="ion-no-padding">
+              <ion-img src="assets/img/Componente61.png"></ion-img>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-grid class="ion-no-padding">
+      <ion-row>
+        <ion-col size="12" class="col_pedido_vertical" [ngStyle]="{'background-color': get_pedido_color (pedido)}">
+          <img *ngIf="pedido?.estado <= 2" src="assets/img/Grupo71.png" class="img_circulo">
+  
+          <div *ngIf="pedido?.estado === 3 && pedido?.repartidor_llego === false" class="circulo_genral" style="background-color: #4E35B9;">
+            <img src="assets/img/Grupo75.png">
+          </div>
+  
+          <div *ngIf="pedido?.estado >= 3 && pedido?.repartidor_llego === true" class="circulo_genral" style="background-color: #35B93F;">
+            <img src="assets/img/Grupo75.png">
+          </div>
+  
+          <ion-row class="ion-justify-content-end" style="height: 100%;">
+            <ion-col size="8" size-sm="9" class="ion-padding-start" style="display: flex;align-items: center;">
+              <p *ngIf="pedido?.estado <= 2" class="color_blank">
+                Su pedido ya se esta preparando
+              </p>
+              
+              <p *ngIf="pedido?.estado === 3 && pedido.repartidor_llego === false" class="color_blank">
+                Su pedido ya esta en camino
+              </p>
+              
+              <p *ngIf="pedido?.estado >= 3 && pedido.repartidor_llego === true" class="color_blank">
+                Su pedido ya llego
+              </p>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="map">
+    <div #map id="map"></div>
+    <ion-card style="position: absolute;" class="ion-no-margin card_acordion">
+      <ion-card-header style="padding-left: 0.5rem;">
+        <ion-card-title>
+          <span class="ion-margin-start">{{ get_format_date (pedido?.fecha) }}</span>
+        </ion-card-title>
+        <ion-icon name="chevron-down-outline"></ion-icon>
+      </ion-card-header>
+      <ion-card-content class="card_conten_none card_conten_block">
+        <ion-row>
+          <ion-col size="12">
+            <ion-row *ngFor="let plato of pedido.platos">
+              <ion-col size="12" class="header" *ngIf="plato.tipo === 'menu'">Menus</ion-col>
+              <ion-col size="12" class="header" *ngIf="plato.tipo === 'extra'">Extras</ion-col>
+              <ion-col size="12" class="header" *ngIf="plato.tipo === 'promocion'">Promocion</ion-col>
+              <ng-container *ngIf="plato.tipo === 'extra'">
+                <ion-col size="8">
+                  <p class="color_74">{{ plato.plato_nombre }}</p>
+                </ion-col>
+                <ion-col size="4" class="ion-text-end">
+                  <p class="color_a6">{{ plato.cantidad }} Unds.</p>
+                </ion-col>
+              </ng-container>
+  
+              <ng-container *ngIf="plato.tipo === 'menu'">
+                <ng-container *ngFor="let menu of plato.menus">
+                  <ion-col size="8">
+                    <p class="color_74">{{ menu.nombre }}</p>
+                  </ion-col>
+                  <ion-col size="4" class="ion-text-end">
+                    <p class="color_a6">{{ menu.cantidad }} Unds.</p>
+                  </ion-col>
+                </ng-container>
+              </ng-container>
+  
+              <ng-container *ngIf="plato.tipo === 'promocion' && plato.promocion_tipo === '1'">
+                <ng-container *ngFor="let plato_p of plato.platos">
+                  <ion-col size="8">
+                    <p class="color_74">{{ plato_p.nombre }}</p>
+                  </ion-col>
+                  <ion-col size="4" class="ion-text-end">
+                    <p class="color_a6">{{ plato.cantidad }} Unds.</p>
+                  </ion-col>
+                </ng-container>
+              </ng-container>
+  
+              <ng-container *ngIf="plato.tipo === 'promocion' && plato.promocion_tipo === '0'">
+                <ng-container>
+                  <ion-col size="8">
+                    <p class="color_74">{{ plato.plato_nombre }}</p>
+                  </ion-col>
+                  <ion-col size="4" class="ion-text-end">
+                    <p class="color_a6">{{ plato.cantidad }} Unds.</p>
+                  </ion-col>
+                </ng-container>
+              </ng-container>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

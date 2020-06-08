@@ -61,6 +61,10 @@ export class PagoResumenPage implements OnInit {
     this.subtotal = this.total / 1.18;
     this.igv = this.subtotal * 0.18;
 
+    if (this.total > this.preferencias.delivery_precio_gratis) {
+      this.costo_envio = 0;
+    }
+
     if (this.subscribe == null) {
       this.subscribe = this.events.get_token_id ().subscribe (async (token_id: string) => {
         console.log (token_id);
@@ -160,14 +164,24 @@ export class PagoResumenPage implements OnInit {
     let empresas: any [] = [];
     let data: any = {
       id: this.database.createId (),
+      tipo_pedido: 'delivery',
       dia: moment ().format ('DD'),
       mes: moment ().format ('MM'),
       anio: moment ().format ('YYYY'),
-      hora: moment ().format ('HH'),
+      hora: moment ().format ('hh'),
+      minuto: moment ().format ('mm'),
+      fecha: moment ().format ().toString (),
       usuario_id: await this.storage.get ('usuario_id'),
+      usuario_token: await this.storage.get ('token_id'),
+      usuario_nombre: this.auth.usuario.nombre,
       direccion: this.datos_envio.direccion,
+      latitud: this.datos_envio.latitude,
+      longitud: this.datos_envio.longitude,
+      telefono: this.datos_envio.telefono,
+      referencia: this.datos_envio.referencia,
       monto_total: this.total + this.costo_envio,
-      estado: 'pedido',
+      estado: 0,
+      repartidor_llego: false,
       tipo_pago: tipo_pago,
       pagado: false,
       observacion: '',
@@ -200,7 +214,7 @@ export class PagoResumenPage implements OnInit {
       } else if (element.tipo === 'promocion') {
         if (element.promocion_tipo === '0') {
           platos.push ({
-            // empresa_id: element.empresa_id, // Falta
+            empresa_id: element.empresa_id,
             carta_id: element.carta_id,
             plato_id: element.plato.id,
             plato_nombre: element.plato.nombre,
@@ -212,6 +226,7 @@ export class PagoResumenPage implements OnInit {
           });
         } else {
           platos.push ({
+            empresa_id: element.empresa_id,
             carta_id: element.carta_id,
             cantidad: element.cantidad,
             precio: element.precio,
@@ -227,9 +242,27 @@ export class PagoResumenPage implements OnInit {
     data.empresas = empresas;
     console.log (data);
 
+    const push_data: any = {
+      titulo: 'Pedido solicitado',
+      detalle: 'Se registro un nuevo pedido',
+      mode: 'tags',
+      tokens: 'Administrador',
+      clave: data.id
+    };
+
     this.database.add_pedido (data)
       .then (() => {
-        this.storage.clear ();
+        this.pago.send_notification (push_data).subscribe (response => {
+          // console.log ("Notificacion Enviada...", response);
+        }, error => {
+          // console.log ("Notificacion Error...", error);
+        });
+
+        this.storage.remove ('datos-envio');
+        this.storage.remove ('carrito-platos');
+        this.storage.remove ('carrito-insumos');
+        this.storage.remove ('carrito-menus-dia');
+
         this.stock_vaidator.get_storage_values ();
         this.navController.navigateRoot ('operecion-exitosa');
         loading.dismiss ();

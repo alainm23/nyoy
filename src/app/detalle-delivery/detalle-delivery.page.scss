@@ -1,0 +1,206 @@
+@font-face{
+    font-family: HelveticaNeueRegular;
+    src : url('/assets/font/HelveticaNeue-Regular.ttf')
+  }
+  @font-face{
+    font-family: AvenirBlack;
+    src : url('/assets/font/Avenir-Black.otf')
+  }
+  @font-face{
+    font-family: AvenirMedium;
+    src : url('/assets/font/Avenir-Medium.ttf')
+  }
+  @font-face{
+    font-family: AvenirBook;
+    src : url('/assets/font/Avenir Book.ttf')
+  }
+  ion-content
+  {
+    --background: url('/assets/img/fondo.png') 0 0/100% 100% no-repeat;
+  }
+  ion-menu-button
+  {
+    color: #707070;
+  }
+  .btn_menu
+  {
+    --background: transparent;
+    --background-activated: transparent;
+    --box-shadow: none;
+    margin-top: 0.9375rem;
+    margin-left: 85%;
+    width: 10%;
+    ion-icon
+    {
+        color: #707070;
+        font-size: 2.1875rem;
+    }
+  }
+  .p1
+  {
+    font-size: 1.25rem;
+    font-weight: bolder;
+    font-family: HelveticaNeueRegular;
+    color: #969696;
+  }
+  .p2
+  {
+    font-size: 1rem;
+    font-family: AvenirBook;
+    color: #969696;
+  }
+  .col_bajar
+  {
+    margin-top: 1.875rem;
+  }
+  .col_bajar_noto
+  {
+    margin-top: 30px;
+  }
+  ion-card.card_p_envio
+  {
+    margin: 0px;
+    --background: #ffffff;
+    height: 59px;
+    padding-right: 60px;
+    width: 273px;
+    padding-left: 27px;
+    display: flex;
+    align-items: center;
+    .p_envio
+    {
+        font-family: AvenirMedium;
+        color: #868585;
+        text-align: left;
+        font-size: 16px;
+        line-height: 1;
+    }
+  }
+  .img_moto
+  {
+    position: absolute;
+    right: 0;
+    z-index: 9999;
+    top: 0;
+  }
+  .dv_img_restaurant
+  {
+    width: 110px;
+    height: 100px;
+    display: inline-block;
+    .img_ob_cover
+    {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+  
+  @media(min-width: 768px)
+  {
+    .btn_menu
+    {
+        ion-icon
+        {
+            font-size: 3.125rem;
+        }
+    }
+    .p1
+    {
+        font-size: 2.1875rem;
+    }
+    .p2
+    {
+        font-size: 1.5625rem;
+    }
+    ion-card
+    {
+        p
+        {
+            font-size: 15px;
+        }
+    }
+  }
+  
+  .col_pedido_vertical
+  {
+      height: 52px;
+      position: relative;
+      padding-right: 16px;
+      margin-top: 20px;
+      .img_circulo
+      {
+          position: absolute;
+          z-index: 99999;
+          left: 20px;
+          top: -20px;
+      }
+      .color_blank
+      {
+          color: #FFFFFF;
+          font-family: AvenirBook;
+          font-size: 13px;
+      }
+      .circulo_genral
+      {
+          width: 85px;
+          height: 85px;
+          position: absolute;
+          z-index: 99999;
+          left: 20px;
+          top: -20px;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+      }
+  }
+
+.map {
+  position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.card_acordion
+{
+    --background: #F0F4F8;
+    border-radius: 8px;
+    box-shadow: none;
+    ion-card-header
+    {
+        display: flex;
+        position: relative;
+        ion-card-title
+        {
+            color: #748A9D;
+            font-size: 14px;
+        }
+        ion-icon
+        {
+            color: #748A9D;
+            position: absolute;
+            z-index: 99999;
+            right: 16px;
+        }
+    }
+    .card_conten_block
+    {
+        display: block;
+    }
+    /*.card_conten_none
+    {
+        display: none;
+    }*/
+}
+
+.header {
+  border-bottom: 1px solid #c4cad0;
+  font-weight: bold;
+}

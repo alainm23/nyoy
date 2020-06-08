@@ -8,7 +8,6 @@ declare var Culqi: any;
   providedIn: 'root'
 })
 export class PagoService {
-
   constructor (private events: EventsService, public http: HttpClient) {
     document.addEventListener ('payment_event', (token: any) => {
       let token_id = token.detail;
@@ -44,5 +43,9 @@ export class PagoService {
     url += moneda;
 
     return this.http.get (url);
+  }
+
+  send_notification (data: any) {
+    return this.http.post ('http://api.ceradentperu.com/api/send-notification-nyoy', data);
   }
 }

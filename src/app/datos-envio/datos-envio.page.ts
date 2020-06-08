@@ -68,7 +68,7 @@ export class DatosEnvioPage implements OnInit {
 
   async go_resumen () {
     let data: any = this.form.value;
-    data.latitude = this.longitude;
+    data.latitude = this.latitude;
     data.longitude = this.longitude;
 
     if (this.mapa_seleccionado) {

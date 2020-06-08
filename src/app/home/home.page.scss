@@ -144,3 +144,37 @@ ion-card.card_p_envio
       }
   }
 }
+
+.col_pedido_vertical
+{
+    height: 52px;
+    position: relative;
+    padding-right: 16px;
+    margin-top: 20px;
+    .img_circulo
+    {
+        position: absolute;
+        z-index: 99999;
+        left: 20px;
+        top: -20px;
+    }
+    .color_blank
+    {
+        color: #FFFFFF;
+        font-family: AvenirBook;
+        font-size: 13px;
+    }
+    .circulo_genral
+    {
+        width: 85px;
+        height: 85px;
+        position: absolute;
+        z-index: 99999;
+        left: 20px;
+        top: -20px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}

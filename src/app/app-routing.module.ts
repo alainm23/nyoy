@@ -69,8 +69,10 @@ const routes: Routes = [
     path: 'historial-pedidos',
     loadChildren: () => import('./historial-pedidos/historial-pedidos.module').then( m => m.HistorialPedidosPageModule)
   },
-
-
+  {
+    path: 'detalle-delivery/:id',
+    loadChildren: () => import('./detalle-delivery/detalle-delivery.module').then( m => m.DetalleDeliveryPageModule)
+  },
 ];
 
 @NgModule({

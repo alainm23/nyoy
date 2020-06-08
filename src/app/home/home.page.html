@@ -16,6 +16,42 @@
           </ion-col>
         </ion-row>
       </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid class="ion-no-padding" *ngIf="pedidos.length > 0">
+    <ion-row>
+      <ion-col *ngFor="let pedido of pedidos" (click)="ver_detalles (pedido)" size="12" class="col_pedido_vertical" [ngStyle]="{'background-color': get_pedido_color (pedido)}">
+        <img *ngIf="pedido.estado <= 2" src="assets/img/Grupo71.png" class="img_circulo">
+
+        <div *ngIf="pedido.estado === 3 && pedido.repartidor_llego === false" class="circulo_genral" style="background-color: #4E35B9;">
+          <img src="assets/img/Grupo75.png">
+        </div>
+
+        <div *ngIf="pedido.estado === 3 && pedido.repartidor_llego === true" class="circulo_genral" style="background-color: #35B93F;">
+          <img src="assets/img/SOcopZ.tif.png">
+        </div>
+        <ion-row class="ion-justify-content-end" style="height: 100%;">
+          <ion-col size="8" size-sm="9" class="ion-padding-start" style="display: flex;align-items: center;">
+            <p *ngIf="pedido.estado <= 2" class="color_blank">
+              Su pedido ya se esta preparando
+            </p>
+            
+            <p *ngIf="pedido.estado === 3 && pedido.repartidor_llego === false" class="color_blank">
+              Su pedido ya esta en camino
+            </p>
+            
+            <p *ngIf="pedido.estado === 3 && pedido.repartidor_llego === true" class="color_blank">
+              Su pedido ya llego
+            </p>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid class="ion-padding-start ion-padding-end" style="background-color: rgba(255, 255, 255, 0.3);">
+    <ion-row class="ion-justify-content-center">
       <ion-col size="12" class="ion-text-center col_bajar ion-margin-bottom">
         <p class="p1 ion-no-margin">
           Hoy quiero Nyoy de…
@@ -34,18 +70,7 @@
               <p>({{ item.linea_comida }})</p>
             </ion-card>
           </ion-col>
-          <!-- <ion-col size="6">
-            <ion-card class="ion-no-margin">
-                <img src="assets/img/Logocandelaria.png">
-              <p>(Pizzeria y comida urbana)</p>
-            </ion-card>
-          </ion-col>
-          <ion-col size="6">
-            <ion-card class="ion-no-margin">
-                <img src="assets/img/Logodonas.png">
-              <p>LAS DOÑAS<br> (Polleria Peruana)</p>
-            </ion-card>
-          </ion-col> -->
+          
           <ion-col size="6">
             <ion-card class="ion-no-margin" style="opacity: 0.7;" (click)="alerta ()">
               <div class="dv_img_restaurant">

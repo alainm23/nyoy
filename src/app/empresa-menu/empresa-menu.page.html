@@ -76,7 +76,7 @@
     <ion-row *ngIf="carta_seleccionada?.tipo_carta === '0'" class="ion-justify-content-center">
       <ion-col size="12">
         <ion-thumbnail class="img_img">
-          <img src="assets/img/8f003918e9ee1ed3485149c7b6daf73a.png">
+          <img [src]="carta_seleccionada?.imagen">
         </ion-thumbnail>
       </ion-col>
 

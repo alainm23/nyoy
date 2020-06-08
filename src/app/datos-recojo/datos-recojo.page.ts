@@ -155,15 +155,20 @@ export class DatosRecojoPage implements OnInit {
     let empresas: any [] = [];
     let data: any = {
       id: this.database.createId (),
+      tipo_pedido: 'recojo',
       dia: moment ().format ('DD'),
       mes: moment ().format ('MM'),
       anio: moment ().format ('YYYY'),
-      hora: moment ().format ('HH'),
+      hora: moment ().format ('hh'),
+      minuto: moment ().format ('mm'),
+      fecha: moment ().format ().toString (),
       usuario_id: await this.storage.get ('usuario_id'),
+      usuario_token: await this.storage.get ('token_id'),
+      usuario_nombre: this.auth.usuario.nombre,
       monto_total: this.total,
       tipo_recojo: this.tipo_recojo,
       hora_seleccionada: hora_seleccionada,
-      estado: 'pedido',
+      estado: 0,
       tipo_pago: tipo_pago,
       pagado: false,
       observacion: '',
@@ -223,9 +228,27 @@ export class DatosRecojoPage implements OnInit {
     data.empresas = empresas;
     console.log (data);
 
+    const push_data: any = {
+      titulo: 'Pedido solicitado',
+      detalle: 'Se registro un nuevo pedido',
+      mode: 'tags',
+      tokens: 'Administrador',
+      clave: data.id
+    };
+
     this.database.add_pedido (data)
       .then (() => {
-        this.storage.clear ();
+        this.pago.send_notification (push_data).subscribe (response => {
+          // console.log ("Notificacion Enviada...", response);
+        }, error => {
+          // console.log ("Notificacion Error...", error);
+        });
+
+        this.storage.remove ('datos-envio');
+        this.storage.remove ('carrito-platos');
+        this.storage.remove ('carrito-insumos');
+        this.storage.remove ('carrito-menus-dia');
+        
         this.stock_vaidator.get_storage_values ();
         this.navController.navigateRoot ('operecion-exitosa');
         loading.dismiss ();

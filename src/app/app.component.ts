@@ -65,6 +65,8 @@ export class AppComponent {
       console.log ('handleNotificationReceived', jsonData);
     });
 
+    this.oneSignal.endInit();
+
     this.auth.authState ().subscribe (async (user: any) => {
       this.oneSignal.getIds ().then (oS => {
         this.storage.set ("token_id", oS.userId)
@@ -76,7 +78,7 @@ export class AppComponent {
     });
 
     this.oneSignal.getTags ().then (data => {
-      console.log (data);
+      console.log ('oneisngal', data);
     });
 
     this.oneSignal.sendTag ("Usuarios", "true");

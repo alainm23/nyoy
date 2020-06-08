@@ -254,7 +254,9 @@ export class DatabaseService {
         fecha: moment().format (),
         estado: 0,
         monto_total: data.monto_total,
-        pedido_id: data.id
+        id: data.id,
+        tipo_pedido: data.tipo_pedido,
+        repartidor_llego: false
       }
     );
 
@@ -265,13 +267,13 @@ export class DatabaseService {
     return this.afs.collection ('Pedidos_Platos_Dia').doc (pedido_id).valueChanges ();
   }
   get_pedidos_by_usuario (usuario_id: string) {
-    const collection = this.afs.collection ('Usuarios').doc (usuario_id).collection ('Pedidos', ref => ref.where ('estado', '>=', 2));
+    const collection = this.afs.collection ('Usuarios').doc (usuario_id).collection ('Pedidos', ref => ref.where ('estado', '>=', 4));
 
     return collection.snapshotChanges ().pipe (map (refReferencias => {
       if (refReferencias.length > 0) {
         return refReferencias.map (refReferencia => {
           const data: any = refReferencia.payload.doc.data();
-          return this.get_pedido_by_id (data.pedido_id).pipe (map (pedido => Object.assign ({}, { data, pedido })));
+          return this.get_pedido_by_id (data.id).pipe (map (pedido => Object.assign ({}, { data, pedido })));
         });
       }
     })).mergeMap (observables => {
@@ -281,5 +283,9 @@ export class DatabaseService {
         return of([]);
       }
     });
+  }
+
+  get_pedidos_vigente (usuario_id: string) {
+    return this.afs.collection ('Usuarios').doc (usuario_id).collection ('Pedidos', ref => ref.where ('estado', '<=', 3)).valueChanges ();
   }
 }

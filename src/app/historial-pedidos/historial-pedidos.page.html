@@ -81,6 +81,20 @@
                       </ion-col> -->
                     </ng-container>
                   </ng-container>
+
+                  <ng-container *ngIf="plato.tipo === 'promocion' && plato.promocion_tipo === '0'">
+                    <ng-container>
+                      <ion-col size="8">
+                        <p class="color_74">{{ plato.plato_nombre }}</p>
+                      </ion-col>
+                      <ion-col size="4" class="ion-text-end">
+                        <p class="color_a6">{{ plato.cantidad }} Unds.</p>
+                      </ion-col>
+                      <!-- <ion-col size="3" class="ion-text-end">
+                        <p class="color_74">{{ plato_p.precio | currency:'S/. ' }}</p>
+                      </ion-col> -->
+                    </ng-container>
+                  </ng-container>
                 </ion-row>
               </ion-col>
               <ion-col size="12">
@@ -91,9 +105,9 @@
                         <ion-icon name="checkmark-outline"></ion-icon>
                       </div>
                       &nbsp;
-                      <ion-label *ngIf="item.data.estado === 2">Entregado</ion-label>
-                      <ion-label *ngIf="item.data.estado === 3">Cancelado</ion-label>
-                      <ion-label *ngIf="item.data.estado === 4">Rechazado</ion-label>
+                      <ion-label *ngIf="item.data.estado === 4">Entregado</ion-label>
+                      <ion-label *ngIf="item.data.estado === 5">Cancelado</ion-label>
+                      <ion-label *ngIf="item.data.estado === 6">Rechazado</ion-label>
                     </ion-chip>
                   </ion-col>
                   <ion-col size="4" class="ion-text-end">
