@@ -118,6 +118,14 @@ ion-card.card_p_envio
     object-fit: contain;
   }
 }
+.bajar_grid
+{
+  margin-top: 50px;
+}
+.padding_end_sperando
+{
+  padding-right: 30px;
+}
 
 @media(min-width: 768px)
 {
@@ -150,7 +158,8 @@ ion-card.card_p_envio
     height: 52px;
     position: relative;
     padding-right: 16px;
-    margin-top: 20px;
+    margin-bottom: 38px;
+    position: relative;
     .img_circulo
     {
         position: absolute;
@@ -163,6 +172,8 @@ ion-card.card_p_envio
         color: #FFFFFF;
         font-family: AvenirBook;
         font-size: 13px;
+        margin: 0px;
+        line-height: 1.3;
     }
     .circulo_genral
     {
@@ -176,5 +187,14 @@ ion-card.card_p_envio
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+    .icono_rigth_blanco
+    {
+      position: absolute;
+      z-index: 9999;
+      right: 25px;
+      color: #ffffff;
+      top: 17px;
+      font-size: 20px;
     }
 }

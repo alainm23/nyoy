@@ -19,10 +19,12 @@
     </ion-row>
   </ion-grid>
 
-  <ion-grid class="ion-no-padding" *ngIf="pedidos.length > 0">
+  <ion-grid class="ion-no-padding bajar_grid" *ngIf="pedidos.length > 0">
     <ion-row>
       <ion-col *ngFor="let pedido of pedidos" (click)="ver_detalles (pedido)" size="12" class="col_pedido_vertical" [ngStyle]="{'background-color': get_pedido_color (pedido)}">
-        <img *ngIf="pedido.estado <= 2" src="assets/img/Grupo71.png" class="img_circulo">
+        <div *ngIf="pedido.estado <= 2" class="circulo_genral" style="background-color: #B9353B;">
+          <img src="assets/img/h6s0Gk.tif.png">
+        </div>
 
         <div *ngIf="pedido.estado === 3 && pedido.repartidor_llego === false" class="circulo_genral" style="background-color: #4E35B9;">
           <img src="assets/img/Grupo75.png">
@@ -32,7 +34,7 @@
           <img src="assets/img/SOcopZ.tif.png">
         </div>
         <ion-row class="ion-justify-content-end" style="height: 100%;">
-          <ion-col size="8" size-sm="9" class="ion-padding-start" style="display: flex;align-items: center;">
+          <ion-col size="8" size-sm="9" size-md="10" class="ion-padding-start padding_end_sperando" style="display: flex;align-items: center;">
             <p *ngIf="pedido.estado <= 2" class="color_blank">
               Su pedido ya se esta preparando
             </p>
@@ -46,6 +48,7 @@
             </p>
           </ion-col>
         </ion-row>
+        <ion-icon name="chevron-forward-outline" class="icono_rigth_blanco"></ion-icon>
       </ion-col>
     </ion-row>
   </ion-grid>
