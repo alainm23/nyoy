@@ -61,14 +61,14 @@
 <ion-content>
   <div class="map">
     <div #map id="map"></div>
-    <ion-card style="position: absolute;" class="ion-no-margin card_acordion">
-      <ion-card-header style="padding-left: 0.5rem;">
+    <ion-card style="position: relative;" class="ion-no-margin card_acordion">
+      <ion-card-header style="padding-left: 0.5rem;" (click)="ver_detalles (pedido)">
         <ion-card-title>
           <span class="ion-margin-start">{{ get_format_date (pedido?.fecha) }}</span>
         </ion-card-title>
         <ion-icon name="chevron-down-outline"></ion-icon>
       </ion-card-header>
-      <ion-card-content class="card_conten_none card_conten_block">
+      <ion-card-content *ngIf="pedido.ver_detalles" class="card_conten_none card_conten_block">
         <ion-row>
           <ion-col size="12">
             <ion-row *ngFor="let plato of pedido.platos">

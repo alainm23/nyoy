@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 // Services
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MenuController, NavController, PopoverController, LoadingController } from '@ionic/angular'; 
+import { MenuController, NavController, PopoverController, LoadingController, Platform } from '@ionic/angular'; 
 import { DatabaseService } from '../services/database.service';
 import { ActivatedRoute } from '@angular/router';
 import { StockValidatorService } from '../services/stock-validator.service';
@@ -30,10 +30,11 @@ export class PlatoDescripcionPage implements OnInit {
     public navCtrl: NavController,
     public popoverController: PopoverController,
     public database: DatabaseService,
-    private route: ActivatedRoute,
+    public route: ActivatedRoute,
     public stock_validator: StockValidatorService,
     public loadingController: LoadingController,
-    public auth: AuthService
+    public auth: AuthService,
+    public platform: Platform
   ) { }
 
   async ngOnInit () {
@@ -57,6 +58,12 @@ export class PlatoDescripcionPage implements OnInit {
       this.cantidad = this._plato.cantidad;
       this.form.controls ['comentario'].setValue (this._plato.comentarios);
     }
+
+    this.platform.backButton.subscribeWithPriority (10, () => {
+      if (this.editar === 'true') {
+        this.cancelar_editar ();
+      }
+    });
 
     this.database.get_plato_by_id (this.route.snapshot.paramMap.get ('id')).subscribe ((res: any) => {
       this.plato = res [0];

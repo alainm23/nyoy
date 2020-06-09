@@ -16,7 +16,8 @@ export class DetalleDeliveryPage implements OnInit {
   map: any;
   pedido_id: any;
   pedido: any = {
-    estado: 0
+    estado: 0,
+    ver_detalles: false
   };
   
   preferencias: any

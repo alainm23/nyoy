@@ -250,26 +250,24 @@ export class PagoResumenPage implements OnInit {
       clave: data.id
     };
 
-    this.database.add_pedido (data)
-      .then (() => {
-        this.pago.send_notification (push_data).subscribe (response => {
-          // console.log ("Notificacion Enviada...", response);
-        }, error => {
-          // console.log ("Notificacion Error...", error);
-        });
+    // this.database.add_pedido (data)
+    //   .then (() => {
+    //     this.pago.send_notification (push_data).subscribe (response => {
+    //     }, error => {
+    //     });
 
-        this.storage.remove ('datos-envio');
-        this.storage.remove ('carrito-platos');
-        this.storage.remove ('carrito-insumos');
-        this.storage.remove ('carrito-menus-dia');
+    //     this.storage.remove ('datos-envio');
+    //     this.storage.remove ('carrito-platos');
+    //     this.storage.remove ('carrito-insumos');
+    //     this.storage.remove ('carrito-menus-dia');
 
-        this.stock_vaidator.get_storage_values ();
-        this.navController.navigateRoot ('operecion-exitosa');
-        loading.dismiss ();
-      })
-      .catch ((error: any) => {
-        console.log (error);
-        loading.dismiss ();
-      })
+    //     this.stock_vaidator.get_storage_values ();
+    //     this.navController.navigateRoot ('operecion-exitosa');
+    //     loading.dismiss ();
+    //   })
+    //   .catch ((error: any) => {
+    //     console.log (error);
+    //     loading.dismiss ();
+    //   })
   }
 }

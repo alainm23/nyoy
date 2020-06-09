@@ -45,7 +45,7 @@
         <form [formGroup]="form">
           <h5>¿Algún comentario?</h5>
             <ion-textarea formControlName="comentario"></ion-textarea>
-            <div class="div_btn_pagar">
+            <div *ngIf="editar === 'false'" class="div_btn_pagar">
               <ion-button [disabled]="cantidad <= 0" (click)="agregar_carrito ()">Añadir mas</ion-button>
               <ion-button [disabled]="cantidad <= 0" (click)="go_resumen (false)">Pagar</ion-button>
             </div>
