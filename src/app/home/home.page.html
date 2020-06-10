@@ -23,15 +23,15 @@
     <ion-row>
       <ion-col *ngFor="let pedido of pedidos" (click)="ver_detalles (pedido)" size="12" class="col_pedido_vertical" [ngStyle]="{'background-color': get_pedido_color (pedido)}">
         <div *ngIf="pedido.estado <= 2" class="circulo_genral" style="background-color: #B9353B;">
-          <img src="assets/img/h6s0Gk.tif.png">
+          <img src="assets/img/h6s0Gk.tif@2x.png">
         </div>
 
         <div *ngIf="pedido.estado === 3 && pedido.repartidor_llego === false" class="circulo_genral" style="background-color: #4E35B9;">
-          <img src="assets/img/Grupo75.png">
+          <img src="assets/img/FKzQzD.tif@2x.png">
         </div>
 
         <div *ngIf="pedido.estado === 3 && pedido.repartidor_llego === true" class="circulo_genral" style="background-color: #35B93F;">
-          <img src="assets/img/SOcopZ.tif.png">
+          <img src="assets/img/SOcopZ.tif@2x.png">
         </div>
         <ion-row class="ion-justify-content-end" style="height: 100%;">
           <ion-col size="8" size-sm="9" size-md="10" class="ion-padding-start padding_end_sperando" style="display: flex;align-items: center;">
