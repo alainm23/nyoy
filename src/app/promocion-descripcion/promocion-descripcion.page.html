@@ -5,7 +5,7 @@
   <ion-card>
     <ion-thumbnail>
       <img *ngIf="promocion?.tipo === '0'" [src]="promocion.plato.imagen">
-      <img *ngIf="promocion?.tipo === '1'" [src]="get_imagen_principal (promocion)">
+      <img *ngIf="promocion?.tipo === '1'" [src]="promocion?.imagen">
     </ion-thumbnail>
   </ion-card>
   <ion-grid class="ion-no-padding">

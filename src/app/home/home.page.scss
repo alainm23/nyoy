@@ -53,7 +53,7 @@ ion-menu-button
 {
   margin-top: 1.875rem;
 }
-ion-card
+.ion-card-fix
 {
   border-radius: 26px;
   padding: 10px;
@@ -80,7 +80,7 @@ ion-card
 {
   margin-top: 30px;
 }
-ion-card.card_p_envio
+.card_p_envio
 {
   margin: 0px;
   --background: #ffffff;
@@ -158,7 +158,6 @@ ion-card.card_p_envio
     height: 52px;
     position: relative;
     padding-right: 16px;
-    margin-bottom: 38px;
     position: relative;
     .img_circulo
     {
@@ -197,4 +196,45 @@ ion-card.card_p_envio
       top: 17px;
       font-size: 20px;
     }
+}
+
+.card_acordion
+{
+    --background: #F0F4F8;
+    border-radius: 8px;
+    box-shadow: none;
+    ion-card-header
+    {
+        display: flex;
+        position: relative;
+        ion-card-title
+        {
+            color: #748A9D;
+            font-size: 14px;
+        }
+        ion-icon
+        {
+            color: #748A9D;
+            position: absolute;
+            z-index: 99999;
+            right: 16px;
+        }
+    }
+    .card_conten_block
+    {
+        display: block;
+    }
+    /*.card_conten_none
+    {
+        display: none;
+    }*/
+}
+
+.header {
+  border-bottom: 1px solid #c4cad0;
+  font-weight: bold;
+}
+
+.transition {
+  transition: all 240ms ease-in-out;
 }

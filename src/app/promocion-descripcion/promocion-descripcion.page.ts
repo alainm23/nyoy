@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 // Services
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MenuController, NavController, PopoverController, LoadingController } from '@ionic/angular'; 
+import { MenuController, NavController, PopoverController, LoadingController, Platform } from '@ionic/angular'; 
 import { DatabaseService } from '../services/database.service';
 import { ActivatedRoute } from '@angular/router';
 import { StockValidatorService } from '../services/stock-validator.service';
@@ -26,7 +25,8 @@ export class PromocionDescripcionPage implements OnInit {
     public database: DatabaseService,
     private route: ActivatedRoute,
     public stock_validator: StockValidatorService,
-    public loadingController: LoadingController
+    public loadingController: LoadingController,
+    public platform: Platform
   ) { }
 
   async ngOnInit() {
@@ -51,6 +51,13 @@ export class PromocionDescripcionPage implements OnInit {
       this.promocion = res [0];
       console.log (res [0]);
       await loading.dismiss ();
+    });
+
+    this.platform.backButton.subscribeWithPriority (10, () => {
+      if (this.editar === 'true') {
+        console.log ('Boton de atras de presono');
+        this.cancelar_editar ();
+      }
     });
   }
 
@@ -169,7 +176,7 @@ export class PromocionDescripcionPage implements OnInit {
         nombre: this.promocion.nombre,
         platos: this.promocion.platos,
         precio: this.promocion.precio_total,
-        imagen: this.get_imagen_principal (this.promocion),
+        imagen: this.promocion.imagen,
         carta_id: this.promocion.carta_id,
         descuento: this.promocion.descuento,
         insumos: insumos

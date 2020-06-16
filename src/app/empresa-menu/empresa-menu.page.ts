@@ -83,6 +83,10 @@ export class EmpresaMenuPage implements OnInit {
     });
   }
 
+  ionViewDidLeave () {
+    this.stock_validator.limpiar_cantidad_elementos_menu ();
+  }
+
   async slidesEmpresaChanged (event: any) {
     this.get_cartas_by_empresa (
        this.empresas [await this.slides_empresa.getActiveIndex ()]
@@ -299,6 +303,8 @@ export class EmpresaMenuPage implements OnInit {
         menu_dia.cantidad_solicitado += 1;
         this.carta_seleccionada.cantidad_elementos_menu = res.cantidad_elementos_menu;
         this.carta_seleccionada.menus_completos = res.menus_completos;
+
+        console.log (this.carta_seleccionada.cantidad_elementos_menu);
       }
     }
   }
@@ -357,20 +363,31 @@ export class EmpresaMenuPage implements OnInit {
   }
 
   agregar_carrito_menu (menus_completos: number, cantidad_elementos_menu: any [], menus_dia: any [], pagar: boolean =  false) {
+    let menus: any [] = [];
+    this.menus_dia_seleccionado.forEach ((m: any) => {
+      if (m.cantidad > 0) {
+        menus.push (m);
+      }
+    });
+
     let request: any = {
       id: this.database.createId (),
       empresa_id: this.empresa_seleccionada.id,
       carta_id: this.carta_seleccionada.id,
       nombre: this.carta_seleccionada.nombre,
+      imagen: this.carta_seleccionada.imagen,
       tipo: 'menu',
       precio: this.get_precio_total (this.carta_seleccionada, menus_completos, cantidad_elementos_menu, menus_dia),
-      menus: this.menus_dia_seleccionado,
+      menus: menus,
       comentario: this.menu_dia_comentario
     }
+
+    console.log (request);
 
     this.stock_validator.agregar_carrito_menu (request, this.carta_seleccionada.id);
     this.menu_dia_comentario = '';
     this.menus_dia_seleccionado = [];
+    cantidad_elementos_menu = [];
     this.carta_seleccionada.cantidad_elementos_menu = [];
     this.carta_seleccionada.menus_completos = 0;
     this.content.scrollToTop (500);
@@ -379,7 +396,6 @@ export class EmpresaMenuPage implements OnInit {
         y.cantidad_solicitado = 0;
       });
     });
-
     if (pagar) {
       this.navCtrl.navigateForward (['pedido-resumen']);  
     }

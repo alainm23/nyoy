@@ -286,6 +286,21 @@ export class DatabaseService {
   }
 
   get_pedidos_vigente (usuario_id: string) {
-    return this.afs.collection ('Usuarios').doc (usuario_id).collection ('Pedidos', ref => ref.where ('estado', '<=', 3)).valueChanges ();
+    const collection = this.afs.collection ('Usuarios').doc (usuario_id).collection ('Pedidos', ref => ref.where ('estado', '<=', 3));
+
+    return collection.snapshotChanges ().pipe (map (refReferencias => {
+      if (refReferencias.length > 0) {
+        return refReferencias.map (refReferencia => {
+          const data: any = refReferencia.payload.doc.data();
+          return this.get_pedido_by_id (data.id).pipe (map (pedido => Object.assign ({}, { data, pedido })));
+        });
+      }
+    })).mergeMap (observables => {
+      if (observables) {
+        return combineLatest(observables);
+      } else {
+        return of([]);
+      }
+    });
   }
 }

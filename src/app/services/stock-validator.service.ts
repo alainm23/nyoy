@@ -506,6 +506,13 @@ export class StockValidatorService {
     }
   }
 
+  limpiar_cantidad_elementos_menu () {
+    this.elementos_menu.forEach ((i: any) => {
+      this.cantidad_elementos_menu [i.id] = 0;
+    });
+    console.log ('cantidad_elementos_menu', this.cantidad_elementos_menu);
+  }
+
   agregar_carrito_menu (request: any, carta_id: string) {
     request.menus.forEach(element => {
       if (this.carrito_menus_dia.get (carta_id + '-' + element.id) === undefined) {
@@ -515,6 +522,8 @@ export class StockValidatorService {
         this.carrito_menus_dia.set (carta_id + '-' + element.id, c + element.cantidad);
       }
     });
+
+    this.limpiar_cantidad_elementos_menu ();
 
     this.carrito_platos.set (request.id, request);
     this.storage.set ('carrito-platos', JSON.stringify (Array.from (this.carrito_platos.entries ())));
