@@ -201,7 +201,7 @@ export class DatosRecojoPage implements OnInit {
       } else if (element.tipo === 'promocion') {
         if (element.promocion_tipo === '0') {
           platos.push ({
-            // empresa_id: element.empresa_id, // Falta
+            empresa_id: element.empresa_id,
             carta_id: element.carta_id,
             plato_id: element.plato.id,
             plato_nombre: element.plato.nombre,
@@ -213,6 +213,7 @@ export class DatosRecojoPage implements OnInit {
           });
         } else {
           platos.push ({
+            empresa_id: element.empresa_id,
             carta_id: element.carta_id,
             cantidad: element.cantidad,
             precio: element.precio,
@@ -248,7 +249,8 @@ export class DatosRecojoPage implements OnInit {
         this.storage.remove ('carrito-platos');
         this.storage.remove ('carrito-insumos');
         this.storage.remove ('carrito-menus-dia');
-        
+
+        this.stock_vaidator.limpiar_cantidad_elementos_menu ();
         this.stock_vaidator.get_storage_values ();
         this.navController.navigateRoot ('operecion-exitosa');
         loading.dismiss ();

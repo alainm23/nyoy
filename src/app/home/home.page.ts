@@ -6,10 +6,24 @@ import { AuthService } from '../services/auth.service';
 import { DatabaseService } from '../services/database.service';
 import { Storage } from '@ionic/storage';
 import { Subscription } from 'rxjs';
+import * as moment from 'moment';
+
+// Animations
+import { trigger, state, style, animate, transition } from '@angular/animations';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
+  animations: [
+    trigger('animation-top', [
+      transition(':enter',
+        [style({ transform: 'translateY(-5%)', opacity: 0 }),
+        animate('125ms', style({ transform: 'translateY(0)', 'opacity': 1 }))]),
+      transition(':leave',
+        [style({ transform: 'translateY(0)', 'opacity': 1 }),
+        animate('125ms', style({ transform: 'translateY(-5%)', 'opacity': 0 }))])
+    ])
+  ]
 })
 export class HomePage implements OnInit {
   empresas: any [] = [];
@@ -42,10 +56,19 @@ export class HomePage implements OnInit {
     }); 
 
     this.subscription_2 = this.database.get_pedidos_vigente (await this.storage.get ('usuario_id')).subscribe ((res: any []) => {
-      this.pedidos = res;
+      this.pedidos = res;// .filter ((e: any) => {
+      //   var today = moment ();
+      //   var date = moment (e.fecha);
+      //   return true;
+      //   // return today.isSame (date);
+      // });
       console.log (res);
       this.check_loading (loading);
     });
+  }
+
+  get_format_date (date: string) {
+    return moment (date).format ('LL[ ]hh:mm a');
   }
 
   check_loading (loading: any) {
@@ -94,8 +117,21 @@ export class HomePage implements OnInit {
     return returned;
   }
 
+  // ver_detalles (item: any) {
+  //   console.log (item);
+  //   this.navController.navigateForward (['detalle-delivery', item.id]);
+  // }
+
   ver_detalles (item: any) {
-    console.log (item);
-    this.navController.navigateForward (['detalle-delivery', item.id]);
+    if (item.data.estado <= 2) {
+      if (item.ver_detalles === undefined) {
+        item.ver_detalles = true;
+      } else {
+        item.ver_detalles = !item.ver_detalles;
+      }
+    } else {
+      console.log (item);
+    this.navController.navigateForward (['detalle-delivery', item.data.id]);
+    }
   }
 } 

@@ -6,10 +6,22 @@ import { DatabaseService } from '../services/database.service';
 declare var google: any;
 import * as moment from 'moment';
 
+// Animations
+import { trigger, state, style, animate, transition } from '@angular/animations';
 @Component({
   selector: 'app-detalle-delivery',
   templateUrl: './detalle-delivery.page.html',
   styleUrls: ['./detalle-delivery.page.scss'],
+  animations: [
+    trigger('animation-top', [
+      transition(':enter',
+        [style({ transform: 'translateY(-5%)', opacity: 0 }),
+        animate('125ms', style({ transform: 'translateY(0)', 'opacity': 1 }))]),
+      transition(':leave',
+        [style({ transform: 'translateY(0)', 'opacity': 1 }),
+        animate('125ms', style({ transform: 'translateY(-5%)', 'opacity': 0 }))])
+    ])
+  ]
 })
 export class DetalleDeliveryPage implements OnInit {
   @ViewChild ('map', { static: false }) mapRef: ElementRef;
@@ -38,8 +50,9 @@ export class DetalleDeliveryPage implements OnInit {
 
     this.database.get_pedido_by_id (this.pedido_id).subscribe ((res: any) => {
       this.pedido = res;
+      console.log (res);
       this.InitMap (res.latitud, res.longitud);
-      if (res.repartidor_id !== '') {
+      if (res.repartidor_id !== '' && res.repartidor_id !== undefined) {
         this.database.get_usuario (res.repartidor_id).subscribe ((res: any) => {
           this.updateMark (res.latitud, res.longitud);
         });
@@ -48,7 +61,7 @@ export class DetalleDeliveryPage implements OnInit {
   }
 
   get_format_date (date: string) {
-    return moment (date).format ('LLL');
+    return moment (date).format ('LL[ ]hh:mm a');
   }
 
   updateMark (lat: number, lon: number) {
@@ -110,7 +123,7 @@ export class DetalleDeliveryPage implements OnInit {
     }
 
     this.map = await new google.maps.Map (this.mapRef.nativeElement, options);
-
+    
     let marker_pedido = new google.maps.Marker ({
       position: location,
       map: this.map

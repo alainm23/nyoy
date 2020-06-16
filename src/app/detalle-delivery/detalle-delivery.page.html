@@ -24,7 +24,7 @@
   </ion-toolbar>
 
   <ion-toolbar>
-    <ion-grid class="ion-no-padding">
+    <ion-grid class="ion-no-padding" (click)="ver_detalles (pedido)">
       <ion-row>
         <ion-col size="12" class="col_pedido_vertical" [ngStyle]="{'background-color': get_pedido_color (pedido)}">
           <div *ngIf="pedido.estado <= 2" class="circulo_genral" style="background-color: #B9353B;">
@@ -36,7 +36,7 @@
           </div>
   
           <div *ngIf="pedido?.estado >= 3 && pedido?.repartidor_llego === true" class="circulo_genral" style="background-color: #35B93F;">
-            <img src="assets/img/Grupo75.png">
+            <img src="assets/img/SOcopZ.tif.png">
           </div>
   
           <ion-row class="ion-justify-content-end" style="height: 100%;">
@@ -46,7 +46,7 @@
               </p>
               
               <p *ngIf="pedido?.estado === 3 && pedido.repartidor_llego === false" class="color_blank">
-                Su pedido ya esta en camino hubo problema
+                Su pedido ya esta en camino
               </p>
               
               <p *ngIf="pedido?.estado >= 3 && pedido.repartidor_llego === true" class="color_blank">
@@ -54,7 +54,7 @@
               </p>
             </ion-col>
           </ion-row>
-          <ion-icon name="chevron-forward-outline" class="icono_rigth_blanco"></ion-icon>
+          <ion-icon [ngStyle]="{'transform': pedido.ver_detalles === true ? 'rotate(90deg)' : 'none' }"  name="chevron-forward-outline" class="icono_rigth_blanco transition"></ion-icon>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -64,14 +64,21 @@
 <ion-content>
   <div class="map">
     <div #map id="map"></div>
-    <ion-card style="position: relative;" class="ion-no-margin card_acordion">
-      <ion-card-header style="padding-left: 0.5rem;" (click)="ver_detalles (pedido)">
-        <ion-card-title>
-          <span class="ion-margin-start">{{ get_format_date (pedido?.fecha) }}</span>
-        </ion-card-title>
-        <ion-icon name="chevron-down-outline"></ion-icon>
+    <ion-card *ngIf="pedido.ver_detalles" style="position: relative;" class="ion-no-margin card_acordion" [@animation-top]>
+      <ion-card-header style="padding-top: 2rem; display: inline-grid;">
+        <span class="ion-margin-start">
+          <b>Fecha de solicitud:</b> {{ get_format_date (pedido?.fecha) }}
+        </span>
+        
+        <span *ngIf="pedido?.tipo_pago === 'culqi'" class="ion-margin-start">
+          Pago via online
+        </span>
+
+        <span *ngIf="pedido?.tipo_pago !== 'culqi'" class="ion-margin-start">
+          Pago contraentrega
+        </span>
       </ion-card-header>
-      <ion-card-content *ngIf="pedido.ver_detalles" class="card_conten_none card_conten_block">
+      <ion-card-content style="padding-left: 1.5rem;" class="card_conten_none card_conten_block">
         <ion-row>
           <ion-col size="12">
             <ion-row *ngFor="let plato of pedido.platos">

@@ -21,35 +21,115 @@
 
   <ion-grid class="ion-no-padding bajar_grid" *ngIf="pedidos.length > 0">
     <ion-row>
-      <ion-col *ngFor="let pedido of pedidos" (click)="ver_detalles (pedido)" size="12" class="col_pedido_vertical" [ngStyle]="{'background-color': get_pedido_color (pedido)}">
-        <div *ngIf="pedido.estado <= 2" class="circulo_genral" style="background-color: #B9353B;">
-          <img src="assets/img/h6s0Gk.tif.png">
-        </div>
+      <ng-container *ngFor="let pedido of pedidos">
+        <ion-col style="margin-bottom: 3rem;" (click)="ver_detalles (pedido)" size="12" class="col_pedido_vertical" [ngStyle]="{'background-color': get_pedido_color (pedido.data)}">
+          <div *ngIf="pedido.data.estado <= 2" class="circulo_genral" style="background-color: #B9353B;">
+            <img src="assets/img/h6s0Gk.tif.png">
+          </div>
 
-        <div *ngIf="pedido.estado === 3 && pedido.repartidor_llego === false" class="circulo_genral" style="background-color: #4E35B9;">
-          <img src="assets/img/Grupo75.png">
-        </div>
+          <div *ngIf="pedido.data.estado === 3 && pedido.data.repartidor_llego === false" class="circulo_genral" style="background-color: #4E35B9;">
+            <img src="assets/img/Grupo75.png">
+          </div>
 
-        <div *ngIf="pedido.estado === 3 && pedido.repartidor_llego === true" class="circulo_genral" style="background-color: #35B93F;">
-          <img src="assets/img/SOcopZ.tif.png">
-        </div>
-        <ion-row class="ion-justify-content-end" style="height: 100%;">
-          <ion-col size="8" size-sm="9" size-md="10" class="ion-padding-start padding_end_sperando" style="display: flex;align-items: center;">
-            <p *ngIf="pedido.estado <= 2" class="color_blank">
-              Su pedido ya se esta preparando
-            </p>
-            
-            <p *ngIf="pedido.estado === 3 && pedido.repartidor_llego === false" class="color_blank">
-              Su pedido ya esta en camino
-            </p>
-            
-            <p *ngIf="pedido.estado === 3 && pedido.repartidor_llego === true" class="color_blank">
-              Su pedido ya llego
-            </p>
-          </ion-col>
-        </ion-row>
-        <ion-icon name="chevron-forward-outline" class="icono_rigth_blanco"></ion-icon>
-      </ion-col>
+          <div *ngIf="pedido.data.estado === 3 && pedido.data.repartidor_llego === true" class="circulo_genral" style="background-color: #35B93F;">
+            <img src="assets/img/SOcopZ.tif.png">
+          </div>
+          <ion-row class="ion-justify-content-end" style="height: 100%;">
+            <ion-col size="8" size-sm="9" size-md="10" class="ion-padding-start padding_end_sperando" style="display: flex;align-items: center;">
+              <p *ngIf="pedido.data.estado <= 2" class="color_blank">
+                Su pedido ya se esta preparando
+              </p>
+              
+              <p *ngIf="pedido.data.estado === 3 && pedido.data.repartidor_llego === false" class="color_blank">
+                Su pedido ya esta en camino
+              </p>
+              
+              <p *ngIf="pedido.data.estado === 3 && pedido.data.repartidor_llego === true" class="color_blank">
+                Su pedido ya llego
+              </p>
+            </ion-col>
+          </ion-row>
+          <ion-icon [ngStyle]="{'transform': pedido.ver_detalles === true ? 'rotate(90deg)' : 'none' }" name="chevron-forward-outline" class="icono_rigth_blanco transition"></ion-icon>
+        </ion-col>
+        
+        <ion-col style="margin-top: -3rem;" *ngIf="pedido.ver_detalles" [@animation-top]>
+          <ion-card class="ion-no-margin card_acordion">
+            <ion-card-header style="padding-top: 2rem; display: inline-grid;">
+              <span class="ion-margin-start">
+                <b>Fecha de solicitud:</b> {{ get_format_date (pedido.pedido.fecha) }}
+              </span>
+              
+              <span *ngIf="pedido.pedido.tipo_pago === 'culqi'" class="ion-margin-start">
+                Pago online
+              </span>
+
+              <span *ngIf="pedido.pedido.tipo_pago !== 'culqi'" class="ion-margin-start">
+                Pago contraentrega
+              </span>
+
+              <span *ngIf="pedido.pedido.tipo_pedido === 'recojo' && pedido.pedido.tipo_recojo === 'horario'" class="ion-margin-start">
+                Recoger a las {{ pedido.pedido.hora_seleccionada }}
+              </span>
+
+              <span *ngIf="pedido.pedido.tipo_pedido === 'recojo' && pedido.pedido.tipo_recojo !== 'horario'" class="ion-margin-start">
+                Recoger lo mas antes posible
+              </span>
+            </ion-card-header>
+            <ion-card-content class="card_conten_none card_conten_block" style="padding-bottom: 2rem; padding-left: 2rem;">
+              <ion-row>
+                <ion-col size="12">
+                  <ion-row *ngFor="let plato of pedido.pedido.platos">
+                    <ion-col size="12" class="header" *ngIf="plato.tipo === 'menu'">Menus</ion-col>
+                    <ion-col size="12" class="header" *ngIf="plato.tipo === 'extra'">Extras</ion-col>
+                    <ion-col size="12" class="header" *ngIf="plato.tipo === 'promocion'">Promocion</ion-col>
+                    <ng-container *ngIf="plato.tipo === 'extra'">
+                      <ion-col size="8">
+                        <p class="color_74">{{ plato.plato_nombre }}</p>
+                      </ion-col>
+                      <ion-col size="4" class="ion-text-end">
+                        <p class="color_a6">{{ plato.cantidad }} Unds.</p>
+                      </ion-col>
+                    </ng-container>
+        
+                    <ng-container *ngIf="plato.tipo === 'menu'">
+                      <ng-container *ngFor="let menu of plato.menus">
+                        <ion-col size="8">
+                          <p class="color_74">{{ menu.nombre }}</p>
+                        </ion-col>
+                        <ion-col size="4" class="ion-text-end">
+                          <p class="color_a6">{{ menu.cantidad }} Unds.</p>
+                        </ion-col>
+                      </ng-container>
+                    </ng-container>
+        
+                    <ng-container *ngIf="plato.tipo === 'promocion' && plato.promocion_tipo === '1'">
+                      <ng-container *ngFor="let plato_p of plato.platos">
+                        <ion-col size="8">
+                          <p class="color_74">{{ plato_p.nombre }}</p>
+                        </ion-col>
+                        <ion-col size="4" class="ion-text-end">
+                          <p class="color_a6">{{ plato.cantidad }} Unds.</p>
+                        </ion-col>
+                      </ng-container>
+                    </ng-container>
+        
+                    <ng-container *ngIf="plato.tipo === 'promocion' && plato.promocion_tipo === '0'">
+                      <ng-container>
+                        <ion-col size="8">
+                          <p class="color_74">{{ plato.plato_nombre }}</p>
+                        </ion-col>
+                        <ion-col size="4" class="ion-text-end">
+                          <p class="color_a6">{{ plato.cantidad }} Unds.</p>
+                        </ion-col>
+                      </ng-container>
+                    </ng-container>
+                  </ion-row>
+                </ion-col>
+              </ion-row>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ng-container>
     </ion-row>
   </ion-grid>
 
@@ -66,7 +146,7 @@
       <ion-col size="12" size-sm="8" size-md="9" size-lg="8" class="ion-margin-top ion-margin-bottom">
         <ion-row class="ion-justify-content-center">
           <ion-col size="6" *ngFor="let item of empresas">
-            <ion-card class="ion-no-margin" (click)="view_empresa (item)">
+            <ion-card class="ion-no-margin ion-card-fix" (click)="view_empresa (item)">
               <div class="dv_img_restaurant">
                 <img [src]="item.logotipo" class="img_ob_cover">
               </div>
@@ -75,7 +155,7 @@
           </ion-col>
           
           <ion-col size="6">
-            <ion-card class="ion-no-margin" style="opacity: 0.7;" (click)="alerta ()">
+            <ion-card class="ion-no-margin ion-card-fix" style="opacity: 0.7;" (click)="alerta ()">
               <div class="dv_img_restaurant">
                 <img src="assets/img/Grupo1558.png" class="img_ob_cover baja_img">
               </div>

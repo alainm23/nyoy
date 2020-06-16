@@ -136,10 +136,7 @@ export class PagoResumenPage implements OnInit {
           {
             text: 'Cancelar',
             role: 'cancel',
-            cssClass: 'secondary',
-            handler: (blah) => {
-              console.log('Confirm Cancel: blah');
-            }
+            cssClass: 'secondary'
           }, {
             text: 'Confirmar',
             handler: async () => {
@@ -182,11 +179,13 @@ export class PagoResumenPage implements OnInit {
       monto_total: this.total + this.costo_envio,
       estado: 0,
       repartidor_llego: false,
-      tipo_pago: tipo_pago,
+      tipo_pago: '',
       pagado: false,
       observacion: '',
       hora_finalizacion: ''
     };
+
+    console.log (this.stock_vaidator.carrito_platos);
 
     this.stock_vaidator.carrito_platos.forEach ((element: any) => {
       empresas.push (element.empresa_id);
@@ -209,7 +208,8 @@ export class PagoResumenPage implements OnInit {
           cantidad: element.cantidad,
           precio: element.precio,
           tipo: 'extra',
-          comentarios: element.comentarios
+          comentarios: element.comentarios,
+          extras: element.extras
         });
       } else if (element.tipo === 'promocion') {
         if (element.promocion_tipo === '0') {
@@ -240,6 +240,7 @@ export class PagoResumenPage implements OnInit {
     });
     data.platos = platos;
     data.empresas = empresas;
+
     console.log (data);
 
     const push_data: any = {
@@ -250,24 +251,25 @@ export class PagoResumenPage implements OnInit {
       clave: data.id
     };
 
-    // this.database.add_pedido (data)
-    //   .then (() => {
-    //     this.pago.send_notification (push_data).subscribe (response => {
-    //     }, error => {
-    //     });
+    this.database.add_pedido (data)
+      .then (() => {
+        this.pago.send_notification (push_data).subscribe (response => {
+        }, error => {
+        });
 
-    //     this.storage.remove ('datos-envio');
-    //     this.storage.remove ('carrito-platos');
-    //     this.storage.remove ('carrito-insumos');
-    //     this.storage.remove ('carrito-menus-dia');
+        this.storage.remove ('datos-envio');
+        this.storage.remove ('carrito-platos');
+        this.storage.remove ('carrito-insumos');
+        this.storage.remove ('carrito-menus-dia');
 
-    //     this.stock_vaidator.get_storage_values ();
-    //     this.navController.navigateRoot ('operecion-exitosa');
-    //     loading.dismiss ();
-    //   })
-    //   .catch ((error: any) => {
-    //     console.log (error);
-    //     loading.dismiss ();
-    //   })
+        this.stock_vaidator.limpiar_cantidad_elementos_menu ();
+        this.stock_vaidator.get_storage_values ();
+        this.navController.navigateRoot ('operecion-exitosa');
+        loading.dismiss ();
+      })
+      .catch ((error: any) => {
+        console.log (error);
+        loading.dismiss ();
+      })
   }
 }

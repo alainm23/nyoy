@@ -84,7 +84,7 @@
             <ion-card *ngIf="item.value.tipo === 'menu'" class="car_plato">
               <ion-card-header (click)="ver_detalles (item)">
                 <ion-thumbnail>
-                  <img src="assets/img/8f003918e9ee1ed3485149c7b6daf73a.png">
+                  <img [src]="item.value.imagen">
                 </ion-thumbnail>
                 <div class="div_padding_top">
                   <ion-row>
