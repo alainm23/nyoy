@@ -42,15 +42,15 @@ const routes: Routes = [
     loadChildren: () => import('./promocion-descripcion/promocion-descripcion.module').then( m => m.PromocionDescripcionPageModule)
   },
   {
-    path: 'datos-envio',
+    path: 'datos-envio/:tipo',
     loadChildren: () => import('./datos-envio/datos-envio.module').then( m => m.DatosEnvioPageModule)
   },
   {
-    path: 'datos-recojo',
+    path: 'datos-recojo/:tipo',
     loadChildren: () => import('./datos-recojo/datos-recojo.module').then( m => m.DatosRecojoPageModule)
   },
   {
-    path: 'pago-resumen',
+    path: 'pago-resumen/:tipo',
     loadChildren: () => import('./pago-resumen/pago-resumen.module').then( m => m.PagoResumenPageModule)
   },
   {
@@ -73,6 +73,20 @@ const routes: Routes = [
     path: 'detalle-delivery/:id',
     loadChildren: () => import('./detalle-delivery/detalle-delivery.module').then( m => m.DetalleDeliveryPageModule)
   },
+  {
+    path: 'tienda-home',
+    loadChildren: () => import('./tienda-home/tienda-home.module').then( m => m.TiendaHomePageModule)
+  },
+  {
+    path: 'tienda-galeria-productos/:id',
+    loadChildren: () => import('./tienda-galeria-productos/tienda-galeria-productos.module').then( m => m.TiendaGaleriaProductosPageModule)
+  },
+  {
+    path: 'tienda-carrito',
+    loadChildren: () => import('./tienda-carrito/tienda-carrito.module').then( m => m.TiendaCarritoPageModule)
+  },
+
+
 ];
 
 @NgModule({

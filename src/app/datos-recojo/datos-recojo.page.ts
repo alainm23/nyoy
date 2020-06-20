@@ -9,6 +9,7 @@ import { PagoService } from '../services/pago.service';
 import { EventsService } from '../services/events.service';
 import { AuthService } from '../services/auth.service';
 import * as moment from 'moment';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-datos-recojo',
@@ -16,6 +17,8 @@ import * as moment from 'moment';
   styleUrls: ['./datos-recojo.page.scss'],
 })
 export class DatosRecojoPage implements OnInit {
+  tipo: string = '';
+
   tipo_pago: string = 'culqi';
   tipo_recojo: string = 'rapido';
   proceso: number = 0;
@@ -26,7 +29,7 @@ export class DatosRecojoPage implements OnInit {
   total: number = 0;
   subscribe: any = null;
   constructor (
-    public stock_vaidator: StockValidatorService,
+    public stock_validator: StockValidatorService,
     private storage: Storage,
     private loadingController: LoadingController,
     private navController: NavController,
@@ -35,14 +38,25 @@ export class DatosRecojoPage implements OnInit {
     private events: EventsService,
     private auth: AuthService,
     private alertController: AlertController,
-    private menu: MenuController
+    private menu: MenuController,
+    private route: ActivatedRoute
   ) { }
 
-  ngOnInit () {
+  async ngOnInit () {
+    this.tipo = this.route.snapshot.paramMap.get ('tipo');
+
+    const loading = await this.loadingController.create({
+      message: 'Espere un momento'
+    });
+
+    await loading.present ()
+    loading.dismiss ().then (() => {
+      this.pago.initCulqi ();
+    });
+
     this.total = this.get_precio_total ();
     this.subtotal = this.total / 1.18;
     this.igv = this.subtotal * 0.18;
-
     if (this.subscribe == null) {
       this.subscribe = this.events.get_token_id ().subscribe (async (token_id: string) => {
         console.log (token_id);
@@ -53,7 +67,7 @@ export class DatosRecojoPage implements OnInit {
         await loading.present ();
         this.pago.procesarpagonyoy (
           token_id,
-          this.total * 100,
+          Math.round (this.total * 100),
           this.auth.usuario.correo,
           'PEN'
           ).subscribe ((res: any) => {
@@ -78,19 +92,24 @@ export class DatosRecojoPage implements OnInit {
 
   get_precio_total () {
     let total: number = 0;
-    console.log ('element', this.stock_vaidator.carrito_platos);
-    this.stock_vaidator.carrito_platos.forEach (element => {
-      if (element.tipo === 'extra') {
-        total += element.precio * element.cantidad;
-        element.extras.forEach ((extra: any) => {
-          total += extra.precio * extra.cantidad;
-        });
-      } else {
-        total += element.precio;
-      }
-    });
 
-    console.log (total);
+    if (this.tipo === 'restaurante') {
+      this.stock_validator.carrito_platos.forEach (element => {
+        if (element.tipo === 'extra') {
+          total += element.precio * element.cantidad;
+          element.extras.forEach ((extra: any) => {
+            total += extra.precio * extra.cantidad;
+          });
+        } else {
+          total += element.precio;
+        }
+      });
+    } else {
+      this.stock_validator.carrito_tienda.forEach (element => {
+        total += element.precio * element.cantidad;
+      });
+    }
+
     return total;
   }
 
@@ -103,7 +122,8 @@ export class DatosRecojoPage implements OnInit {
   
   async open_culqi () {
     if (this.tipo_pago === 'culqi') {
-      this.pago.cfgFormulario ("Pago por el pedido", this.total * 100);
+      console.log ('monto', Math.round (this.total * 100));
+      this.pago.cfgFormulario ("Pago por el pedido", Math.round (this.total * 100));
 
       const loading = await this.loadingController.create({
         message: 'Espere un momento'
@@ -172,34 +192,24 @@ export class DatosRecojoPage implements OnInit {
       tipo_pago: tipo_pago,
       pagado: false,
       observacion: '',
-      hora_finalizacion: ''
+      hora_finalizacion: '',
+      tipo: this.tipo
     };
 
-    this.stock_vaidator.carrito_platos.forEach ((element: any) => {
-      empresas.push (element.empresa_id);
-      if (element.tipo == 'menu') {
-        platos.push ({
-          empresa_id: element.empresa_id,
-          carta_id: element.carta_id,
-          menu_nombre: element.nombre,
-          menus: element.menus,
-          tipo: 'menu',
-          precio: element.precio,
-          comentario: element.comentario
-        }); 
-      } else if (element.tipo == 'extra') {
-        platos.push ({
-          empresa_id: element.empresa_id,
-          carta_id: element.carta_id,
-          plato_id: element.plato.id,
-          plato_nombre: element.plato.nombre,
-          cantidad: element.cantidad,
-          precio: element.precio,
-          tipo: 'extra',
-          comentarios: element.comentarios
-        });
-      } else if (element.tipo === 'promocion') {
-        if (element.promocion_tipo === '0') {
+    if (this.tipo === 'restaurante') {
+      this.stock_validator.carrito_platos.forEach ((element: any) => {
+        empresas.push (element.empresa_id);
+        if (element.tipo == 'menu') {
+          platos.push ({
+            empresa_id: element.empresa_id,
+            carta_id: element.carta_id,
+            menu_nombre: element.nombre,
+            menus: element.menus,
+            tipo: 'menu',
+            precio: element.precio,
+            comentario: element.comentario
+          }); 
+        } else if (element.tipo == 'extra') {
           platos.push ({
             empresa_id: element.empresa_id,
             carta_id: element.carta_id,
@@ -207,26 +217,59 @@ export class DatosRecojoPage implements OnInit {
             plato_nombre: element.plato.nombre,
             cantidad: element.cantidad,
             precio: element.precio,
-            tipo: 'promocion',
-            promocion_tipo: '0',
-            comentarios: element.comentarios
-          });
-        } else {
-          platos.push ({
-            empresa_id: element.empresa_id,
-            carta_id: element.carta_id,
-            cantidad: element.cantidad,
-            precio: element.precio,
-            tipo: 'promocion',
-            promocion_tipo: '1',
+            tipo: 'extra',
             comentarios: element.comentarios,
-            platos: element.platos
+            extras: element.extras
           });
+        } else if (element.tipo === 'promocion') {
+          if (element.promocion_tipo === '0') {
+            platos.push ({
+              empresa_id: element.empresa_id,
+              carta_id: element.carta_id,
+              plato_id: element.plato.id,
+              plato_nombre: element.plato.nombre,
+              cantidad: element.cantidad,
+              precio: element.precio,
+              tipo: 'promocion',
+              promocion_tipo: '0',
+              comentarios: element.comentarios
+            });
+          } else {
+            platos.push ({
+              empresa_id: element.empresa_id,
+              carta_id: element.carta_id,
+              cantidad: element.cantidad,
+              precio: element.precio,
+              tipo: 'promocion',
+              promocion_tipo: '1',
+              comentarios: element.comentarios,
+              platos: element.platos
+            });
+          }
         }
-      }
-    });
+      });
+      data.empresas = empresas;
+    } else {
+      let productos: any [] = [];
+      this.stock_validator.carrito_tienda.forEach ((element: any) => {
+        productos.push ({
+          id: element.id,
+          nombre: element.nombre,
+          medida: element.medida,
+          cantidad: element.cantidad,
+          precio: element.precio,
+          categoria_id: element.categoria_id,
+          marca_id: element.marca_id,
+        });
+      });
+
+      platos.push ({
+        tipo: 'tienda',
+        productos: productos,
+      })
+    }
+
     data.platos = platos;
-    data.empresas = empresas;
     console.log (data);
 
     const push_data: any = {
@@ -250,8 +293,9 @@ export class DatosRecojoPage implements OnInit {
         this.storage.remove ('carrito-insumos');
         this.storage.remove ('carrito-menus-dia');
 
-        this.stock_vaidator.limpiar_cantidad_elementos_menu ();
-        this.stock_vaidator.get_storage_values ();
+        this.stock_validator.limpiar_cantidad_elementos_menu ();
+        this.stock_validator.get_storage_values ();
+        this.stock_validator.carrito_tienda.clear ();
         this.navController.navigateRoot ('operecion-exitosa');
         loading.dismiss ();
       })

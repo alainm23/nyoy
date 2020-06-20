@@ -122,9 +122,9 @@ export class PedidoResumenPage implements OnInit {
     console.log (this.tipo_entrega);
 
     if (this.tipo_entrega == '0') {
-      this.navCtrl.navigateForward ('datos-envio');
+      this.navCtrl.navigateForward (['datos-envio', 'restaurante']);
     } else {
-      this.navCtrl.navigateForward ('datos-recojo');
+      this.navCtrl.navigateForward (['datos-recojo', 'restaurante']);
     }
   }
 

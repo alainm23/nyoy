@@ -1,0 +1,105 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button color="menu"></ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button color="menu" class="badge-button" routerLink="/tienda-carrito/" routerDirection="forward">
+        <ion-icon size="large" slot="icon-only" name="cart-outline" class="icon_carrito"></ion-icon>
+        <ion-badge *ngIf="stock_validator.carrito_tienda.size > 0" [class.badge-one]="stock_validator.carrito_tienda.size < 10" [class.badge-two]="stock_validator.carrito_tienda.size >= 10" color="danger" class="ion-no-padding">{{ stock_validator.carrito_tienda.size }}</ion-badge>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-menu-button color="menu" autoHide="false"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="position: relative;">
+  <ion-card class="ion-no-margin card_menu">
+    <!-- <h1 class="ion-text-center">{{ categoria?.nombre }}</h1> -->
+    <ion-searchbar mode="ios" [(ngModel)]="search_text" (ionChange)="filtrar_by_text ()"></ion-searchbar>
+    <!-- <ion-grid class="grid_card">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="3" size-sm="2">
+          <ion-button
+            class="btn_iconos"
+            [color]="categoria_seleccionada === 'todos' ? 'selected' : 'no-tienda-selected'"
+            (click)="filtrar ('todos')">
+            Todo
+          </ion-button>
+        </ion-col>
+
+        <ion-col *ngFor="let item of subcategorias" size="3" size-sm="2">
+          <ion-button
+            class="btn_iconos"
+            [color]="categoria_seleccionada === item.id ? 'selected' : 'no-tienda-selected'"
+            (click)="filtrar (item.id)">
+            {{ item.nombre }}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid> -->
+    <ion-slides pager="false" [options]="slideOpts" (ionSlideDidChange)="slidesEmpresaChanged ()">
+      <ion-slide>
+
+      </ion-slide>
+
+      <ion-slide>
+        <ion-button
+          class="btn_iconos"
+          (click)="slideTo (-1)"
+          [color]="categoria_seleccionada === 'todos' ? 'selected' : 'no-tienda-selected'">
+          Todo
+        </ion-button>
+      </ion-slide>
+
+      <ion-slide *ngFor="let item of subcategorias; index as i">
+        <ion-button
+          (click)="slideTo (i)"
+          class="btn_iconos"
+          [color]="categoria_seleccionada === item.id ? 'selected' : 'no-tienda-selected'">
+          {{ item.nombre }}
+        </ion-button>
+      </ion-slide>
+
+      <ion-slide>
+
+      </ion-slide>
+    </ion-slides>
+  </ion-card>
+  <ion-card class="card_frutas">
+    <ion-grid>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="11" size-sm="9" size-md="7">
+          <ion-row class="ion-justify-content-center">
+            <ion-col *ngFor="let item of productos" size="4" class="ion-text-center">
+              <img [src]="item.imagen" class="img_fruta">
+              <p class="p_subtitulos p_top">{{ item.nombre }}</p>
+              <p class="p_subtitulos" style="margin-top: 0px">{{ item.precio_venta | currency:'S/. ' }}</p>
+              <div class="div_sumar_resta">
+                <ion-button class="btn_menos" (click)="update_cantidad (item, -1)">-</ion-button>
+                <p class="mpb_number">{{ item.cantidad }}</p>
+                <ion-button class="btn_menos" (click)="update_cantidad (item, +1)">+</ion-button>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <ion-row class="ion-justify-content-center">
+    <ion-col size="6">
+      <ion-button expand="block" class="btn_listo" (click)="registrar_carrito (true)">Añadir mas</ion-button>
+    </ion-col>
+
+    <ion-col size="6">
+      <ion-button expand="block" class="btn_listo" (click)="registrar_carrito (false)">Pagar</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

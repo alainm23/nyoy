@@ -112,6 +112,25 @@
   --ion-color-tint: #88ee98;
 }
 
+.ion-color-no-tienda-selected {
+  --ion-color-base: #ffffff;
+  --ion-color-base-rgb: 255, 255, 255;
+  --ion-color-contrast: #A6BCD0;
+  --ion-color-contrast-rgb: 166, 188, 208;
+  --ion-color-shade: #6ed57e;
+  --ion-color-tint: #88ee98;
+}
+
+.ion-color-menu {
+  --ion-color-base: #748A9E;
+  --ion-color-base-rgb: 116, 138, 158;
+  --ion-color-contrast: #fff;
+  --ion-color-contrast-rgb: 255, 255, 255;
+  --ion-color-shade: #687c8e;
+  --ion-color-tint: #8195a7;
+}
+  
+
 @media (prefers-color-scheme: dark) {
   /*
    * Dark Colors

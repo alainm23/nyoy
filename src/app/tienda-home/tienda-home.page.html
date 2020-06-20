@@ -1,0 +1,34 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button color="menu"></ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button color="menu" class="badge-button" routerLink="/tienda-carrito/" routerDirection="forward">
+        <ion-icon size="large" slot="icon-only" name="cart-outline" class="icon_carrito"></ion-icon>
+        <ion-badge *ngIf="stock_validator.carrito_tienda.size > 0" [class.badge-one]="stock_validator.carrito_tienda.size < 10" [class.badge-two]="stock_validator.carrito_tienda.size >= 10" color="danger" class="ion-no-padding">{{ stock_validator.carrito_tienda.size }}</ion-badge>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-menu-button color="menu" autoHide="false"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="position: relative;">
+  <ion-card class="ion-no-margin card_menu">
+    <img src="assets/img/Grupo1558.png">
+  </ion-card>
+  <ion-grid>
+    <ion-row class="ion-justify-content-center">
+      <ion-col *ngFor="let item of items" size="11" size-sm="8" size-md="5">
+        <ion-card class="ion-no-margin card_frutas" (click)="go_galeria (item)">
+            <img [src]="item.imagen">
+          <p class="p_font">{{ item.nombre }}</p>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

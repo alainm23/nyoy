@@ -1,7 +1,7 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="end">
-      <ion-menu-button autoHide="false"></ion-menu-button>
+      <ion-menu-button color="menu" autoHide="false"></ion-menu-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -21,7 +21,7 @@
 
   <ion-grid class="ion-no-padding bajar_grid" *ngIf="pedidos.length > 0">
     <ion-row>
-      <ion-col *ngFor="let pedido of pedidos" (click)="ver_detalles (pedido)" size="12" class="col_pedido_vertical" [ngStyle]="{'background-color': get_pedido_color (pedido)}">
+      <!-- <ion-col *ngFor="let pedido of pedidos" (click)="ver_detalles (pedido)" size="12" class="col_pedido_vertical" [ngStyle]="{'background-color': get_pedido_color (pedido)}">
         <div *ngIf="pedido.estado <= 2" class="circulo_genral" style="background-color: #B9353B;">
           <img src="assets/img/h6s0Gk.tif@2x.png">
         </div>
@@ -49,7 +49,8 @@
           </ion-col>
         </ion-row>
         <ion-icon name="chevron-forward-outline" class="icono_rigth_blanco"></ion-icon>
-      </ion-col>
+      </ion-col> -->
+
       <ng-container *ngFor="let pedido of pedidos">
         <ion-col style="margin-bottom: 3rem;" (click)="ver_detalles (pedido)" size="12" class="col_pedido_vertical" [ngStyle]="{'background-color': get_pedido_color (pedido.data)}">
           <div *ngIf="pedido.data.estado <= 2" class="circulo_genral" style="background-color: #B9353B;">
@@ -119,7 +120,18 @@
                         <p class="color_a6">{{ plato.cantidad }} Unds.</p>
                       </ion-col>
                     </ng-container>
-        
+                    
+                    <ng-container *ngIf="plato.tipo === 'tienda'">
+                      <ng-container *ngFor="let producto of plato.productos">
+                        <ion-col size="8">
+                          <p class="color_74">{{ producto.nombre }}</p>
+                        </ion-col>
+                        <ion-col size="4" class="ion-text-end">
+                          <p class="color_a6">{{ producto.cantidad }} Unds.</p>
+                        </ion-col>
+                      </ng-container>
+                    </ng-container>
+
                     <ng-container *ngIf="plato.tipo === 'menu'">
                       <ng-container *ngFor="let menu of plato.menus">
                         <ion-col size="8">
@@ -184,7 +196,7 @@
           </ion-col>
           
           <ion-col size="6">
-            <ion-card class="ion-no-margin ion-card-fix" style="opacity: 0.7;" (click)="alerta ()">
+            <ion-card class="ion-no-margin ion-card-fix" style="opacity: 0.7;" (click)="go_bodeba ()">
               <div class="dv_img_restaurant">
                 <img src="assets/img/Grupo1558.png" class="img_ob_cover baja_img">
               </div>

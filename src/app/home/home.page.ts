@@ -122,6 +122,10 @@ export class HomePage implements OnInit {
   //   this.navController.navigateForward (['detalle-delivery', item.id]);
   // }
 
+  go_bodeba () {
+    this.navController.navigateForward (['tienda-home']);
+  }
+
   ver_detalles (item: any) {
     if (item.data.estado <= 2) {
       if (item.ver_detalles === undefined) {
@@ -131,7 +135,7 @@ export class HomePage implements OnInit {
       }
     } else {
       console.log (item);
-    this.navController.navigateForward (['detalle-delivery', item.data.id]);
+      this.navController.navigateForward (['detalle-delivery', item.data.id]);
     }
   }
 } 

@@ -1,0 +1,107 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button color="menu"></ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-menu-button color="menu" autoHide="false"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="position: relative;">
+  <ion-card class="ion-no-margin card_menu">
+    <h1 class="ion-text-center">Mi carrito de compras</h1>
+  </ion-card>
+  <p class="p_precio_total ion-text-center">Total a pagar: {{ get_precio_total (stock_validator.carrito_tienda) | currency:'S/. ' }}</p>
+  <ion-radio-group [(ngModel)]="tipo_entrega">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="5" size-sm="3" size-lg="2">
+        <ion-item lines="none">
+          <ion-label>Delivery</ion-label>
+          <ion-radio  slot="start" value='0'></ion-radio>
+        </ion-item>
+      </ion-col>
+      <ion-col size="5" size-sm="3" size-lg="2">
+        <ion-item lines="none">
+          <ion-label>Recogo</ion-label>
+          <ion-radio slot="start" value='1'></ion-radio>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-radio-group>
+  <ion-grid>
+    <ion-row class="ion-justify-content-center">
+      <ion-col *ngFor="let item of stock_validator.carrito_tienda | keyvalue" size="11" size-sm="8" size-md="5">
+        <ion-item-sliding>
+          <ion-item>
+            <ion-thumbnail slot="start">
+              <img [src]="item.value.imagen">
+            </ion-thumbnail>
+            <ion-label>
+              <h2 class="ion-text-wrap p_font">{{ item.value.nombre }}</h2>
+              <p class="p_number_g">{{ item.value.cantidad }} {{ item.value.medida }}</p>
+              <p class="p_soles">{{ item.value.cantidad * item.value.precio | currency:'S/. ' }}</p>
+            </ion-label>
+            <div slot="end" class="div_sumar_resta">
+              <ion-button class="btn_menos" (click)="update_cantidad (item.value, -1)">-</ion-button>
+              <p class="mpb_number">{{ item.value.cantidad }}</p>
+              <ion-button class="btn_menos" (click)="update_cantidad (item.value, +1)">+</ion-button>
+            </div>
+          </ion-item>
+
+          <!-- <ion-item class="card_frutas" lines="none">
+            <ion-label>
+              <img [src]="item.value.imagen">
+              <p class="p_font">{{ item.value.nombre }}</p>
+              <div class="div_flex_precio">
+                <p class="p_number_g">{{ item.value.cantidad }} {{ item.value.medida }}</p>
+                <p class="p_soles">{{ item.value.cantidad * item.value.precio | currency:'S/. ' }}</p>
+              </div>
+            </ion-label>
+            
+          </ion-item> -->
+          <ion-item-options side="end">
+            <ion-item-option (click)="eliminar (item.value)" class="option_eliminar"><ion-icon name="trash-outline"></ion-icon></ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<!-- <ion-footer class="ion-no-border">
+  <!-- <ion-row class="ion-justify-content-center">
+    <ion-col size="11" size-sm="8" size-md="7">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="6" size-sm="4" size-xl="2">
+          <p class="p_margin_top">Sub-total</p>
+          <p class="p_margin_top">Delivery</p>
+          <p class="p_margin_top p_font_we">Total</p>
+        </ion-col>
+        <ion-col size="6" class="ion-text-end" size-sm="4" size-xl="2">
+          <p class="p_margin_top">{{ get_precio_total (stock_validator.carrito_tienda) - (get_precio_total (stock_validator.carrito_tienda) * 0.18) | currency:'S/. ' }}</p>
+          <p class="p_margin_top">Standard (free)</p>
+          <p class="p_margin_top p_font_we">{{ get_precio_total (stock_validator.carrito_tienda) | currency:'S/. ' }}</p>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+
+    <ion-col size="10" size-sm="7" size-md="7" size-lg="6">
+      <ion-button expand="block" class="btn_listo ion-margin-bottom">Adelante</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer> -->
+
+<ion-footer class="ion-no-border" *ngIf="stock_validator.carrito_tienda.size > 0">
+  <ion-toolbar (click)="openCulqi ()" class="ion-text-center ion-toolbar-footer ion-margin-bottom">
+    <ion-button  style="margin-bottom: 6px;" class="ion-no-margin btn_border btn_footer">
+      Pagar
+    </ion-button>
+    <ion-button  style="margin-bottom: 6px;" class="ion-no-margin btn_footer">
+      {{ get_precio_total (stock_validator.carrito_tienda) | currency:'S/. ' }}
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

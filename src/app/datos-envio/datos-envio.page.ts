@@ -11,6 +11,7 @@ import { NavController, MenuController, LoadingController, AlertController, Moda
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AuthService } from '../services/auth.service';
 import { MapaSelectPage } from '../modals/mapa-select/mapa-select.page';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-datos-envio',
@@ -18,6 +19,7 @@ import { MapaSelectPage } from '../modals/mapa-select/mapa-select.page';
   styleUrls: ['./datos-envio.page.scss'],
 })
 export class DatosEnvioPage implements OnInit {
+  tipo: string = '';
   form: FormGroup;
 
   latitude: number = 0;
@@ -35,10 +37,13 @@ export class DatosEnvioPage implements OnInit {
     public loadingController: LoadingController,
     public database: DatabaseService,
     public alertController: AlertController,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private route: ActivatedRoute,
   ) { }
 
   async ngOnInit() {
+    this.tipo = this.route.snapshot.paramMap.get ('tipo');
+
     this.form = new FormGroup({
       nombre_receptor: new FormControl (this.auth.usuario.nombre, [Validators.required]),
       direccion: new FormControl ('', Validators.required),
@@ -89,7 +94,7 @@ export class DatosEnvioPage implements OnInit {
             cssClass: 'secondary',
             handler: (blah) => {
               this.storage.set ('datos-envio', JSON.stringify (data));
-              this.navController.navigateForward ('pago-resumen');
+              this.navController.navigateForward (['pago-resumen', this.tipo]);
             }
           }, {
             text: 'Guardar',
@@ -109,7 +114,7 @@ export class DatosEnvioPage implements OnInit {
               let usuario_id = await this.storage.get ('usuario_id');
               this.database.add_direccion (usuario_id, direccion);
               this.storage.set ('datos-envio', JSON.stringify (data));
-              this.navController.navigateForward ('pago-resumen');
+              this.navController.navigateForward (['pago-resumen', this.tipo]);
             }
           }
         ]
@@ -118,7 +123,7 @@ export class DatosEnvioPage implements OnInit {
       await alert.present();
     } else {
       this.storage.set ('datos-envio', JSON.stringify (data));
-      this.navController.navigateForward ('pago-resumen');
+      this.navController.navigateForward (['pago-resumen', this.tipo]);
     }
   }
 

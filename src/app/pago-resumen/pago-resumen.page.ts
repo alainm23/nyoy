@@ -9,6 +9,7 @@ import { PagoService } from '../services/pago.service';
 import { EventsService } from '../services/events.service';
 import { AuthService } from '../services/auth.service';
 import * as moment from 'moment';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-pago-resumen',
@@ -16,6 +17,8 @@ import * as moment from 'moment';
   styleUrls: ['./pago-resumen.page.scss'],
 })
 export class PagoResumenPage implements OnInit {
+  tipo: string = '';
+
   metodo_pago: string = 'culqi';
   costo_envio: number = 0;
   kilometros: number = 0;
@@ -26,7 +29,7 @@ export class PagoResumenPage implements OnInit {
   subscribe: any = null;
   datos_envio: any;
   constructor (
-    public stock_vaidator: StockValidatorService,
+    public stock_validator: StockValidatorService,
     private storage: Storage,
     private loadingController: LoadingController,
     private navController: NavController,
@@ -34,10 +37,13 @@ export class PagoResumenPage implements OnInit {
     private pago: PagoService,
     private events: EventsService,
     private auth: AuthService,
-    public alertController: AlertController
+    public alertController: AlertController,
+    private route: ActivatedRoute,
   ) { }
 
   async ngOnInit () {
+    this.tipo = this.route.snapshot.paramMap.get ('tipo');
+
     const loading = await this.loadingController.create({
       message: 'Espere un momento'
     });
@@ -75,7 +81,7 @@ export class PagoResumenPage implements OnInit {
         await loading.present ();
         this.pago.procesarpagonyoy (
           token_id,
-          (this.total + this.costo_envio) * 100,
+          Math.round ((this.total + this.costo_envio) * 100),
           this.auth.usuario.correo,
           'PEN'
           ).subscribe ((res: any) => {
@@ -92,19 +98,24 @@ export class PagoResumenPage implements OnInit {
 
   get_precio_total () {
     let total: number = 0;
-    console.log ('element', this.stock_vaidator.carrito_platos);
-    this.stock_vaidator.carrito_platos.forEach (element => {
-      if (element.tipo === 'extra') {
-        total += element.precio * element.cantidad;
-        element.extras.forEach ((extra: any) => {
-          total += extra.precio * extra.cantidad;
-        });
-      } else {
-        total += element.precio;
-      }
-    });
 
-    console.log (total);
+    if (this.tipo === 'restaurante') {
+      this.stock_validator.carrito_platos.forEach (element => {
+        if (element.tipo === 'extra') {
+          total += element.precio * element.cantidad;
+          element.extras.forEach ((extra: any) => {
+            total += extra.precio * extra.cantidad;
+          });
+        } else {
+          total += element.precio;
+        }
+      });
+    } else {
+      this.stock_validator.carrito_tienda.forEach (element => {
+        total += element.precio * element.cantidad;
+      });
+    }
+
     return total;
   }
 
@@ -117,7 +128,8 @@ export class PagoResumenPage implements OnInit {
   
   async open_culqi () {
     if (this.metodo_pago === 'culqi') {
-      this.pago.cfgFormulario ("Pago por el pedido", (this.total + this.costo_envio) * 100);
+      console.log ('Monto', Math.round ((this.total + this.costo_envio) * 100));
+      this.pago.cfgFormulario ("Pago por el pedido", Math.round((this.total + this.costo_envio) * 100));
 
       const loading = await this.loadingController.create({
         message: 'Espere un momento'
@@ -159,6 +171,7 @@ export class PagoResumenPage implements OnInit {
   async add_pedido (tipo_pago: string, loading: any) {
     let platos: any [] = [];
     let empresas: any [] = [];
+    
     let data: any = {
       id: this.database.createId (),
       tipo_pedido: 'delivery',
@@ -179,40 +192,27 @@ export class PagoResumenPage implements OnInit {
       monto_total: this.total + this.costo_envio,
       estado: 0,
       repartidor_llego: false,
-      tipo_pago: '',
+      tipo_pago: tipo_pago,
       pagado: false,
       observacion: '',
-      hora_finalizacion: ''
+      hora_finalizacion: '',
+      tipo: this.tipo
     };
 
-    console.log (this.stock_vaidator.carrito_platos);
-
-    this.stock_vaidator.carrito_platos.forEach ((element: any) => {
-      empresas.push (element.empresa_id);
-      if (element.tipo == 'menu') {
-        platos.push ({
-          empresa_id: element.empresa_id,
-          carta_id: element.carta_id,
-          menu_nombre: element.nombre,
-          menus: element.menus,
-          tipo: 'menu',
-          precio: element.precio,
-          comentario: element.comentario
-        }); 
-      } else if (element.tipo == 'extra') {
-        platos.push ({
-          empresa_id: element.empresa_id,
-          carta_id: element.carta_id,
-          plato_id: element.plato.id,
-          plato_nombre: element.plato.nombre,
-          cantidad: element.cantidad,
-          precio: element.precio,
-          tipo: 'extra',
-          comentarios: element.comentarios,
-          extras: element.extras
-        });
-      } else if (element.tipo === 'promocion') {
-        if (element.promocion_tipo === '0') {
+    if (this.tipo === 'restaurante') {
+      this.stock_validator.carrito_platos.forEach ((element: any) => {
+        empresas.push (element.empresa_id);
+        if (element.tipo == 'menu') {
+          platos.push ({
+            empresa_id: element.empresa_id,
+            carta_id: element.carta_id,
+            menu_nombre: element.nombre,
+            menus: element.menus,
+            tipo: 'menu',
+            precio: element.precio,
+            comentario: element.comentario
+          }); 
+        } else if (element.tipo == 'extra') {
           platos.push ({
             empresa_id: element.empresa_id,
             carta_id: element.carta_id,
@@ -220,27 +220,59 @@ export class PagoResumenPage implements OnInit {
             plato_nombre: element.plato.nombre,
             cantidad: element.cantidad,
             precio: element.precio,
-            tipo: 'promocion',
-            promocion_tipo: '0',
-            comentarios: element.comentarios
-          });
-        } else {
-          platos.push ({
-            empresa_id: element.empresa_id,
-            carta_id: element.carta_id,
-            cantidad: element.cantidad,
-            precio: element.precio,
-            tipo: 'promocion',
-            promocion_tipo: '1',
+            tipo: 'extra',
             comentarios: element.comentarios,
-            platos: element.platos
+            extras: element.extras
           });
+        } else if (element.tipo === 'promocion') {
+          if (element.promocion_tipo === '0') {
+            platos.push ({
+              empresa_id: element.empresa_id,
+              carta_id: element.carta_id,
+              plato_id: element.plato.id,
+              plato_nombre: element.plato.nombre,
+              cantidad: element.cantidad,
+              precio: element.precio,
+              tipo: 'promocion',
+              promocion_tipo: '0',
+              comentarios: element.comentarios
+            });
+          } else {
+            platos.push ({
+              empresa_id: element.empresa_id,
+              carta_id: element.carta_id,
+              cantidad: element.cantidad,
+              precio: element.precio,
+              tipo: 'promocion',
+              promocion_tipo: '1',
+              comentarios: element.comentarios,
+              platos: element.platos
+            });
+          }
         }
-      }
-    });
-    data.platos = platos;
-    data.empresas = empresas;
+      });
+      data.empresas = empresas;
+    } else {
+      let productos: any [] = [];
+      this.stock_validator.carrito_tienda.forEach ((element: any) => {
+        productos.push ({
+          id: element.id,
+          nombre: element.nombre,
+          cantidad: element.cantidad,
+          medida: element.medida,
+          precio: element.precio,
+          categoria_id: element.categoria_id,
+          marca_id: element.marca_id,
+        });
+      });
 
+      platos.push ({
+        tipo: 'tienda',
+        productos: productos,
+      })
+    }
+
+    data.platos = platos;
     console.log (data);
 
     const push_data: any = {
@@ -262,14 +294,15 @@ export class PagoResumenPage implements OnInit {
         this.storage.remove ('carrito-insumos');
         this.storage.remove ('carrito-menus-dia');
 
-        this.stock_vaidator.limpiar_cantidad_elementos_menu ();
-        this.stock_vaidator.get_storage_values ();
+        this.stock_validator.limpiar_cantidad_elementos_menu ();
+        this.stock_validator.get_storage_values ();
+        this.stock_validator.carrito_tienda.clear ();
         this.navController.navigateRoot ('operecion-exitosa');
         loading.dismiss ();
       })
       .catch ((error: any) => {
         console.log (error);
         loading.dismiss ();
-      })
+      });
   }
 }

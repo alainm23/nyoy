@@ -1,11 +1,11 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button color="menu"></ion-back-button>
     </ion-buttons>
 
     <ion-buttons slot="end">
-      <ion-menu-button autoHide="false"></ion-menu-button>
+      <ion-menu-button color="menu" autoHide="false"></ion-menu-button>
     </ion-buttons>
   </ion-toolbar>
 
@@ -93,7 +93,18 @@
                   <p class="color_a6">{{ plato.cantidad }} Unds.</p>
                 </ion-col>
               </ng-container>
-  
+              
+              <ng-container *ngIf="plato.tipo === 'tienda'">
+                <ng-container *ngFor="let producto of plato.productos">
+                  <ion-col size="8">
+                    <p class="color_74">{{ producto.nombre }}</p>
+                  </ion-col>
+                  <ion-col size="4" class="ion-text-end">
+                    <p class="color_a6">{{ producto.cantidad }} Unds.</p>
+                  </ion-col>
+                </ng-container>
+              </ng-container>
+              
               <ng-container *ngIf="plato.tipo === 'menu'">
                 <ng-container *ngFor="let menu of plato.menus">
                   <ion-col size="8">

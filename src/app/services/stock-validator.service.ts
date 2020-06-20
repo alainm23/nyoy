@@ -27,7 +27,7 @@ export class StockValidatorService {
   carrito_platos = new Map <string, any> ();
   _carrito_platos = new Map <string, any> ();
   carrito_extras = new Map <string, any> ();
-
+  carrito_tienda = new Map <string, any> ();
   constructor (
     private database: DatabaseService,
     private auth: AuthService,
@@ -648,5 +648,45 @@ export class StockValidatorService {
 
   async limpiar_cache () {
     await this.storage.clear ();
+  }
+
+  agregar_carrito_tienda (productos: any []) {
+    productos.forEach ((producto: any) => {
+      if (this.carrito_tienda.get (producto.id) === undefined) {
+        this.carrito_tienda.set (producto.id, producto);
+      } else {
+        let tmp = this.carrito_tienda.get (producto.id);
+        tmp.cantidad += producto.cantidad;
+
+        if (tmp.cantidad > tmp.stock) {
+          tmp.cantidad = tmp.stock;
+        }
+
+        this.carrito_tienda.set (producto.id, tmp);
+      }
+    });
+    
+    console.log ('para carrito', this.carrito_tienda);
+  }
+
+  update_cantidad_carrito_tienda (producto: any, cantidad: number) {
+    if (this.carrito_tienda.get (producto.id) !== undefined) {
+      let tmp = this.carrito_tienda.get (producto.id);
+        tmp.cantidad += cantidad;
+
+      if (tmp.cantidad > tmp.stock) {
+        tmp.cantidad = tmp.stock;
+      }
+
+      if (tmp.cantidad < 0) {
+        tmp.cantidad = 0;
+      }
+
+      this.carrito_tienda.set (producto.id, tmp);
+    }
+  }
+
+  eliminar_tienda_producto (producto: any) {
+    this.carrito_tienda.delete (producto.id);
   }
 }

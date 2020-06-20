@@ -303,4 +303,20 @@ export class DatabaseService {
       }
     });
   }
+
+  get_tienda_categorias () {
+    return this.afs.collection ('Tienda_Categorias').valueChanges ();
+  }
+
+  get_tienda_sub_categorias_by_categoria (categoria_id: string) {
+    return this.afs.collection ('Tienda_SubCategorias', ref => ref.where ('categoria_id', '==', categoria_id)).valueChanges ();
+  }
+
+  get_tienda_productos_by_categoria (categoria_id: string) {
+    return this.afs.collection ('Tienda_Productos', ref => ref.where ('categoria_id', '==', categoria_id)).valueChanges ();
+  }
+
+  get_tienda_categoria_by_id (id: string) {
+    return this.afs.collection ('Tienda_Categorias').doc (id).valueChanges ();
+  }
 }

@@ -3,17 +3,17 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button color="menu"></ion-back-button>
     </ion-buttons>
     
     <ion-buttons slot="end">
-      <ion-button class="badge-button" routerLink="/pedido-resumen/" routerDirection="forward">
+      <ion-button color="menu" class="badge-button" routerLink="/pedido-resumen/" routerDirection="forward">
         <ion-icon size="large" slot="icon-only" name="cart-outline" class="icon_carrito"></ion-icon>
         <ion-badge *ngIf="stock_validator.carrito_platos.size > 0" [class.badge-one]="stock_validator.carrito_platos.size < 10" [class.badge-two]="stock_validator.carrito_platos.size >= 10" color="danger" class="ion-no-padding">{{ stock_validator.carrito_platos.size }}</ion-badge>
       </ion-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-menu-button autoHide="false"></ion-menu-button>
+      <ion-menu-button color="menu" autoHide="false"></ion-menu-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
