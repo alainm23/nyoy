@@ -74,8 +74,8 @@
     <ion-grid>
       <ion-row class="ion-justify-content-center">
         <ion-col size="11" size-sm="9" size-md="7">
-          <ion-row class="ion-justify-content-center">
-            <ion-col *ngFor="let item of productos" size="4" class="ion-text-center">
+          <ion-row>
+            <ion-col *ngFor="let item of productos" size="4" class="ion-text-center ion-margin-bottom">
               <img [src]="item.imagen" class="img_fruta">
               <p class="p_subtitulos p_top">{{ item.nombre }}</p>
               <p class="p_subtitulos" style="margin-top: 0px">{{ item.precio_venta | currency:'S/. ' }}</p>
