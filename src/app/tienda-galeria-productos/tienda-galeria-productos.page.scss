@@ -127,6 +127,11 @@ ion-card.card_frutas
 p.p_top
 {
     margin-top: 5px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: 40px;
 }
 @media(min-width: 640px)
 {
