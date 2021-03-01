@@ -54,6 +54,7 @@
                     <div class="div_precio">
                       <p class="p_precio">{{ (item.value.precio * item.value.cantidad) + get_extras_precio (item.value.extras) | currency:'S/. ' }}</p>
                     </div>
+                    <p *ngIf="item.value.valido === false" style="color: #ed5353;">Sin stock, elije otro plato.</p>
                   </div>
                   <ion-button [ngStyle]="{'transform': item.ver_detalles === true ? 'rotate(90deg)' : 'none' }" class="btn_close_card ion-no-margin transition">
                     <ion-icon name="chevron-forward-outline"></ion-icon>
@@ -99,6 +100,7 @@
                     <div class="div_precio">
                       <p class="p_precio">{{ item.value.precio | currency:'S/. ' }}</p>
                     </div>
+                    <p *ngIf="item.value.valido === false" style="color: #ed5353;">Sin stock, elije otro menu.<</p>
                     <ion-button [ngStyle]="{'transform': item.ver_detalles === true ? 'rotate(90deg)' : 'none' }" class="btn_close_card ion-no-margin transition">
                       <ion-icon name="chevron-forward-outline"></ion-icon>
                     </ion-button>
@@ -110,7 +112,7 @@
                   <p class="p_list_descrip espacio_p">{{ item.value.comentario }}</p>
                   <ul style="list-style-type: none;" class="ion-no-padding ion-no-margin">
                     <li class="p_list_descrip" *ngFor="let extra of item.value.menus">
-                      ({{ extra.cantidad }}) {{ extra.nombre }} {{ extra.precio | currency:'S/. ' }}
+                      ({{ extra.cantidad }}) {{ extra.nombre }} {{ extra.precio | currency:'S/. ' }} <span style="color: #ed5353" *ngIf="extra.valido === false">*</span>
                     </li>
                   </ul>
                   <div class="div_botones">
@@ -142,6 +144,8 @@
                     <div class="div_precio">
                       <p class="p_precio">Descuento: {{ item.value.descuento }}%</p>
                     </div>
+
+                    <p *ngIf="item.value.valido === false" style="color: red;">Sin stock</p>
                     <ion-button [ngStyle]="{'transform': item.ver_detalles === true ? 'rotate(90deg)' : 'none' }" class="btn_close_card ion-no-margin transition">
                       <ion-icon name="chevron-forward-outline"></ion-icon>
                     </ion-button>
@@ -176,10 +180,10 @@
 </ion-content>
 <ion-footer class="ion-no-border" *ngIf="stock_validator.carrito_platos.size > 0">
   <ion-toolbar (click)="openCulqi (stock_validator.carrito_platos)" class="ion-text-center ion-toolbar-footer">
-    <ion-button  style="margin-bottom: 6px;" class="ion-no-margin btn_border btn_footer">
+    <ion-button [disabled]="check_disabled ()" style="margin-bottom: 6px;" class="ion-no-margin btn_border btn_footer">
       Pagar
     </ion-button>
-    <ion-button  style="margin-bottom: 6px;" class="ion-no-margin btn_footer">
+    <ion-button [disabled]="check_disabled ()" style="margin-bottom: 6px;" class="ion-no-margin btn_footer">
       {{ get_precio_total (stock_validator.carrito_platos) | currency:'S/. ' }}
     </ion-button>
   </ion-toolbar>

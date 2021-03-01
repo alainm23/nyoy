@@ -153,7 +153,6 @@ export class EmpresaMenuPage implements OnInit {
           this.loading_platos = true;
           this.database.get_promociones_by_carta (this.carta_seleccionada.id).subscribe ((res: any) => {
             this.carta_seleccionada.promociones = res;
-            console.log ('proocomio', res);
             this.loading_platos = false;
           });
         }
@@ -292,6 +291,7 @@ export class EmpresaMenuPage implements OnInit {
         if (this.menus_dia_seleccionado.find (x => x.id === menu_dia.id) === undefined) {
           this.menus_dia_seleccionado.push ({
             id: menu_dia.id,
+            menu_id: menu_dia.menu_id,
             nombre: menu_dia.menu_nombre,
             cantidad: 1
           });

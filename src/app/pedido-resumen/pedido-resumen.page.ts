@@ -44,16 +44,8 @@ export class PedidoResumenPage implements OnInit {
     public events: EventsService
   ) { }
 
-  async ngOnInit() {
-    const loading = await this.loadingController.create ({
-      message: 'Cargando metodo de pago...'
-    });
-
-    loading.present ();
-
-    loading.dismiss ().then (() => {
-      this.pago.initCulqi ();
-    });
+  async ngOnInit () {
+    console.log (this.stock_validator.carrito_platos);
   }
   
   getKeys (map: any){
@@ -119,12 +111,36 @@ export class PedidoResumenPage implements OnInit {
   }
 
   async openCulqi (list: any) {
-    console.log (this.tipo_entrega);
+    const loading = await this.loadingController.create({
+      message: 'Verificando...'
+    });
 
-    if (this.tipo_entrega == '0') {
-      this.navCtrl.navigateForward (['datos-envio', 'restaurante']);
+    loading.present ();
+
+    let valido = await this.stock_validator.validar_carrito_plato ();
+
+    loading.dismiss ();
+
+    if (valido) {
+      if (this.tipo_entrega == '0') {
+        this.navCtrl.navigateForward (['datos-envio', 'restaurante']);
+      } else {
+        this.navCtrl.navigateForward (['datos-recojo', 'restaurante']);
+      }
     } else {
-      this.navCtrl.navigateForward (['datos-recojo', 'restaurante']);
+      const alert = await this.alertController.create({
+        header: 'Error en el pedido',
+        message: 'Lo sentimos, hay algunos productos que han superado nuestro stock (Hemos resaltado en rojo los productos agotados)',
+        buttons: [
+          {
+            text: 'Verificar',
+            handler: () => {
+            }
+          }
+        ]
+      });
+  
+      await alert.present ();
     }
   }
 
@@ -137,16 +153,18 @@ export class PedidoResumenPage implements OnInit {
   }
 
   editar_extra (item: any) {
-    console.log (item);
     this.navCtrl.navigateForward (['plato-descripcion', item.key, true]);
     this.stock_validator._carrito_platos.set (item.key, item.value);
     this.stock_validator.eliminar_plato (item.key);
   }
 
-  editar_promocion (item) {
-    console.log (item);
+  editar_promocion (item: any) {
     this.navCtrl.navigateForward (['promocion-descripcion', item.key, true]);
     this.stock_validator._carrito_platos.set (item.key, item.value);
     this.stock_validator.eliminar_plato (item.key);
+  }
+
+  check_disabled () {
+    return false;
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { StockValidatorService } from '../services/stock-validator.service';
-import { AlertController, NavController } from '@ionic/angular';
+import { AlertController, NavController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tienda-carrito',
@@ -13,7 +13,8 @@ export class TiendaCarritoPage implements OnInit {
   constructor (
     public stock_validator: StockValidatorService,
     public alertController: AlertController,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private loadingController: LoadingController
   ) { }
 
   ngOnInit() {
@@ -52,13 +53,42 @@ export class TiendaCarritoPage implements OnInit {
     return total;
   }
 
-  openCulqi () {
-    console.log (this.tipo_entrega);
+  async openCulqi () {
+    const loading = await this.loadingController.create({
+      message: 'Verificando...'
+    });
 
-    if (this.tipo_entrega == '0') {
-      this.navCtrl.navigateForward (['datos-envio', 'tienda']);
+    loading.present ();
+
+    let valido = await this.stock_validator.validar_carrito_tienda ();
+
+    loading.dismiss ();
+
+    if (valido) {
+      let item: any;
+      for (item of this.stock_validator.carrito_tienda) {
+        this.stock_validator.carrito_tienda.get (item [1].id).valido = true;
+      }
+
+      if (this.tipo_entrega == '0') {
+        this.navCtrl.navigateForward (['datos-envio', 'tienda']);
+      } else {
+        this.navCtrl.navigateForward (['datos-recojo', 'tienda']);
+      }
     } else {
-      this.navCtrl.navigateForward (['datos-recojo', 'tienda']);
+      const alert = await this.alertController.create({
+        header: 'Error en el pedido',
+        message: 'Lo sentimos, hay algunos productos que han superado nuestro stock (Hemos resaltado en rojo los productos agotados)',
+        buttons: [
+          {
+            text: 'Editar',
+            handler: () => {
+            }
+          }
+        ]
+      });
+  
+      await alert.present ();
     }
   }
 
@@ -73,5 +103,17 @@ export class TiendaCarritoPage implements OnInit {
     } else {
       item.editar = !item.editar;
     }
+  }
+
+  check_disabled () {
+    let valido: boolean = false;
+    let item: any;
+    for (item of this.stock_validator.carrito_tienda) {
+      if (item [1].cantidad > item [1].stock) {
+        valido = true;
+      }
+    }
+    
+    return valido;
   }
 }

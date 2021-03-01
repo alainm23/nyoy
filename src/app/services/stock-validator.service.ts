@@ -67,6 +67,7 @@ export class StockValidatorService {
       res.forEach ((i: any) => {
         this.empresas_insumos.set (i.empresa_id + '-' + i.insumo_id, i.stock);
       });
+
       console.log ('Stock empresa', this.empresas_insumos);
     });
   }
@@ -510,16 +511,15 @@ export class StockValidatorService {
     this.elementos_menu.forEach ((i: any) => {
       this.cantidad_elementos_menu [i.id] = 0;
     });
-    console.log ('cantidad_elementos_menu', this.cantidad_elementos_menu);
   }
 
   agregar_carrito_menu (request: any, carta_id: string) {
-    request.menus.forEach(element => {
-      if (this.carrito_menus_dia.get (carta_id + '-' + element.id) === undefined) {
-        this.carrito_menus_dia.set (carta_id + '-' + element.id, element.cantidad);
+    request.menus.forEach(menu => {
+      if (this.carrito_menus_dia.get (carta_id + '-' + menu.id) === undefined) {
+        this.carrito_menus_dia.set (carta_id + '-' + menu.id, menu.cantidad);
       } else {
-        let c = this.carrito_menus_dia.get (carta_id + '-' + element.id);
-        this.carrito_menus_dia.set (carta_id + '-' + element.id, c + element.cantidad);
+        let c = this.carrito_menus_dia.get (carta_id + '-' + menu.id);
+        this.carrito_menus_dia.set (carta_id + '-' + menu.id, c + menu.cantidad);
       }
     });
 
@@ -531,7 +531,7 @@ export class StockValidatorService {
     this.presentToast ('Tu pedido fue agregado al carrito de compras', 'success');
   }
 
-  agregar_carrito_promocion (request: any, comentario: string, cancelar: boolean = false) {
+  agregar_carrito_promocion (request: any, comentario: string, cancelar: boolean=false) {
     if (this.carrito_platos.get (request.id) === undefined) {
       request.comentarios = comentario;
       this.carrito_platos.set (request.id, request);
@@ -672,10 +672,18 @@ export class StockValidatorService {
   update_cantidad_carrito_tienda (producto: any, cantidad: number) {
     if (this.carrito_tienda.get (producto.id) !== undefined) {
       let tmp = this.carrito_tienda.get (producto.id);
-        tmp.cantidad += cantidad;
+      tmp.cantidad += cantidad;
 
       if (tmp.cantidad > tmp.stock) {
         tmp.cantidad = tmp.stock;
+
+        if (producto.valido) {
+          this.presentToast ('El pedido excede a nuestro stock', 'danger');
+        }
+      } else {
+        if (tmp.cantidad <= tmp.stock) {
+          producto.valido = true; 
+        }
       }
 
       if (tmp.cantidad < 0) {
@@ -688,5 +696,132 @@ export class StockValidatorService {
 
   eliminar_tienda_producto (producto: any) {
     this.carrito_tienda.delete (producto.id);
+  }
+
+  async validar_carrito_tienda () {
+    let valido: boolean = true;
+    let item: any;
+    for (item of this.carrito_tienda) {
+      let producto: any = await this.database.get_tienda_producto_by_id_toPromise (item [1].id);
+      console.log (producto);
+      if (item [1].cantidad > producto.stock) {
+        valido = false;
+        this.carrito_tienda.get (item [1].id).valido = false;
+        this.carrito_tienda.get (item [1].id).stock = producto.stock;
+      }
+    }
+    
+    return valido;
+  }
+
+  async validar_carrito_plato () {
+    let returned: boolean = true;
+    let item: any;
+    let _carrito_insumos = new Map <string, number> ();
+    let _carrito_menus_dia = new Map <string, number> ();
+
+    for (item of this.carrito_platos) {
+      let valido: boolean = true;
+      item = item [1];
+      console.log (item);
+
+      if (item.tipo === 'extra') {
+        item.insumos.forEach ((i: any) => {
+          let pedidos = 0;
+          let pedidos_acuales = item.cantidad * i.cantidad;
+          let stock = this.check_elemento (item.empresa_id + '-' + i.insumo_id);
+
+          if (_carrito_insumos.get (item.empresa_id + '-' + i.insumo_id) !== undefined) {
+            pedidos = _carrito_insumos.get (item.empresa_id + '-' + i.insumo_id);
+          }
+
+          if (stock === undefined || stock < pedidos_acuales + pedidos) {
+            valido = false;
+          }
+        });
+
+        this.carrito_platos.get (item.id).valido = valido;
+
+        if (valido) {
+          item.insumos.forEach ((i: any) => {
+            if (_carrito_insumos.get (item.empresa_id + '-' + i.insumo_id) === undefined) {
+              _carrito_insumos.set (item.empresa_id + '-' + i.insumo_id, i.cantidad * item.cantidad);
+            } else {
+              let c = _carrito_insumos.get (item.empresa_id + '-' + i.insumo_id);
+              _carrito_insumos.set (item.empresa_id + '-' + i.insumo_id, (c + i.cantidad * item.cantidad));
+            }
+          });
+        } else {
+          returned = false;
+        }
+      } else if (item.tipo === 'menu') {
+        item.menus.forEach ((menu: any) => {
+          let pedidos = 0;
+          let pedidos_acuales = menu.cantidad;
+          let stock = this.check_elemento_menu (item.carta_id + '-' + menu.menu_id);
+
+          if (_carrito_menus_dia.get (item.carta_id + '-' + menu.menu_id) !== undefined) {
+            pedidos = _carrito_menus_dia.get (item.carta_id + '-' + menu.menu_id);
+          }
+
+          if (stock === undefined || stock < pedidos_acuales + pedidos) {
+            valido = false;
+          }
+
+          menu.valido = valido;
+        });
+
+        this.carrito_platos.get (item.id).valido = valido;
+
+        if (valido) {
+          item.menus.forEach ((menu: any) => {
+            if (this.carrito_menus_dia.get (item.carta_id + '-' + menu.id) === undefined) {
+              this.carrito_menus_dia.set (item.carta_id + '-' + menu.id, menu.cantidad);
+            } else {
+              let c = this.carrito_menus_dia.get (item.carta_id + '-' + menu.id);
+              this.carrito_menus_dia.set (item.carta_id + '-' + menu.id, c + menu.cantidad);
+            }
+          });
+        } else {
+          returned = false;
+        }
+      } else if (item.tipo === 'promocion') {
+        item.insumos.forEach ((i: any) => {
+          let pedidos = 0;
+          let pedidos_acuales = item.cantidad * i.cantidad;
+          let stock = this.check_elemento (i.empresa_id + '-' + i.insumo_id);
+          
+          console.log ('stock', stock);
+          console.log ('pedidos_acuales', pedidos_acuales);
+
+          if (_carrito_insumos.get (i.empresa_id + '-' + i.insumo_id) !== undefined) {
+            pedidos = _carrito_insumos.get (i.empresa_id + '-' + i.insumo_id);
+          }
+
+          if (stock === undefined || stock < pedidos_acuales + pedidos) {
+            valido = false;
+          }
+        });
+
+        this.carrito_platos.get (item.id).valido = valido;
+
+        if (valido) {
+          item.insumos.forEach ((i: any) => {
+            if (_carrito_insumos.get (i.empresa_id + '-' + i.insumo_id) === undefined) {
+              _carrito_insumos.set (i.empresa_id + '-' + i.insumo_id, i.cantidad * item.cantidad);
+            } else {
+              let c = _carrito_insumos.get (i.empresa_id + '-' + i.insumo_id);
+              _carrito_insumos.set (i.empresa_id + '-' + i.insumo_id, (c + i.cantidad * item.cantidad));
+            }
+          });
+        } else {
+          returned = false;
+        }
+      }
+    }
+
+    console.log ('Valido', returned);
+    console.log (this.carrito_platos)
+    return returned;
   }
 }

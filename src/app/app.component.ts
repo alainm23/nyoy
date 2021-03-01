@@ -11,6 +11,7 @@ import { DatabaseService } from './services/database.service';
 // Services
 import { StockValidatorService } from './services/stock-validator.service';
 import * as moment from 'moment';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -118,6 +119,7 @@ export class AppComponent {
           text: 'Confirmar',
           handler: () => {
             this.auth.signOut ().then (() => {
+              this.limpiar_cache ();
               this.navController.navigateRoot ('login');
             });
           }

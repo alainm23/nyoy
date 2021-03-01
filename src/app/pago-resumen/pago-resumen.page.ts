@@ -39,6 +39,7 @@ export class PagoResumenPage implements OnInit {
     private auth: AuthService,
     public alertController: AlertController,
     private route: ActivatedRoute,
+    private alertCtrl: AlertController
   ) { }
 
   async ngOnInit () {
@@ -79,18 +80,44 @@ export class PagoResumenPage implements OnInit {
         });
     
         await loading.present ();
+        
         this.pago.procesarpagonyoy (
           token_id,
           Math.round ((this.total + this.costo_envio) * 100),
           this.auth.usuario.correo,
           'PEN'
-          ).subscribe ((res: any) => {
-            console.log ('pago', res);
-            if (res.estado == 1) {
-              if (res.respuesta.outcome.type == 'venta_exitosa') {
+          ).subscribe (async (response: any) => {
+            console.log ('pago', response);
+            if (response.estado === 1) {
+              if (response.respuesta.outcome.type !== undefined && response.respuesta.outcome.type !== undefined && response.respuesta.outcome.type === 'venta_exitosa') {
                 this.add_pedido ('culqi', loading);
+              } else {
+                loading.dismiss ();
+
+                console.log (response.user_message)
+                const alert = await this.alertCtrl.create({
+                  header: '¡Error!',
+                  message: response.user_message,
+                  buttons: ['OK']
+                });
+  
+                alert.present ();
               }
+            } else {
+              loading.dismiss ()
+              console.log (response.message)
+
+              const alert = await this.alertCtrl.create({
+                header: '¡Error!',
+                message: response.message,
+                buttons: ['OK']
+              });
+
+              alert.present ();
             }
+          }, (error: any) => {
+            console.log (error);
+            loading.dismiss ();
           });
       });
     }
@@ -127,44 +154,72 @@ export class PagoResumenPage implements OnInit {
   }
   
   async open_culqi () {
-    if (this.metodo_pago === 'culqi') {
-      console.log ('Monto', Math.round ((this.total + this.costo_envio) * 100));
-      this.pago.cfgFormulario ("Pago por el pedido", Math.round((this.total + this.costo_envio) * 100));
+    const loading = await this.loadingController.create({
+      message: 'Verificando...'
+    });
 
-      const loading = await this.loadingController.create({
-        message: 'Espere un momento'
-      });
+    loading.present ();
 
-      loading.present ();
+    let valido = await this.stock_validator.validar_carrito_tienda ();
+    console.log ('valido', valido);
 
-      loading.dismiss ().then (async () => {
-        await this.pago.open ();
-      });
-    } else {
+    loading.dismiss ();
+
+    if (valido) {
+      if (this.metodo_pago === 'culqi') {
+        const loading = await this.loadingController.create({
+          message: 'Procesando información...'
+        });
+    
+        loading.present ();
+
+        console.log ('Monto', Math.round ((this.total + this.costo_envio) * 100));
+        this.pago.cfgFormulario ("Pago por el pedido", Math.round((this.total + this.costo_envio) * 100));
+
+        loading.dismiss ().then (async () => {
+          await this.pago.open ();
+        });
+      } else {
+        const alert = await this.alertController.create({
+          header: 'Confirmar operacion',
+          message: 'Procederemos a registrar su pedido, ¿Esta seguro?',
+          buttons: [
+            {
+              text: 'Cancelar',
+              role: 'cancel',
+              cssClass: 'secondary'
+            }, {
+              text: 'Confirmar',
+              handler: async () => {
+                const loading = await this.loadingController.create({
+                  message: 'Espere un momento'
+                });
+            
+                loading.present ();
+
+                this.add_pedido ('contra_entrega', loading);
+              }
+            }
+          ]
+        });
+    
+        await alert.present();
+      }
+    } else {      
       const alert = await this.alertController.create({
-        header: 'Confirmar operacion',
-        message: 'Procederemos a registrar su pedido, ¿Esta seguro?',
+        header: 'Error en el stock',
+        message: 'Lo sentimos, hay algunos productos que han superado el stock',
         buttons: [
           {
-            text: 'Cancelar',
-            role: 'cancel',
-            cssClass: 'secondary'
-          }, {
-            text: 'Confirmar',
-            handler: async () => {
-              const loading = await this.loadingController.create({
-                message: 'Espere un momento'
-              });
-          
-              await loading.present ();
-
-              this.add_pedido ('contra_entrega', loading);
+            text: 'Verificar',
+            handler: () => {
+              this.navController.navigateForward (['tienda-carrito']);
             }
           }
         ]
       });
   
-      await alert.present();
+      await alert.present ();
     }
   }
 
@@ -273,7 +328,6 @@ export class PagoResumenPage implements OnInit {
     }
 
     data.platos = platos;
-    console.log (data);
 
     const push_data: any = {
       titulo: 'Pedido solicitado',

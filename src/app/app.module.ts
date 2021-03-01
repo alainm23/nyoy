@@ -22,6 +22,8 @@ import { HttpClientModule } from '@angular/common/http';
 // Storage
 import { IonicStorageModule } from '@ionic/storage';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 
 // Google
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
@@ -55,6 +57,8 @@ import { MapaSelectPageModule } from './modals/mapa-select/mapa-select.module';
     SplashScreen,
     GooglePlus,
     Geolocation,
+    AndroidPermissions,
+    LocationAccuracy,
     Facebook,
     OneSignal,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

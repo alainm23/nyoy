@@ -19,41 +19,9 @@
 
 <ion-content style="position: relative;">
   <ion-card class="ion-no-margin card_menu">
-    <!-- <h1 class="ion-text-center">{{ categoria?.nombre }}</h1> -->
-    <ion-searchbar mode="ios" [(ngModel)]="search_text" (ionChange)="filtrar_by_text ()"></ion-searchbar>
-    <!-- <ion-grid class="grid_card">
-      <ion-row class="ion-justify-content-center">
-        <ion-col size="3" size-sm="2">
-          <ion-button
-            class="btn_iconos"
-            [color]="categoria_seleccionada === 'todos' ? 'selected' : 'no-tienda-selected'"
-            (click)="filtrar ('todos')">
-            Todo
-          </ion-button>
-        </ion-col>
-
-        <ion-col *ngFor="let item of subcategorias" size="3" size-sm="2">
-          <ion-button
-            class="btn_iconos"
-            [color]="categoria_seleccionada === item.id ? 'selected' : 'no-tienda-selected'"
-            (click)="filtrar (item.id)">
-            {{ item.nombre }}
-          </ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid> -->
     <ion-slides pager="false" [options]="slideOpts" (ionSlideDidChange)="slidesEmpresaChanged ()">
       <ion-slide>
 
-      </ion-slide>
-
-      <ion-slide>
-        <ion-button
-          class="btn_iconos"
-          (click)="slideTo (-1)"
-          [color]="categoria_seleccionada === 'todos' ? 'selected' : 'no-tienda-selected'">
-          Todo
-        </ion-button>
       </ion-slide>
 
       <ion-slide *ngFor="let item of subcategorias; index as i">
@@ -71,7 +39,29 @@
     </ion-slides>
   </ion-card>
   <ion-card class="card_frutas">
-    <ion-grid>
+    <ion-grid *ngIf="is_loading">
+      <ion-row>
+        <ion-col size=12>
+          <div class="ion-text-center">
+            <ion-spinner></ion-spinner>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-grid *ngIf="is_loading === false && productos.length <= 0">
+      <ion-row>
+        <ion-col size=12>
+          <ion-item class="ion-text-center" lines="none">
+            <ion-label>
+              Ningun producto disponible
+            </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-grid *ngIf="is_loading === false && productos.length > 0">
       <ion-row class="ion-justify-content-center">
         <ion-col size="11" size-sm="9" size-md="7">
           <ion-row>
@@ -79,6 +69,9 @@
               <img [src]="item.imagen" class="img_fruta">
               <p class="p_subtitulos p_top">{{ item.nombre }}</p>
               <p class="p_subtitulos" style="margin-top: 0px">{{ item.precio_venta | currency:'S/. ' }}</p>
+              <p style="color: red" *ngIf="item.valido === false">
+                Stock superado
+              </p>
               <div class="div_sumar_resta">
                 <ion-button class="btn_menos" (click)="update_cantidad (item, -1)">-</ion-button>
                 <p class="mpb_number">{{ item.cantidad }}</p>

@@ -50,11 +50,8 @@ export class PlatoDescripcionPage implements OnInit {
     await loading.present ();
 
     this.editar = this.route.snapshot.paramMap.get ('editar');
-    console.log (this.editar);
-
     if (this.editar === 'true') {
       this._plato = this.stock_validator.get_backup_carrito_plato (this.route.snapshot.paramMap.get ('id'));
-      console.log ('backup', this._plato);
       this.cantidad = this._plato.cantidad;
       this.form.controls ['comentario'].setValue (this._plato.comentarios);
     }
@@ -71,7 +68,6 @@ export class PlatoDescripcionPage implements OnInit {
       this.database.get_extras_by_carta (this.plato.data.carta_id).subscribe (async (res: any []) => {
         this.extras = res;
         this.extras.forEach ((e: any) => {
-          console.log ('entras', e);
           if (this.editar === 'true') {
             if (this._plato.extras.find (x => x.id === e.insumo_id) !== undefined) {
               e.cantidad = this._plato.extras.find (x => x.id === e.insumo_id).cantidad;
@@ -131,7 +127,6 @@ export class PlatoDescripcionPage implements OnInit {
   }
 
   agregar_carrito () {
-    console.log ('extras', this.extras);
     this.stock_validator.agregar_carrito (this.plato.data, this.plato.insumos, this.cantidad, this.extras, this.form.value.comentario, false);
     this.form.reset ();
     this.cantidad = 0;

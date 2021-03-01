@@ -121,47 +121,74 @@ export class DatosRecojoPage implements OnInit {
   }
   
   async open_culqi () {
-    if (this.tipo_pago === 'culqi') {
-      console.log ('monto', Math.round (this.total * 100));
-      this.pago.cfgFormulario ("Pago por el pedido", Math.round (this.total * 100));
+    const loading = await this.loadingController.create({
+      message: 'Verificando...'
+    });
 
-      const loading = await this.loadingController.create({
-        message: 'Espere un momento'
-      });
+    loading.present ();
 
-      loading.present ();
+    let valido = await this.stock_validator.validar_carrito_tienda ();
+    console.log ('valido', valido);
 
-      loading.dismiss ().then (async () => {
-        await this.pago.open ();
-      });
+    loading.dismiss ();
+
+    if (valido) {
+      if (this.tipo_pago === 'culqi') {
+        const loading = await this.loadingController.create({
+          message: 'Procesando información...'
+        });
+    
+        loading.present ();
+
+        console.log ('monto', Math.round (this.total * 100));
+        this.pago.cfgFormulario ("Pago por el pedido", Math.round (this.total * 100));
+        loading.dismiss ().then (async () => {
+          await this.pago.open ();
+        });
+      } else {
+        const alert = await this.alertController.create({
+          header: 'Confirmar operacion',
+          message: 'Procederemos a registrar su pedido, ¿Esta seguro?',
+          buttons: [
+            {
+              text: 'Cancelar',
+              role: 'cancel',
+              cssClass: 'secondary',
+              handler: (blah) => {
+                console.log('Confirm Cancel: blah');
+              }
+            }, {
+              text: 'Confirmar',
+              handler: async () => {
+                const loading = await this.loadingController.create({
+                  message: 'Procesando información...'
+                });
+            
+                loading.present ();
+                
+                this.add_pedido ('contra_entrega', loading);
+              }
+            }
+          ]
+        });
+    
+        await alert.present();
+      }
     } else {
       const alert = await this.alertController.create({
-        header: 'Confirmar operacion',
-        message: 'Procederemos a registrar su pedido, ¿Esta seguro?',
+        header: 'Error en el stock',
+        message: 'Lo sentimos, hay algunos productos que han superado el stock',
         buttons: [
           {
-            text: 'Cancelar',
-            role: 'cancel',
-            cssClass: 'secondary',
-            handler: (blah) => {
-              console.log('Confirm Cancel: blah');
-            }
-          }, {
-            text: 'Confirmar',
-            handler: async () => {
-              const loading = await this.loadingController.create({
-                message: 'Espere un momento'
-              });
-          
-              await loading.present ();
-
-              this.add_pedido ('contra_entrega', loading);
+            text: 'Verificar',
+            handler: () => {
+              this.navController.navigateForward (['tienda-carrito']);
             }
           }
         ]
       });
   
-      await alert.present();
+      await alert.present ();
     }
   }
 

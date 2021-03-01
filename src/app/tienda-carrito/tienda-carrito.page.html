@@ -43,6 +43,9 @@
               <h2 class="ion-text-wrap p_font">{{ item.value.nombre }}</h2>
               <p class="p_number_g">{{ item.value.cantidad }} {{ item.value.medida }}</p>
               <p class="p_soles">{{ item.value.cantidad * item.value.precio | currency:'S/. ' }}</p>
+              <p class="ion-text-wrap" style="color: #ed5353" *ngIf="item.value.valido === false">
+                * Solo {{ item.value.stock }} {{ item.value.medida }} stock.
+              </p>
             </ion-label>
             <div slot="end" class="div_sumar_resta">
               <ion-button class="btn_menos" (click)="update_cantidad (item.value, -1)">-</ion-button>
@@ -97,10 +100,10 @@
 
 <ion-footer class="ion-no-border" *ngIf="stock_validator.carrito_tienda.size > 0">
   <ion-toolbar (click)="openCulqi ()" class="ion-text-center ion-toolbar-footer ion-margin-bottom">
-    <ion-button  style="margin-bottom: 6px;" class="ion-no-margin btn_border btn_footer">
+    <ion-button [disabled]="check_disabled ()" style="margin-bottom: 6px;" class="ion-no-margin btn_border btn_footer">
       Pagar
     </ion-button>
-    <ion-button  style="margin-bottom: 6px;" class="ion-no-margin btn_footer">
+    <ion-button [disabled]="check_disabled ()" style="margin-bottom: 6px;" class="ion-no-margin btn_footer">
       {{ get_precio_total (stock_validator.carrito_tienda) | currency:'S/. ' }}
     </ion-button>
   </ion-toolbar>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 // Services
 import { NavController, AlertController, LoadingController } from '@ionic/angular';
+import { StockValidatorService } from '../services/stock-validator.service';
 import { AuthService } from '../services/auth.service';
 import { DatabaseService } from '../services/database.service';
 import { Storage } from '@ionic/storage';
@@ -36,9 +37,11 @@ export class HomePage implements OnInit {
     public database: DatabaseService,
     public navController: NavController,
     public alertController: AlertController,
+    public stock_validator: StockValidatorService,
     public storage: Storage,
     public loadingCtrl: LoadingController
-  ) {}
+  ) {
+  }
 
   async ngOnInit () {
     const loading = await this.loadingCtrl.create ({
@@ -82,18 +85,29 @@ export class HomePage implements OnInit {
   }
 
   view_empresa (item: any) {
-    this.navController.navigateForward (['empresa-menu', item.id]);
+    if (this.stock_validator.carrito_tienda.size <= 0) {
+      this.navController.navigateForward (['empresa-menu', item.id]);
+    } else {
+      this.alerta ('Actualmente usted tiene productos de la tienda ViaMart en su carrito de compras, no puede hacer un pedido de ' + item.nombre + ' hasta no haber completado o cancelado su pedido actual.',
+      'tienda-carrito');
+    }
   }
 
-  async alerta () {
+  async alerta (message: string, page: string) {
     const alert = await this.alertController.create({
-      message: 'Pronto, tu tienda de abarrotes en linea a tu disposición.',
+      message: message,
       buttons: [
         {
           text: 'Ok',
           role: 'cancel',
           handler: (blah) => {
             console.log('Confirm Cancel: blah');
+          }
+        },
+        {
+          text: 'Ver carrito',
+          handler: (blah) => {
+            this.navController.navigateForward ([page]);
           }
         }
       ]
@@ -123,7 +137,13 @@ export class HomePage implements OnInit {
   // }
 
   go_bodeba () {
-    this.navController.navigateForward (['tienda-home']);
+    if (this.stock_validator.carrito_platos.size <= 0) {
+      this.navController.navigateForward (['tienda-home']);
+    } else {
+      this.alerta (
+        'Actualmente usted tiene platos en su carrito de compras, no puede hacer un pedido de ViaMart hasta no haber completado o cancelado su pedido actual.',
+        'pedido-resumen');
+    }
   }
 
   ver_detalles (item: any) {

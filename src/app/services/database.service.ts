@@ -256,7 +256,8 @@ export class DatabaseService {
         monto_total: data.monto_total,
         id: data.id,
         tipo_pedido: data.tipo_pedido,
-        repartidor_llego: false
+        repartidor_llego: false,
+        tipo: data.tipo
       }
     );
 
@@ -316,7 +317,15 @@ export class DatabaseService {
     return this.afs.collection ('Tienda_Productos', ref => ref.where ('categoria_id', '==', categoria_id)).valueChanges ();
   }
 
+  get_tienda_productos_by_subcategoria (id: string) {
+    return this.afs.collection ('Tienda_Productos', ref => ref.where ('subcategoria_id', '==', id)).valueChanges ();
+  }
+
   get_tienda_categoria_by_id (id: string) {
     return this.afs.collection ('Tienda_Categorias').doc (id).valueChanges ();
+  }
+
+  get_tienda_producto_by_id_toPromise (id: string) {
+    return this.afs.collection ('Tienda_Productos').doc (id).valueChanges ().pipe (first ()).toPromise ();
   }
 }

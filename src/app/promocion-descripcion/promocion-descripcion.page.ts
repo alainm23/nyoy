@@ -185,7 +185,7 @@ export class PromocionDescripcionPage implements OnInit {
 
     console.log (request);
     this.stock_validator.agregar_carrito_promocion (request, this.comentario);
-
+    
     this.comentario = '';
     this.cantidad = 0;
     this.navCtrl.back ();

@@ -54,7 +54,8 @@
       <ng-container *ngFor="let pedido of pedidos">
         <ion-col style="margin-bottom: 3rem;" (click)="ver_detalles (pedido)" size="12" class="col_pedido_vertical" [ngStyle]="{'background-color': get_pedido_color (pedido.data)}">
           <div *ngIf="pedido.data.estado <= 2" class="circulo_genral" style="background-color: #B9353B;">
-            <img src="assets/img/h6s0Gk.tif.png">
+            <img *ngIf="pedido.data.tipo === 'restaurante'" src="assets/img/h6s0Gk.tif.png">
+            <img *ngIf="pedido.data.tipo === 'tienda'" src="assets/img/Icono tienda.png">
           </div>
 
           <div *ngIf="pedido.data.estado === 3 && pedido.data.repartidor_llego === false" class="circulo_genral" style="background-color: #4E35B9;">

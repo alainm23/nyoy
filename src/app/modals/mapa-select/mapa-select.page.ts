@@ -2,6 +2,8 @@ import { Component, ViewChild, ElementRef, Input, OnInit } from '@angular/core';
 import { Platform, NavController, LoadingController, ModalController, AlertController } from '@ionic/angular';
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 import { DatabaseService } from '../../services/database.service';
 declare var google: any;
 
@@ -31,11 +33,17 @@ export class MapaSelectPage implements OnInit {
     private database: DatabaseService,
     private loadingController: LoadingController,
     public alertController: AlertController,
+    private locationAccuracy: LocationAccuracy,
+    private androidPermissions: AndroidPermissions,
     public viewCtrl: ModalController) {}
 
   async ngOnInit() {
     this.preferencias = await this.database.get_preferencias ();
-    this.getLocationCoordinates ();
+    if (this.platform.is ('cordova')) {
+      this.checkGPSPermission ();
+    } else {
+      this.getLocationCoordinates ();
+    }
   }
 
   ionViewDidEnter () {
@@ -70,7 +78,7 @@ export class MapaSelectPage implements OnInit {
     });
   }
   
-  async InitMap (has_location: boolean, latitude: number, longitude: number) {
+  async InitMap (latitude: number, longitude: number) {
     let location = new google.maps.LatLng (latitude, longitude);
 
     const options = {  
@@ -128,7 +136,7 @@ export class MapaSelectPage implements OnInit {
 
       this.directionsService.route(request, (result, status) => {
         if (status == google.maps.DirectionsStatus.OK) {
-          console.log ();
+          console.log (result);
           this._search_text = result.routes [0].legs [0].start_address.replace (', Peru', '').replace (', Cusco', '');
         }
       });
@@ -137,17 +145,18 @@ export class MapaSelectPage implements OnInit {
 
   async getLocationCoordinates () {
     let loading = await this.loadingCtrl.create ({
-      message: '...'
+      message: 'Procesando...'
     });
     
     await loading.present ();
 
-    this.geolocation.getCurrentPosition ().then((resp) => {
+    this.geolocation.getCurrentPosition ({ maximumAge: 60000, timeout: 30000, enableHighAccuracy: true }).then((resp) => {
       loading.dismiss ();
-      this.InitMap (false, resp.coords.latitude, resp.coords.longitude);
+      this.InitMap (resp.coords.latitude, resp.coords.longitude);
     }).catch ((error) => {
       loading.dismiss ();
       console.log ('Error getting location' + error);
+      this.InitMap (-13.531249, -71.9514909);
     });
   }
 
@@ -192,6 +201,71 @@ export class MapaSelectPage implements OnInit {
         });
     
         await alert.present();
+      }
+    });
+  }
+
+  async checkGPSPermission () {
+    let loading = await this.loadingCtrl.create ({
+      message: 'Procesando...'
+    });
+    
+    await loading.present ();
+
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION)
+      .then ((result: any) => {
+        loading.dismiss ();
+
+        if (result.hasPermission) {
+          this.askToTurnOnGPS ();
+        } else {
+          this.requestGPSPermission ();
+        }
+      },
+      err => {
+        alert (err);
+      }
+    );
+  }
+
+  async askToTurnOnGPS () {
+    let loading = await this.loadingCtrl.create ({
+      message: 'Procesando...'
+    });
+    
+    await loading.present ();
+
+    this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY)
+      .then(() => {
+        loading.dismiss ();
+        this.getLocationCoordinates ();
+      }, error => {
+        this.navCtrl.pop ();
+        console.log ('Error requesting location permissions ' + JSON.stringify(error))
+      });
+  }
+
+  async requestGPSPermission () {
+    let loading = await this.loadingCtrl.create ({
+      message: 'Procesando...'
+    });
+    
+    await loading.present ();
+
+    this.locationAccuracy.canRequest().then((canRequest: boolean) => {
+      loading.dismiss ();
+      
+      if (canRequest) {
+        
+      } else {
+        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION)
+          .then(() => {
+            this.askToTurnOnGPS ();
+          }, error => {
+            this.navCtrl.pop ();
+            console.log ('requestPermission Error requesting location permissions ' + error)
+          }
+        );
       }
     });
   }
